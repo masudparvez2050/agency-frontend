@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Menu, X, Home, LogOut, LayoutDashboard, ShieldAlert,
   ShoppingCart, Package, Smartphone, Users, BookOpen,
-  Briefcase, MessageSquare, Settings, ChevronDown, ChevronRight
+  Briefcase, MessageSquare, Settings, ChevronDown, ChevronRight,
+  FileSpreadsheet
 } from "lucide-react";
 import { MOCK_USER } from "@/lib/orders-data";
 
@@ -26,7 +27,23 @@ const ADMIN_NAV = [
   {
     group: "CMS",
     items: [
-      { label: "Page CMS", href: "/admin/page-cms", icon: LayoutDashboard },
+      { 
+        label: "Page CMS", 
+        href: "/admin/cms", 
+        icon: FileSpreadsheet,
+        children: [
+          { label: "Home Page", href: "/admin/cms/home" },
+          { label: "Products Page", href: "/admin/cms/products" },
+          { label: "Apps Page", href: "/admin/cms/apps" },
+          { label: "SaaS Page", href: "/admin/cms/saas" },
+          { label: "Portfolio Page", href: "/admin/cms/portfolio" },
+          { label: "Services Page", href: "/admin/cms/services" },
+          { label: "Pricing Page", href: "/admin/cms/pricing" },
+          { label: "Blog Page", href: "/admin/cms/blog" },
+          { label: "About Page", href: "/admin/cms/about" },
+          { label: "Contact Page", href: "/admin/cms/contact" },
+        ]
+      },
       { label: "Products", href: "/admin/products", icon: Package },
       { label: "Apps Store", href: "/admin/apps", icon: Smartphone },
       { label: "Blog Posts", href: "/admin/blog", icon: BookOpen },
@@ -50,6 +67,14 @@ const USER_NAV = [
 
 function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkClick?: () => void }) {
   const [adminExpanded, setAdminExpanded] = useState(pathname.startsWith("/admin"));
+  const [pageCmsExpanded, setPageCmsExpanded] = useState(pathname.startsWith("/admin/cms"));
+
+  // Keep dropdown open if we are in one of the cms child routes
+  useEffect(() => {
+    if (pathname.startsWith("/admin/cms")) {
+      setPageCmsExpanded(true);
+    }
+  }, [pathname]);
 
   const isActive = (href: string, exact?: boolean) =>
     exact ? pathname === href : pathname === href || pathname.startsWith(href + "/");
@@ -84,7 +109,7 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
           <div>
             <button
               onClick={() => setAdminExpanded(!adminExpanded)}
-              className="w-full flex items-center justify-between px-2 mb-2 text-[9px] font-black text-slate-500 uppercase tracking-widest hover:text-slate-300 transition-colors"
+              className="w-full flex items-center justify-between px-2 mb-2 text-[9px] font-black text-slate-500 uppercase tracking-widest hover:text-slate-300 transition-colors cursor-pointer"
             >
               <span>Admin Console</span>
               {adminExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -92,9 +117,9 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
             <AnimatePresence initial={false}>
               {adminExpanded && (
                 <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
                   className="overflow-hidden space-y-4"
                 >
                   {ADMIN_NAV.map((group) => (
@@ -102,8 +127,58 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
                       <span className="block px-3 text-[9px] font-bold text-slate-600 uppercase tracking-widest mb-1">
                         {group.group}
                       </span>
-                      {group.items.map((item) => {
+                      {group.items.map((item: any) => {
+                        const hasChildren = !!item.children;
                         const active = isActive(item.href, (item as any).exact);
+
+                        if (hasChildren) {
+                          return (
+                            <div key={item.label} className="space-y-1">
+                              <button
+                                onClick={() => setPageCmsExpanded(!pageCmsExpanded)}
+                                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all border text-left cursor-pointer ${
+                                  pathname.startsWith(item.href)
+                                    ? "bg-purple-600/5 border-purple-500/10 text-purple-400"
+                                    : "border-transparent text-slate-455 hover:text-white hover:bg-white/5"
+                                }`}
+                              >
+                                <item.icon className="w-4 h-4 shrink-0" />
+                                <span className="flex-grow">{item.label}</span>
+                                {pageCmsExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+                              </button>
+                              
+                              <AnimatePresence initial={false}>
+                                {pageCmsExpanded && (
+                                  <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: "auto", opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    className="pl-6 space-y-0.5 overflow-hidden border-l border-slate-900/60 ml-5"
+                                  >
+                                    {item.children?.map((child: any) => {
+                                      const childActive = pathname === child.href;
+                                      return (
+                                        <Link
+                                          key={child.href}
+                                          href={child.href}
+                                          onClick={onLinkClick}
+                                          className={`block px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all ${
+                                            childActive
+                                              ? "text-purple-400 bg-purple-650/10"
+                                              : "text-slate-500 hover:text-slate-200"
+                                          }`}
+                                        >
+                                          {child.label}
+                                        </Link>
+                                      );
+                                    })}
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </div>
+                          );
+                        }
+
                         return (
                           <Link
                             key={item.href}
@@ -112,7 +187,7 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all border ${
                               active
                                 ? "bg-purple-600/10 border-purple-500/20 text-purple-400"
-                                : "border-transparent text-slate-450 hover:text-white hover:bg-white/5"
+                                : "border-transparent text-slate-455 hover:text-white hover:bg-white/5"
                             }`}
                           >
                             <item.icon className="w-4 h-4 shrink-0" />
@@ -137,7 +212,7 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
 
           {/* User nav */}
           <div className="space-y-1">
-            <span className="block px-3 text-[9px] font-black text-slate-600 uppercase tracking-widest mb-1">User Area</span>
+            <span className="block px-3 text-[9px] font-black text-slate-655 uppercase tracking-widest mb-1">User Area</span>
             {USER_NAV.map((item) => {
               const active = pathname === item.href;
               return (
@@ -148,7 +223,7 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all border ${
                     active
                       ? "bg-purple-600/10 border-purple-500/20 text-purple-400"
-                      : "border-transparent text-slate-450 hover:text-white hover:bg-white/5"
+                      : "border-transparent text-slate-455 hover:text-white hover:bg-white/5"
                   }`}
                 >
                   <item.icon className="w-4 h-4 shrink-0" />
