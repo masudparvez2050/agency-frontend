@@ -6,8 +6,10 @@ import { Order } from "@/types/order";
 import { motion } from "framer-motion";
 import { Check, X, Search, Filter } from "lucide-react";
 
+import { useCMSData } from "@/hooks/useCMS";
+
 export default function AdminOrdersPage() {
-  const [orders, setOrders] = useState<Order[]>(MOCK_ORDERS);
+  const [orders, setOrders] = useCMSData<any>("orders", MOCK_ORDERS);
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -18,8 +20,8 @@ export default function AdminOrdersPage() {
       const q = searchQuery.toLowerCase();
       result = result.filter(o =>
         o.productTitle.toLowerCase().includes(q) ||
-        o.transactionId.toLowerCase().includes(q) ||
-        o.senderPhone.includes(q)
+        (o.transactionId && o.transactionId.toLowerCase().includes(q)) ||
+        (o.senderPhone && o.senderPhone.includes(q))
       );
     }
     return result;
@@ -29,7 +31,7 @@ export default function AdminOrdersPage() {
   const approved = orders.filter(o => o.status === "approved").length;
 
   const handleApprove = (id: string) => {
-    setOrders(prev => prev.map(o => o.id === id ? {
+    setOrders(orders.map(o => o.id === id ? {
       ...o, status: "approved",
       licenseKey: `PLXR-${Math.random().toString(36).substring(2,6).toUpperCase()}-${Math.random().toString(36).substring(2,6).toUpperCase()}`,
       downloadLink: "#"
@@ -37,8 +39,9 @@ export default function AdminOrdersPage() {
   };
 
   const handleCancel = (id: string) => {
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, status: "cancelled" } : o));
+    setOrders(orders.map(o => o.id === id ? { ...o, status: "cancelled" } : o));
   };
+
 
   return (
     <div className="space-y-8">

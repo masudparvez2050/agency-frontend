@@ -4,13 +4,10 @@ import React, { useState } from "react";
 import { APPS } from "@/lib/apps-data";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Trash2, Eye, EyeOff, Check, X, Smartphone } from "lucide-react";
-
-type AppRow = { id: string; name: string; category: string; version: string; platform: string; active: boolean; };
+import { useCMSData } from "@/hooks/useCMS";
 
 export default function AdminAppsPage() {
-  const [apps, setApps] = useState<AppRow[]>(
-    APPS.map(a => ({ id: a.id, name: a.title, category: a.category, version: a.version, platform: a.platforms.join(", "), active: true }))
-  );
+  const [apps, setApps] = useCMSData<any>("apps", APPS);
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Utility");
@@ -22,14 +19,38 @@ export default function AdminAppsPage() {
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !version || !size) return;
-    setApps(prev => [...prev, { id: `app-${Date.now()}`, name, category, version, platform, active: true }]);
+    const newApp = {
+      id: `app-${Date.now()}`,
+      title: name,
+      category,
+      description: "Designed for high scale and strict data security compliance.",
+      fullDescription: "Designed for high scale and strict data security compliance.",
+      downloads: "0",
+      rating: 5.0,
+      developer: "Plaxora Labs",
+      version,
+      lastUpdated: new Date().toISOString().split("T")[0],
+      platforms: platform.split(",").map(p => p.trim()),
+      size,
+      accent: "from-cyan-500 to-blue-500",
+      features: ["Offline support", "Biometric secure login"],
+      requirements: ["OS v10+ support"],
+      changelog: [],
+      active: true
+    };
+    setApps([...apps, newApp]);
     setName(""); setVersion(""); setSize("");
     setSuccess(true); setShowForm(false);
     setTimeout(() => setSuccess(false), 4000);
   };
 
-  const toggleActive = (id: string) => setApps(prev => prev.map(a => a.id === id ? { ...a, active: !a.active } : a));
-  const deleteApp = (id: string) => setApps(prev => prev.filter(a => a.id !== id));
+  const toggleActive = (id: string) => {
+    setApps(apps.map((a: any) => a.id === id ? { ...a, active: a.active === false ? false : true } : a));
+  };
+
+  const deleteApp = (id: string) => {
+    setApps(apps.filter((a: any) => a.id !== id));
+  };
 
   return (
     <div className="space-y-8">
@@ -106,21 +127,23 @@ export default function AdminAppsPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-900">
-            {apps.map(a => (
+            {apps.map((a: any) => (
               <tr key={a.id} className="hover:bg-slate-900/10 transition-colors">
-                <td className="p-4 font-bold text-white">{a.name}</td>
+                <td className="p-4 font-bold text-white">{a.title || a.name}</td>
                 <td className="p-4"><span className="text-[10px] font-bold text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded">{a.category}</span></td>
                 <td className="p-4 font-mono text-slate-300">{a.version}</td>
-                <td className="p-4 text-slate-400">{a.platform}</td>
+                <td className="p-4 text-slate-400">
+                  {Array.isArray(a.platforms) ? a.platforms.join(", ") : a.platform}
+                </td>
                 <td className="p-4">
-                  <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded border ${a.active ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" : "text-slate-500 bg-slate-800 border-slate-700"}`}>
-                    {a.active ? "Live" : "Draft"}
+                  <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded border ${a.active !== false ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" : "text-slate-500 bg-slate-800 border-slate-700"}`}>
+                    {a.active !== false ? "Live" : "Draft"}
                   </span>
                 </td>
                 <td className="p-4">
                   <div className="flex gap-2 justify-end">
                     <button onClick={() => toggleActive(a.id)} className="p-1.5 rounded-lg bg-slate-900 border border-slate-850 text-slate-400 hover:text-white transition-colors cursor-pointer">
-                      {a.active ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                      {a.active !== false ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     </button>
                     <button onClick={() => deleteApp(a.id)} className="p-1.5 rounded-lg bg-slate-900 hover:bg-rose-600/10 border border-slate-850 hover:border-rose-500/20 text-slate-400 hover:text-rose-400 transition-all cursor-pointer">
                       <Trash2 className="w-3.5 h-3.5" />

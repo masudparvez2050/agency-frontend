@@ -4,13 +4,10 @@ import React, { useState } from "react";
 import { BLOG_POSTS } from "@/lib/blog-data";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Trash2, Eye, EyeOff, Check, X, BookOpen, Edit3 } from "lucide-react";
-
-type BlogRow = { id: string; title: string; category: string; date: string; published: boolean; excerpt: string; };
+import { useCMSData } from "@/hooks/useCMS";
 
 export default function AdminBlogPage() {
-  const [posts, setPosts] = useState<BlogRow[]>(
-    BLOG_POSTS.map(p => ({ id: p.id, title: p.title, category: p.category, date: p.date, published: true, excerpt: p.excerpt }))
-  );
+  const [posts, setPosts] = useCMSData<any>("blog", BLOG_POSTS);
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Engineering");
@@ -22,20 +19,31 @@ export default function AdminBlogPage() {
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !content) return;
-    setPosts(prev => [{
+    const newPost = {
       id: `blog-${Date.now()}`,
-      title, category,
-      date: new Date().toISOString().split("T")[0],
+      title,
+      category,
+      excerpt: excerpt || content.slice(0, 120) + "...",
+      content: content,
+      date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }),
+      author: "Plaxora Admin",
+      readTime: `${Math.max(1, Math.round(content.split(" ").length / 200))} min read`,
+      tags: [category.toLowerCase(), "tech"],
       published: !isDraft,
-      excerpt: excerpt || content.slice(0, 120) + "..."
-    }, ...prev]);
+    };
+    setPosts([newPost, ...posts]);
     setTitle(""); setContent(""); setExcerpt(""); setIsDraft(false);
     setSuccess(true); setShowForm(false);
     setTimeout(() => setSuccess(false), 4000);
   };
 
-  const togglePublish = (id: string) => setPosts(prev => prev.map(p => p.id === id ? { ...p, published: !p.published } : p));
-  const deletePost = (id: string) => setPosts(prev => prev.filter(p => p.id !== id));
+  const togglePublish = (id: string) => {
+    setPosts(posts.map((p: any) => p.id === id ? { ...p, published: p.published === false ? true : false } : p));
+  };
+
+  const deletePost = (id: string) => {
+    setPosts(posts.filter((p: any) => p.id !== id));
+  };
 
   return (
     <div className="space-y-8">
@@ -110,7 +118,7 @@ export default function AdminBlogPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-900">
-            {posts.map(p => (
+            {posts.map((p: any) => (
               <tr key={p.id} className="hover:bg-slate-900/10 transition-colors">
                 <td className="p-4">
                   <div className="font-bold text-white max-w-xs truncate">{p.title}</div>
@@ -119,14 +127,14 @@ export default function AdminBlogPage() {
                 <td className="p-4"><span className="text-[10px] font-bold text-green-400 bg-green-500/10 border border-green-500/20 px-2 py-0.5 rounded">{p.category}</span></td>
                 <td className="p-4 text-slate-400">{p.date}</td>
                 <td className="p-4">
-                  <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded border ${p.published ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" : "text-slate-500 bg-slate-800 border-slate-700"}`}>
-                    {p.published ? "Published" : "Draft"}
+                  <span className={`text-[9px] font-bold uppercase px-2 py-0.5 rounded border ${p.published !== false ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" : "text-slate-500 bg-slate-800 border-slate-700"}`}>
+                    {p.published !== false ? "Published" : "Draft"}
                   </span>
                 </td>
                 <td className="p-4">
                   <div className="flex gap-2 justify-end">
-                    <button onClick={() => togglePublish(p.id)} className="p-1.5 rounded-lg bg-slate-900 border border-slate-850 text-slate-400 hover:text-white transition-colors cursor-pointer" title={p.published ? "Unpublish" : "Publish"}>
-                      {p.published ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                    <button onClick={() => togglePublish(p.id)} className="p-1.5 rounded-lg bg-slate-900 border border-slate-850 text-slate-400 hover:text-white transition-colors cursor-pointer" title={p.published !== false ? "Unpublish" : "Publish"}>
+                      {p.published !== false ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     </button>
                     <button onClick={() => deletePost(p.id)} className="p-1.5 rounded-lg bg-slate-900 hover:bg-rose-600/10 border border-slate-850 hover:border-rose-500/20 text-slate-400 hover:text-rose-400 transition-all cursor-pointer">
                       <Trash2 className="w-3.5 h-3.5" />

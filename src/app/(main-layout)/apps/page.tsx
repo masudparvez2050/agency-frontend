@@ -10,7 +10,10 @@ import {
   ExternalLink, Laptop, Cpu, Check, X 
 } from "lucide-react";
 
+import { useCMSData } from "@/hooks/useCMS";
+
 export default function AppsPage() {
+  const [allApps] = useCMSData<any>("apps", APPS);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedPlatform, setSelectedPlatform] = useState("All");
@@ -22,7 +25,8 @@ export default function AppsPage() {
 
   // Filter and sort apps
   const filteredAndSortedApps = useMemo(() => {
-    let result = [...APPS];
+    let result = allApps.filter((a: any) => a.active !== false);
+
 
     // 1. Search Query
     if (searchQuery.trim() !== "") {
@@ -200,7 +204,7 @@ export default function AppsPage() {
 
                   {/* Platforms Supported */}
                   <div className="flex flex-wrap gap-1.5 mb-6">
-                    {app.platforms.map((plat) => (
+                    {app.platforms.map((plat: string) => (
                       <span
                         key={plat}
                         className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-850"

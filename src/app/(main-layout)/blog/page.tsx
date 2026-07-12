@@ -9,7 +9,10 @@ import {
   ArrowRight, X, BookOpen, Sparkles, Check, AlertCircle 
 } from "lucide-react";
 
+import { useCMSData } from "@/hooks/useCMS";
+
 export default function BlogPage() {
+  const [allPosts] = useCMSData<any>("blog", BLOG_POSTS);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeArticle, setActiveArticle] = useState<BlogPost | null>(null);
@@ -22,7 +25,8 @@ export default function BlogPage() {
 
   // Filter blog posts
   const filteredPosts = useMemo(() => {
-    let result = [...BLOG_POSTS];
+    // Filter published posts
+    let result = allPosts.filter((p: any) => p.published !== false);
 
     // 1. Search Query
     if (searchQuery.trim() !== "") {
@@ -31,7 +35,7 @@ export default function BlogPage() {
         (post) =>
           post.title.toLowerCase().includes(q) ||
           post.excerpt.toLowerCase().includes(q) ||
-          post.author.toLowerCase().includes(q)
+          (post.author && post.author.toLowerCase().includes(q))
       );
     }
 
@@ -41,7 +45,8 @@ export default function BlogPage() {
     }
 
     return result;
-  }, [searchQuery, selectedCategory]);
+  }, [allPosts, searchQuery, selectedCategory]);
+
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();

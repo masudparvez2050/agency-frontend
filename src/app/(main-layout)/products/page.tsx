@@ -8,7 +8,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Search, SlidersHorizontal, ArrowUpDown, Star, Download, ShoppingCart, ExternalLink } from "lucide-react";
 
+import { useCMSData } from "@/hooks/useCMS";
+
 export default function ProductsPage() {
+  const [allProducts] = useCMSData<any>("products", PRODUCTS);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("popular");
@@ -20,16 +23,18 @@ export default function ProductsPage() {
 
   // Filter and sort products
   const filteredAndSortedProducts = useMemo(() => {
-    let result = [...PRODUCTS];
+    // Filter active products if property exists, fallback to true
+    let result = allProducts.filter((p: any) => p.active !== false);
+
 
     // 1. Search Query
     if (searchQuery.trim() !== "") {
       const q = searchQuery.toLowerCase();
       result = result.filter(
-        (p) =>
+        (p: any) =>
           p.title.toLowerCase().includes(q) ||
           p.description.toLowerCase().includes(q) ||
-          p.tags.some((t) => t.toLowerCase().includes(q))
+          p.tags.some((t: string) => t.toLowerCase().includes(q))
       );
     }
 
@@ -145,7 +150,7 @@ export default function ProductsPage() {
                     <span className="text-[10px] uppercase font-bold tracking-widest text-purple-400">{product.category}</span>
                     <p className="text-sm font-extrabold text-white mt-1 line-clamp-1">{product.title}</p>
                     <div className="flex gap-1.5 justify-center mt-3">
-                      {product.tags.slice(0, 3).map((tag) => (
+                      {product.tags.slice(0, 3).map((tag: string) => (
                         <span key={tag} className="text-[9px] bg-white/5 border border-white/10 px-1.5 py-0.5 rounded text-slate-300">
                           {tag}
                         </span>
@@ -171,7 +176,7 @@ export default function ProductsPage() {
                   <div>
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1.5 mb-6">
-                      {product.tags.map((tag) => (
+                      {product.tags.map((tag: string) => (
                         <span
                           key={tag}
                           className="text-[10px] font-semibold text-slate-400 px-2 py-0.5 rounded-full bg-slate-900 border border-slate-850"

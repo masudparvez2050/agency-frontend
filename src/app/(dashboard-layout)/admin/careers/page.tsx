@@ -8,8 +8,10 @@ import { Plus, Trash2, ToggleLeft, ToggleRight, X, Check, Briefcase } from "luci
 
 type JobRow = JobListing & { active: boolean };
 
+import { useCMSData } from "@/hooks/useCMS";
+
 export default function AdminCareersPage() {
-  const [jobs, setJobs] = useState<JobRow[]>(JOB_LISTINGS.map(j => ({ ...j, active: true })));
+  const [jobs, setJobs] = useCMSData<any>("careers", JOB_LISTINGS);
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState("");
   const [dept, setDept] = useState<JobListing["department"]>("Engineering");
@@ -23,19 +25,33 @@ export default function AdminCareersPage() {
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !location || !salary) return;
-    setJobs(prev => [{
+    const newJob = {
       id: `job-${Date.now()}`,
       title, department: dept, type, location, salary,
-      description, requirements: requirements.split("\n").filter(Boolean),
-      perks: [], postedDate: new Date().toISOString().split("T")[0], active: true
-    }, ...prev]);
+      description: description || "Join our team to build next-generation applications.",
+      requirements: requirements.split("\n").filter(Boolean),
+      perks: [
+        "100% remote-first setup",
+        "Flexible working schedules",
+        "Annual learning budget"
+      ],
+      postedDate: new Date().toISOString().split("T")[0],
+      active: true
+    };
+    setJobs([newJob, ...jobs]);
     setTitle(""); setLocation(""); setSalary(""); setDescription(""); setRequirements("");
     setSuccess(true); setShowForm(false);
     setTimeout(() => setSuccess(false), 4000);
   };
 
-  const toggleActive = (id: string) => setJobs(prev => prev.map(j => j.id === id ? { ...j, active: !j.active } : j));
-  const deleteJob = (id: string) => setJobs(prev => prev.filter(j => j.id !== id));
+  const toggleActive = (id: string) => {
+    setJobs(jobs.map((j: any) => j.id === id ? { ...j, active: j.active === false ? true : false } : j));
+  };
+
+  const deleteJob = (id: string) => {
+    setJobs(jobs.filter((j: any) => j.id !== id));
+  };
+
 
   const DEPT_COLORS: Record<string, string> = {
     Engineering: "text-blue-400 bg-blue-500/10 border-blue-500/20",

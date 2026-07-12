@@ -9,12 +9,7 @@ import {
   ShoppingCart, Package, Smartphone, BookOpen, MessageSquare,
   ArrowRight, CheckCircle, AlertTriangle
 } from "lucide-react";
-
-const totalRevenue = MOCK_ORDERS.filter(o => o.status === "approved")
-  .reduce((sum, o) => sum + parseInt(o.price.replace(/[^0-9]/g, "")), 0);
-const pendingOrders = MOCK_ORDERS.filter(o => o.status === "pending").length;
-const openTickets = MOCK_TICKETS.filter(t => t.status === "open").length;
-const approvedOrders = MOCK_ORDERS.filter(o => o.status === "approved").length;
+import { useCMSData } from "@/hooks/useCMS";
 
 // Mock weekly revenue data for SVG chart
 const WEEKLY_DATA = [18000, 24000, 21000, 31000, 27000, 38000, 42000];
@@ -22,6 +17,15 @@ const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const maxVal = Math.max(...WEEKLY_DATA);
 
 export default function AdminOverviewPage() {
+  const [orders] = useCMSData<any>("orders", MOCK_ORDERS);
+  const [tickets] = useCMSData<any>("tickets", MOCK_TICKETS);
+
+  const totalRevenue = orders.filter(o => o.status === "approved")
+    .reduce((sum, o) => sum + parseInt(o.price.replace(/[^0-9]/g, "")), 0);
+  const pendingOrders = orders.filter(o => o.status === "pending").length;
+  const openTickets = tickets.filter(t => t.status === "open").length;
+  const approvedOrders = orders.filter(o => o.status === "approved").length;
+
   return (
     <div className="space-y-10">
       {/* Header */}
@@ -161,7 +165,7 @@ export default function AdminOverviewPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-900">
-              {MOCK_ORDERS.slice(0, 5).map((order) => (
+              {orders.slice(0, 5).map((order: any) => (
                 <tr key={order.id} className="hover:bg-slate-900/10 transition-colors">
                   <td className="p-4 font-semibold text-white">{order.productTitle}</td>
                   <td className="p-4 text-slate-400">{order.senderPhone}</td>

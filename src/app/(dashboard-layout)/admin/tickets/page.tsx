@@ -6,8 +6,10 @@ import { Ticket } from "@/types/order";
 import { motion } from "framer-motion";
 import { Send, CheckCircle, AlertCircle, Search } from "lucide-react";
 
+import { useCMSData } from "@/hooks/useCMS";
+
 export default function AdminTicketsPage() {
-  const [tickets, setTickets] = useState<Ticket[]>(MOCK_TICKETS);
+  const [tickets, setTickets] = useCMSData<any>("tickets", MOCK_TICKETS);
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [replies, setReplies] = useState<Record<string, string>>({});
@@ -24,13 +26,14 @@ export default function AdminTicketsPage() {
 
   const handleReply = (id: string) => {
     if (!replies[id]) return;
-    setTickets(prev => prev.map(t => t.id === id ? { ...t, status: "replied" } : t));
+    setTickets(tickets.map(t => t.id === id ? { ...t, status: "replied" } : t));
     setReplies(prev => ({ ...prev, [id]: "" }));
   };
 
   const handleResolve = (id: string) => {
-    setTickets(prev => prev.map(t => t.id === id ? { ...t, status: "resolved" } : t));
+    setTickets(tickets.map(t => t.id === id ? { ...t, status: "resolved" } : t));
   };
+
 
   const STATUS_STYLE: Record<string, string> = {
     open: "text-amber-400 bg-amber-500/10 border-amber-500/20",

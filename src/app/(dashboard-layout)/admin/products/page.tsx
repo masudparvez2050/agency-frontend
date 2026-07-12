@@ -7,10 +7,10 @@ import { Plus, Pencil, Trash2, Eye, EyeOff, Check, X, Package } from "lucide-rea
 
 type ProductRow = { id: string; title: string; category: string; price: string; active: boolean; };
 
+import { useCMSData } from "@/hooks/useCMS";
+
 export default function AdminProductsPage() {
-  const [products, setProducts] = useState<ProductRow[]>(
-    PRODUCTS.map(p => ({ id: p.id, title: p.title, category: p.category, price: p.price, active: true }))
-  );
+  const [products, setProducts] = useCMSData<any>("products", PRODUCTS);
   const [showForm, setShowForm] = useState(false);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Next.js");
@@ -21,21 +21,35 @@ export default function AdminProductsPage() {
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !price) return;
-    setProducts(prev => [...prev, {
+    const newProd = {
       id: `prod-${Date.now()}`,
-      title, category, price: `${price} BDT`, active: true
-    }]);
+      title,
+      category,
+      price: `${parseInt(price).toLocaleString()} BDT`,
+      originalPrice: `${Math.round(parseInt(price) * 1.5).toLocaleString()} BDT`,
+      priceVal: parseInt(price),
+      description: description || "Fully responsive layout optimized for user conversion.",
+      rating: 5.0,
+      downloads: "1",
+      imageGradient: "from-indigo-650 to-purple-650",
+      tags: [category.toLowerCase(), "boilerplate", "clean-code"],
+      active: true
+    };
+    setProducts([...products, newProd]);
     setTitle(""); setPrice(""); setDescription(""); setCategory("Next.js");
     setSuccess(true);
     setShowForm(false);
     setTimeout(() => setSuccess(false), 4000);
   };
 
-  const toggleActive = (id: string) =>
-    setProducts(prev => prev.map(p => p.id === id ? { ...p, active: !p.active } : p));
+  const toggleActive = (id: string) => {
+    setProducts(products.map((p: any) => p.id === id ? { ...p, active: p.active === false ? true : false } : p));
+  };
 
-  const deleteProduct = (id: string) =>
-    setProducts(prev => prev.filter(p => p.id !== id));
+  const deleteProduct = (id: string) => {
+    setProducts(products.filter((p: any) => p.id !== id));
+  };
+
 
   return (
     <div className="space-y-8">

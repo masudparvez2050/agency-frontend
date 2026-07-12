@@ -119,7 +119,10 @@ function ApplicationModal({ job, onClose }: { job: JobListing; onClose: () => vo
   );
 }
 
+import { useCMSData } from "@/hooks/useCMS";
+
 export default function CareersPage() {
+  const [allJobs] = useCMSData<any>("careers", JOB_LISTINGS);
   const [selectedDept, setSelectedDept] = useState("All");
   const [expandedJob, setExpandedJob] = useState<string | null>(null);
   const [applyJob, setApplyJob] = useState<JobListing | null>(null);
@@ -127,9 +130,12 @@ export default function CareersPage() {
   const departments = ["All", "Engineering", "Design", "Marketing", "Operations"];
 
   const filteredJobs = useMemo(() => {
-    if (selectedDept === "All") return JOB_LISTINGS;
-    return JOB_LISTINGS.filter((j) => j.department === selectedDept);
-  }, [selectedDept]);
+    // Filter active jobs
+    const activeJobs = allJobs.filter((j: any) => j.active !== false);
+    if (selectedDept === "All") return activeJobs;
+    return activeJobs.filter((j) => j.department === selectedDept);
+  }, [allJobs, selectedDept]);
+
 
   return (
     <div className="min-h-screen pt-32 pb-24 overflow-hidden relative">
@@ -233,8 +239,8 @@ export default function CareersPage() {
                         <div>
                           <p className="text-slate-400 leading-relaxed mb-5">{job.description}</p>
                           <h5 className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-3">Requirements</h5>
-                          <ul className="space-y-2">
-                            {job.requirements.map((req, i) => (
+                           <ul className="space-y-2">
+                            {job.requirements.map((req: string, i: number) => (
                               <li key={i} className="flex gap-2 text-slate-350 items-start">
                                 <Check className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
                                 <span>{req}</span>
@@ -245,7 +251,7 @@ export default function CareersPage() {
                         <div>
                           <h5 className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-3">Perks & Benefits</h5>
                           <ul className="space-y-2">
-                            {job.perks.map((perk, i) => (
+                            {job.perks.map((perk: string, i: number) => (
                               <li key={i} className="flex gap-2 text-slate-350 items-start">
                                 <span className="text-amber-400 shrink-0">✦</span>
                                 <span>{perk}</span>
