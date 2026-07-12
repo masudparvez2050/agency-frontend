@@ -25,7 +25,11 @@ const ValueIcon = ({ name, className }: { name: string; className?: string }) =>
   }
 };
 
+import { usePageCMS } from "@/hooks/usePageCMS";
+
 export default function AboutPage() {
+  const [pageConfig] = usePageCMS();
+
   return (
     <div className="min-h-screen pt-32 pb-24 overflow-hidden relative">
       {/* Glow Orbs */}
@@ -39,10 +43,10 @@ export default function AboutPage() {
         <div className="text-center max-w-2xl mx-auto">
           <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">Our Mission</span>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
-            Plaxora Ecosystem
+            {pageConfig.about.hero.title}
           </h1>
           <p className="text-slate-400">
-            Plaxora is dedicated to building state-of-the-art digital tools, desktop apps, templates and services that empower engineers and businesses globally.
+            {pageConfig.about.hero.subtitle}
           </p>
         </div>
 

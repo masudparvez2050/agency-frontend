@@ -37,6 +37,7 @@ const ADMIN_NAV = [
     items: [
       { label: "Users", href: "/admin/users", icon: Users },
       { label: "Support Tickets", href: "/admin/tickets", icon: MessageSquare, badge: 2 },
+      { label: "Page Copy CMS", href: "/admin/settings/page-copy", icon: BookOpen },
       { label: "Settings", href: "/admin/settings", icon: Settings },
     ],
   },

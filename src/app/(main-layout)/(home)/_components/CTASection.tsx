@@ -4,8 +4,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Send, Download } from "lucide-react";
 import Link from "next/link";
+import { usePageCMS } from "@/hooks/usePageCMS";
 
 export default function CTASection() {
+  const [pageConfig] = usePageCMS();
+
   return (
     <section className="py-28 relative overflow-hidden bg-transparent">
       {/* Decorative Orbs */}
@@ -30,16 +33,14 @@ export default function CTASection() {
               <span>Launch Your Vision Today</span>
             </div>
 
-            <h2 className="text-3xl md:text-5xl font-black text-white leading-tight">
-              Ready to Accelerate Your <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-500 to-cyan-400">
-                Software Infrastructure?
-              </span>
+            <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-500 to-cyan-400 leading-tight">
+              {pageConfig.home.cta.title}
             </h2>
 
             <p className="text-sm md:text-base text-slate-400 leading-relaxed">
-              Whether you need to instantly download a responsive website template, install native utility tools, launch SaaS dashboards, or hire our bespoke design and engineering services, Plaxora has you covered.
+              {pageConfig.home.cta.subtitle}
             </p>
+
 
             <div className="flex flex-wrap items-center justify-center gap-4 pt-6">
               <Link

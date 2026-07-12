@@ -4,9 +4,11 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Search, ArrowRight, Play, Download, ExternalLink, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { usePageCMS } from "@/hooks/usePageCMS";
 
 export default function Hero() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [pageConfig] = usePageCMS();
 
   return (
     <section className="relative min-h-screen pt-32 pb-20 flex flex-col items-center justify-center overflow-hidden">
@@ -28,7 +30,7 @@ export default function Hero() {
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-semibold text-purple-300 mb-6 tracking-wide shadow-inner"
         >
           <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-          <span>Bangladesh&apos;s Premier Digital Product Ecosystem</span>
+          <span>{pageConfig.home.hero.badge}</span>
         </motion.div>
 
         {/* Headings */}
@@ -36,13 +38,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight max-w-5xl mx-auto"
+          className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-500 to-cyan-400 mb-6 leading-tight max-w-5xl mx-auto"
         >
-          Fast. Affordable. <br className="hidden sm:inline" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-500 to-cyan-400">
-            Ecosystem-Driven
-          </span>{" "}
-          Development.
+          {pageConfig.home.hero.title}
         </motion.h1>
 
         {/* Subtitle */}
@@ -52,9 +50,9 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-base sm:text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed"
         >
-          Get premium templates, native mobile apps, SaaS tools, and customized software.
-          We build high-performance products that empower your workflow and fuel business growth.
+          {pageConfig.home.hero.subtitle}
         </motion.p>
+
 
         {/* Global Search Interface */}
         <motion.div
