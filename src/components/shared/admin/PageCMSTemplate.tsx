@@ -22,9 +22,9 @@ export default function PageCMSTemplate({ pageKey, title: cmsTitle, description 
   useEffect(() => {
     if (config && config[pageKey]) {
       const pageData = config[pageKey];
-      setBadge(pageData.hero.badge || "");
-      setTitle(pageData.hero.title || "");
-      setSubtitle(pageData.hero.subtitle || "");
+      setBadge(pageData?.hero?.badge || "");
+      setTitle(pageData?.hero?.title || "");
+      setSubtitle(pageData?.hero?.subtitle || "");
     }
   }, [config, pageKey]);
 

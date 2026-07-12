@@ -123,7 +123,15 @@ export function usePageCMS(): [PageCopyConfig, (newConfig: PageCopyConfig) => vo
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
-        setConfig(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        const merged = { ...DEFAULT_CONFIG };
+        Object.keys(DEFAULT_CONFIG).forEach((key) => {
+          const k = key as keyof PageCopyConfig;
+          if (parsed[k]) {
+            merged[k] = { ...DEFAULT_CONFIG[k], ...parsed[k] } as any;
+          }
+        });
+        setConfig(merged);
       } catch (e) {
         setConfig(DEFAULT_CONFIG);
       }

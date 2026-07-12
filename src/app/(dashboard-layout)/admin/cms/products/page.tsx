@@ -15,9 +15,9 @@ export default function ProductsCMS() {
 
   useEffect(() => {
     if (config) {
-      setBadge(config.products.hero.badge || "");
-      setTitle(config.products.hero.title || "");
-      setSubtitle(config.products.hero.subtitle || "");
+      setBadge(config?.products?.hero?.badge || "");
+      setTitle(config?.products?.hero?.title || "");
+      setSubtitle(config?.products?.hero?.subtitle || "");
     }
   }, [config]);
 

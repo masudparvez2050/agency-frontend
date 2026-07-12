@@ -17,11 +17,11 @@ export default function HomeCMS() {
 
   useEffect(() => {
     if (config) {
-      setBadge(config.home.hero.badge || "");
-      setTitle(config.home.hero.title || "");
-      setSubtitle(config.home.hero.subtitle || "");
-      setCtaTitle(config.home.cta?.title || "");
-      setCtaSub(config.home.cta?.subtitle || "");
+      setBadge(config?.home?.hero?.badge || "");
+      setTitle(config?.home?.hero?.title || "");
+      setSubtitle(config?.home?.hero?.subtitle || "");
+      setCtaTitle(config?.home?.cta?.title || "");
+      setCtaSub(config?.home?.cta?.subtitle || "");
     }
   }, [config]);
 
