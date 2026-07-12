@@ -1,0 +1,298 @@
+import { Service } from "@/types/service";
+
+export const SERVICES: Service[] = [
+  {
+    id: "custom-web-dev",
+    title: "Custom Web Applications",
+    iconName: "Laptop",
+    description: "High-performance web applications built using Next.js, React, Node.js API backends, and Tailwind CSS. Clean, responsive, and SEO-optimized.",
+    priceRange: "15,000 - 85,000 BDT",
+    accent: "from-blue-600 to-cyan-500",
+    deliverablesSummary: [
+      "Responsive layout for all screen sizes",
+      "Next.js App Router & Server Components",
+      "Interactive client components using Framer Motion",
+      "Speed audit matching Lighthouse 90+ score",
+    ],
+    tiers: [
+      {
+        name: "Basic Web Setup",
+        price: "15,000 BDT",
+        timeframe: "5 - 7 Days",
+        deliverables: [
+          "1 to 3 Pages structural landing layout",
+          "Responsive mobile/tablet navigation shell",
+          "Contact form mapping to email notifications",
+          "1 month free deployment hosting & support",
+        ],
+      },
+      {
+        name: "Standard Release",
+        price: "35,000 BDT",
+        timeframe: "14 - 18 Days",
+        deliverables: [
+          "Up to 8 custom styled pages",
+          "Dynamic admin blog / CMS integrations",
+          "Google Analytics & search optimization tracking",
+          "Speed auditing and caching setup",
+        ],
+      },
+      {
+        name: "Enterprise System",
+        price: "85,000 BDT",
+        timeframe: "30 - 45 Days",
+        deliverables: [
+          "Unlimited sub-pages & product dashboards",
+          "Interactive dashboard systems & payment gates",
+          "Prisma DB integrations (PostgreSQL/MySQL)",
+          "3 months dedicated bug fixes support",
+        ],
+      },
+    ],
+  },
+  {
+    id: "native-mobile-dev",
+    title: "Native Mobile Applications",
+    iconName: "Smartphone",
+    description: "Cross-platform mobile applications written in Flutter or React Native. Fast loading, camera & bio hook integrations, and offline caches.",
+    priceRange: "25,000 - 120,000 BDT",
+    accent: "from-purple-600 to-rose-500",
+    deliverablesSummary: [
+      "Android APK and iOS IPA build binaries",
+      "Native performance UI rendering optimization",
+      "Local storage sync caching (SQLite/Hive)",
+      "Biometric login validation hooks",
+    ],
+    tiers: [
+      {
+        name: "Basic App Concept",
+        price: "25,000 BDT",
+        timeframe: "10 - 14 Days",
+        deliverables: [
+          "Static screens mapping mockup features",
+          "Local storage profile setups",
+          "Android APK compilation release",
+          "App Store listing audit advice",
+        ],
+      },
+      {
+        name: "Standard Release",
+        price: "60,000 BDT",
+        timeframe: "25 - 30 Days",
+        deliverables: [
+          "Full Android & iOS IPA packages",
+          "Push notification messaging webhooks",
+          "Payment gateway checkout screens",
+          "1 year updates check logs support",
+        ],
+      },
+      {
+        name: "Enterprise App Suite",
+        price: "120,000 BDT",
+        timeframe: "50 - 60 Days",
+        deliverables: [
+          "Custom multi-tenant application flow",
+          "Offline ledger synchronization pipelines",
+          "Real-time chats & location maps integration",
+          "App Store + Play Store binary releases",
+        ],
+      },
+    ],
+  },
+  {
+    id: "saas-hosting",
+    title: "SaaS Architecture & Hosting",
+    iconName: "Server",
+    description: "Scalable cloud infrastructures, Docker containerization, PostgreSQL/MongoDB multi-tenant database systems, and deployment automation.",
+    priceRange: "30,000 - 150,000 BDT",
+    accent: "from-teal-600 to-emerald-500",
+    deliverablesSummary: [
+      "Dockerized containers for easy staging release",
+      "Multi-tenant database schema setups",
+      "Kubernetes / cloud clusters configuration",
+      "SSL verification & custom subdomains router",
+    ],
+    tiers: [
+      {
+        name: "Basic Server Config",
+        price: "30,000 BDT",
+        timeframe: "7 - 10 Days",
+        deliverables: [
+          "VPS server configuration (Ubuntu/Debian)",
+          "Nginx reverse proxy & free SSL",
+          "Docker Compose template scripting",
+          "Automated weekly backup snapshots",
+        ],
+      },
+      {
+        name: "Standard Cluster",
+        price: "75,000 BDT",
+        timeframe: "20 - 25 Days",
+        deliverables: [
+          "Multi-tenant routing structures",
+          "Redis cache server setups",
+          "CI/CD Gitlab/GitHub actions workflow pipelines",
+          "Prometheus/Grafana stats panel setup",
+        ],
+      },
+      {
+        name: "Enterprise Cloud Suite",
+        price: "150,000 BDT",
+        timeframe: "45 - 60 Days",
+        deliverables: [
+          "Auto-scaling server clusters setup",
+          "Load balancing configurations",
+          "Geo-distributed database backups setup",
+          "24/7 server health monitors audit",
+        ],
+      },
+    ],
+  },
+  {
+    id: "uiux-design",
+    title: "UI/UX Design Systems",
+    iconName: "Palette",
+    description: "Premium Figma wireframes, responsive grids, high-fidelity prototypes, brand guidelines, and UI design assets creation.",
+    priceRange: "10,000 - 45,000 BDT",
+    accent: "from-amber-500 to-rose-500",
+    deliverablesSummary: [
+      "Interactive Figma prototyping guides",
+      "Comprehensive components design token systems",
+      "Sleek custom visual assets",
+      "Responsive UX wireframe matrices",
+    ],
+    tiers: [
+      {
+        name: "UX Wireframes",
+        price: "10,000 BDT",
+        timeframe: "4 - 6 Days",
+        deliverables: [
+          "Interactive low-fidelity prototype",
+          "Up to 5 wireframed pages UI",
+          "Grid system layouts mapping",
+          "2 Design audit iterations",
+        ],
+      },
+      {
+        name: "Standard UI Design",
+        price: "22,000 BDT",
+        timeframe: "10 - 15 Days",
+        deliverables: [
+          "High-fidelity desktop/mobile Figma designs",
+          "Figma components style checklist",
+          "Up to 12 responsive page layouts",
+          "5 Design audit iterations",
+        ],
+      },
+      {
+        name: "Premium Brand Suite",
+        price: "45,000 BDT",
+        timeframe: "20 - 25 Days",
+        deliverables: [
+          "Full custom UI/UX design token system",
+          "Brand typography & logo guidelines book",
+          "Unlimited custom icon designs",
+          "Unlimited iterations until approval",
+        ],
+      },
+    ],
+  },
+  {
+    id: "api-payments",
+    title: "API & Payment Integrations",
+    iconName: "CreditCard",
+    description: "bKash, Nagad, Rocket, Stripe, and SSLCommerz API gateway checkouts. Webhooks handlers configuration, and notifications automation.",
+    priceRange: "12,000 - 50,000 BDT",
+    accent: "from-blue-600 to-indigo-650",
+    deliverablesSummary: [
+      "Manual and auto merchant bKash/Nagad APIs",
+      "Stripe or SSLCommerz checkout pages",
+      "Webhooks receivers verifying txn validation",
+      "Automated bill receipts generator email systems",
+    ],
+    tiers: [
+      {
+        name: "Single Wallet Gateway",
+        price: "12,000 BDT",
+        timeframe: "4 - 5 Days",
+        deliverables: [
+          "bKash tokenized API checkout setups",
+          "Callback URL verification handling",
+          "Success/Failed redirect endpoints",
+          "15 days verification monitoring",
+        ],
+      },
+      {
+        name: "Dual Wallet Audit",
+        price: "22,005 BDT",
+        timeframe: "7 - 10 Days",
+        deliverables: [
+          "bKash + Nagad tokenized API checkouts",
+          "Manual payment TxnID admin logs verify",
+          "SMS payment confirmation hooks",
+          "Invoice receipts emailer automation",
+        ],
+      },
+      {
+        name: "Global Merchant Suite",
+        price: "50,000 BDT",
+        timeframe: "15 - 20 Days",
+        deliverables: [
+          "Stripe + bKash + SSLCommerz portals",
+          "Multi-currency conversion check APIs",
+          "Subscription recurring invoices webhook script",
+          "1 month checkout flow load audits",
+        ],
+      },
+    ],
+  },
+  {
+    id: "tech-consulting",
+    title: "Codebase Auditing & Speed Audit",
+    iconName: "ShieldCheck",
+    description: "Lighthouse core web vitals optimization, Next.js page speed auditing, SEO semantic indexing, and codebase refactoring.",
+    priceRange: "8,000 - 35,000 BDT",
+    accent: "from-teal-600 to-emerald-500",
+    deliverablesSummary: [
+      "Comprehensive speed audit PDF checklist",
+      "Tailwind bundle file size minimizing",
+      "Semantic HTML tags layout audits",
+      "Prisma SQL querying checks",
+    ],
+    tiers: [
+      {
+        name: "Vitals Report",
+        price: "8,000 BDT",
+        timeframe: "3 - 4 Days",
+        deliverables: [
+          "Lighthouse scoring audits details",
+          "Render-blocking scripting list",
+          "SEO meta tags structure report",
+          "Recommended package upgrades list",
+        ],
+      },
+      {
+        name: "Standard Audit release",
+        price: "18,000 BDT",
+        timeframe: "7 - 10 Days",
+        deliverables: [
+          "Next.js image loaders optimizations",
+          "Font subsets loading configuration",
+          "Tailwind CSS file sizing optimization",
+          "1 month performance charts review",
+        ],
+      },
+      {
+        name: "Enterprise Code Refactor",
+        price: "35,000 BDT",
+        timeframe: "15 - 20 Days",
+        deliverables: [
+          "Complete Next.js database query optimizations",
+          "Unused node package removals",
+          "Webpack/Turbopack custom configurations",
+          "Guaranteed Google Vitals Green (90+ scoring)",
+        ],
+      },
+    ],
+  },
+];
