@@ -9,8 +9,11 @@ import {
   ArrowRight, Sparkles, MessageSquare, Info 
 } from "lucide-react";
 
+import { usePageCMS } from "@/hooks/usePageCMS";
+
 export default function PricingPage() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [pageConfig] = usePageCMS();
 
   const toggleFaq = (idx: number) => {
     setActiveFaq(activeFaq === idx ? null : idx);
@@ -26,12 +29,12 @@ export default function PricingPage() {
       <div className="container mx-auto px-4 md:px-6 relative z-10 space-y-24">
         {/* Page Header */}
         <div className="text-center max-w-2xl mx-auto">
-          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">Plans Matrix</span>
+          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">{pageConfig.pricing.hero.badge}</span>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
-            Simple, Transparent Rates
+            {pageConfig.pricing.hero.title}
           </h1>
           <p className="text-slate-400">
-            Choose a digital design package or custom template plan, or consult our software developers for bespoke systems integrations.
+            {pageConfig.pricing.hero.subtitle}
           </p>
         </div>
 

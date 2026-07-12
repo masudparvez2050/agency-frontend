@@ -10,9 +10,12 @@ import {
   X, Quote, Sparkles, PhoneCall, Layers, ArrowRight 
 } from "lucide-react";
 
+import { usePageCMS } from "@/hooks/usePageCMS";
+
 export default function PortfolioPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [pageConfig] = usePageCMS();
 
   const categories = ["All", "Web Dev", "Mobile Apps", "UI/UX", "Enterprise"];
 
@@ -32,12 +35,12 @@ export default function PortfolioPage() {
       <div className="container mx-auto px-4 md:px-6 relative z-10 space-y-24">
         {/* Page Header */}
         <div className="text-center max-w-2xl mx-auto">
-          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">Our Success Stories</span>
+          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">{pageConfig.portfolio.hero.badge}</span>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
-            Case Studies
+            {pageConfig.portfolio.hero.title}
           </h1>
           <p className="text-slate-400">
-            Explore detailed summaries of bespoke software, web developments, and mobile applications engineered for our global enterprise clients.
+            {pageConfig.portfolio.hero.subtitle}
           </p>
         </div>
 

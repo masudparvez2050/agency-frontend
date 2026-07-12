@@ -30,9 +30,12 @@ const ServiceIcon = ({ name, className }: { name: string; className?: string }) 
   }
 };
 
+import { usePageCMS } from "@/hooks/usePageCMS";
+
 export default function ServicesPage() {
   const [activeService, setActiveService] = useState<string>("custom-web-dev");
   const packagesRef = useRef<HTMLDivElement>(null);
+  const [pageConfig] = usePageCMS();
 
   const currentService = SERVICES.find((s) => s.id === activeService) || SERVICES[0];
 
@@ -53,12 +56,12 @@ export default function ServicesPage() {
       <div className="container mx-auto px-4 md:px-6 relative z-10 space-y-24">
         {/* Page Header */}
         <div className="text-center max-w-2xl mx-auto">
-          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">Our Expertise</span>
+          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">{pageConfig.services.hero.badge}</span>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
-            Plaxora Services
+            {pageConfig.services.hero.title}
           </h1>
           <p className="text-slate-400">
-            From design to development, API integration, and performance optimization, we build high-speed, data-secure custom solutions tailored for your business.
+            {pageConfig.services.hero.subtitle}
           </p>
         </div>
 

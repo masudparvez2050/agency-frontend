@@ -10,9 +10,12 @@ import {
   DollarSign, Activity, Users, Plus, Star, PhoneCall 
 } from "lucide-react";
 
+import { usePageCMS } from "@/hooks/usePageCMS";
+
 export default function SaasPage() {
   const [activeSim, setActiveSim] = useState<"vortex-pos" | "apex-crm" | "edulink-lms">("vortex-pos");
   const simulatorRef = useRef<HTMLDivElement>(null);
+  const [pageConfig] = usePageCMS();
 
   const handleScrollToSim = (id: "vortex-pos" | "apex-crm" | "edulink-lms") => {
     setActiveSim(id);
@@ -31,12 +34,12 @@ export default function SaasPage() {
       <div className="container mx-auto px-4 md:px-6 relative z-10 space-y-24">
         {/* Page Header */}
         <div className="text-center max-w-2xl mx-auto">
-          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">SaaS Directory</span>
+          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">{pageConfig.saas.hero.badge}</span>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
-            Plaxora SaaS Hub
+            {pageConfig.saas.hero.title}
           </h1>
           <p className="text-slate-400">
-            Explore ready-made Point-of-Sale, Customer Relationships, and School Management platforms built by Plaxora. Launch instantly or order custom modifications.
+            {pageConfig.saas.hero.subtitle}
           </p>
         </div>
 

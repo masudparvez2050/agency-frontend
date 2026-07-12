@@ -223,7 +223,11 @@ function ContactFormInner() {
   );
 }
 
+import { usePageCMS } from "@/hooks/usePageCMS";
+
 export default function ContactPage() {
+  const [pageConfig] = usePageCMS();
+
   return (
     <div className="min-h-screen pt-32 pb-24 overflow-hidden relative">
       {/* Glow Orbs */}
@@ -235,12 +239,12 @@ export default function ContactPage() {
         
         {/* Page Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">Consultation Portal</span>
+          <span className="text-xs font-bold text-purple-400 uppercase tracking-widest mb-3 block">{pageConfig.contact.hero.badge}</span>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
-            Contact Plaxora
+            {pageConfig.contact.hero.title}
           </h1>
           <p className="text-slate-400">
-            Submit your app design, web development, or cloud hosting requirements. Receive custom project pricing contracts.
+            {pageConfig.contact.hero.subtitle}
           </p>
         </div>
 

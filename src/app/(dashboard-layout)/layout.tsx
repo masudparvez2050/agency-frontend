@@ -26,6 +26,7 @@ const ADMIN_NAV = [
   {
     group: "CMS",
     items: [
+      { label: "Page CMS", href: "/admin/page-cms", icon: LayoutDashboard },
       { label: "Products", href: "/admin/products", icon: Package },
       { label: "Apps Store", href: "/admin/apps", icon: Smartphone },
       { label: "Blog Posts", href: "/admin/blog", icon: BookOpen },
@@ -37,7 +38,6 @@ const ADMIN_NAV = [
     items: [
       { label: "Users", href: "/admin/users", icon: Users },
       { label: "Support Tickets", href: "/admin/tickets", icon: MessageSquare, badge: 2 },
-      { label: "Page Copy CMS", href: "/admin/settings/page-copy", icon: BookOpen },
       { label: "Settings", href: "/admin/settings", icon: Settings },
     ],
   },
