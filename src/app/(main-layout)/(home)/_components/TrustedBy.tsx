@@ -33,7 +33,7 @@ export default function TrustedBy() {
           {[...TECH_ITEMS, ...TECH_ITEMS, ...TECH_ITEMS].map((tech, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-slate-900/40 border border-slate-800/60 backdrop-blur-sm"
+              className="flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-slate-900/40 border border-slate-800/60 backdrop-blur-sm shrink-0 whitespace-nowrap"
             >
               <tech.icon className={`w-5 h-5 ${tech.color}`} />
               <span className="text-sm font-bold text-slate-300">{tech.name}</span>
