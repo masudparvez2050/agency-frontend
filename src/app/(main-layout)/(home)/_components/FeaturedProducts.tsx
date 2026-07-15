@@ -2,55 +2,26 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileCode, ShoppingCart, ExternalLink, X, CreditCard, Check, AlertCircle, Sparkles } from "lucide-react";
+import { 
+  FileCode, ShoppingCart, ExternalLink, X, CreditCard, Check, AlertCircle, Sparkles,
+  Star, Download
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { PRODUCTS } from "@/lib/products-data";
+import { Product } from "@/types/product";
 
-const FEATURED_PRODUCTS = [
-  {
-    id: "plaxora-ecommerce-template",
-    title: "Plaxora-Shop eCommerce Template",
-    category: "Next.js Template",
-    description: "Ultra-fast eCommerce frontend with complete cart, search filters, manual payment forms, and Next.js ISR pre-rendering.",
-    price: "1,500 BDT",
-    originalPrice: "3,000 BDT",
-    tags: ["Next.js", "TailwindCSS", "Prisma"],
-    imageGradient: "from-indigo-600 via-purple-600 to-pink-500",
-    demoLink: "https://demo.plaxora.shop",
-  },
-  {
-    id: "sass-dashboard-boilerplate",
-    title: "Vortex SaaS Admin Boilerplate",
-    category: "React Template",
-    description: "Clean dashboard framework featuring charts, notifications, multi-role user dashboards, and Stripe hook adapters.",
-    price: "2,200 BDT",
-    originalPrice: "4,500 BDT",
-    tags: ["React", "Recharts", "Zustand"],
-    imageGradient: "from-blue-600 via-cyan-500 to-indigo-500",
-    demoLink: "https://vortex.plaxora.shop",
-  },
-  {
-    id: "figma-ui-kit-pro",
-    title: "Plaxora Premium UI Figma Kit",
-    category: "Figma UI Kit",
-    description: "Design system containing 200+ responsive elements, dark-first grids, custom web layouts, and interactive variables.",
-    price: "850 BDT",
-    originalPrice: "1,800 BDT",
-    tags: ["Figma", "UI/UX", "Design Tokens"],
-    imageGradient: "from-teal-600 via-cyan-600 to-emerald-500",
-    demoLink: "#",
-  },
-];
+const FEATURED_PRODUCTS = PRODUCTS.slice(0, 3);
 
 export default function FeaturedProducts() {
-  const [selectedProduct, setSelectedProduct] = useState<typeof FEATURED_PRODUCTS[0] | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<"bkash" | "nagad" | "rocket" | null>(null);
   const [senderNumber, setSenderNumber] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
 
-  const handlePurchase = (product: typeof FEATURED_PRODUCTS[0]) => {
+  const handlePurchase = (product: Product) => {
     setSelectedProduct(product);
     setPaymentMethod(null);
     setSenderNumber("");
@@ -72,6 +43,7 @@ export default function FeaturedProducts() {
 
   return (
     <section className="py-24 bg-transparent border-t border-slate-900/60 relative overflow-hidden">
+      {/* Decorative Blur Orb */}
       <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-purple-500/5 blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -106,67 +78,89 @@ export default function FeaturedProducts() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group relative rounded-2xl bg-slate-950 border border-slate-900 overflow-hidden flex flex-col justify-between hover:border-cyan-500/20 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/5"
+              className="group relative rounded-2xl bg-slate-950/80 border border-slate-900 overflow-hidden flex flex-col justify-between hover:border-purple-500/20 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/5"
             >
-              {/* Product graphic preview */}
-              <div className={`h-48 bg-gradient-to-br ${product.imageGradient} relative flex items-center justify-center p-6 group-hover:scale-[1.02] transition-transform duration-500`}>
-                <div className="absolute inset-0 bg-black/20" />
-                <div className="relative p-4 rounded-xl bg-[#030014]/90 border border-white/10 text-center max-w-xs shadow-2xl backdrop-blur-md">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-cyan-400">{product.category}</span>
-                  <p className="text-sm font-extrabold text-white mt-1 line-clamp-1">{product.title}</p>
-                  <div className="flex gap-1.5 justify-center mt-3">
-                    {product.tags.map((tag) => (
-                      <span key={tag} className="text-[9px] bg-white/5 border border-white/10 px-1.5 py-0.5 rounded text-slate-300">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+              {/* Visual Graphic Representation */}
+              <div className="h-48 relative overflow-hidden transition-transform duration-500 border-b border-slate-900 group-hover:scale-[1.01]">
+                <img
+                  src={`/${product.id}-preview.png`}
+                  alt={product.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
+                
+                {/* Category Overlay Tag */}
+                <span className="absolute top-4 left-4 inline-flex items-center px-2.5 py-1 rounded-lg bg-slate-950/90 border border-slate-850 text-[10px] font-extrabold text-purple-355 uppercase tracking-widest">
+                  {product.category}
+                </span>
               </div>
 
-              {/* Info */}
+              {/* Card Details */}
               <div className="p-6 flex-grow flex flex-col justify-between">
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                  <span className="text-[10px] font-bold tracking-widest text-purple-400 uppercase">
+                    {product.category}
+                  </span>
+                  <h3 className="text-xl font-bold text-white mt-1 mb-2 group-hover:text-purple-400 transition-colors line-clamp-1">
                     {product.title}
                   </h3>
-                  <p className="text-xs font-semibold text-cyan-400/80 mb-3">{product.category}</p>
                   <p className="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
                     {product.description}
                   </p>
                 </div>
 
                 <div>
-                  {/* Price */}
-                  <div className="flex items-baseline gap-2 mb-6">
-                    <span className="text-2xl font-black text-white">{product.price}</span>
-                    <span className="text-xs text-slate-500 line-through font-semibold">{product.originalPrice}</span>
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {product.tags.map((tag: string) => (
+                      <span
+                        key={tag}
+                        className="text-[10px] font-semibold text-slate-400 px-2 py-0.5 rounded-full bg-slate-900 border border-slate-850"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                   </div>
 
-                  {/* Actions */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      onClick={() => handlePurchase(product)}
-                      className="flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/20"
-                    >
-                      <ShoppingCart className="w-3.5 h-3.5" />
-                      Buy Now
-                    </button>
-                    {product.demoLink !== "#" ? (
-                      <a
-                        href={product.demoLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-slate-300 transition-all"
+                  <div className="w-full h-[1px] bg-slate-900 mb-6" />
+
+                  {/* Footer Info */}
+                  <div className="flex items-center justify-between mb-6 text-xs text-slate-500">
+                    <span className="flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                      <strong className="text-slate-350">{product.rating}</strong>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Download className="w-3.5 h-3.5" />
+                      <strong className="text-slate-350">{product.downloads} downloads</strong>
+                    </span>
+                  </div>
+
+                  {/* Price and Action Buttons */}
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex flex-col">
+                      <span className="text-xs font-semibold text-slate-550 line-through">
+                        {product.originalPrice}
+                      </span>
+                      <span className="text-lg font-black text-white">{product.price}</span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Link
+                        href={`/products/${product.id}`}
+                        className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-850 text-slate-300 hover:text-white transition-all shadow-md"
+                        title="View Details"
                       >
-                        Live Demo
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    ) : (
-                      <div className="flex items-center justify-center py-2.5 px-4 rounded-xl bg-slate-950 border border-slate-900 text-xs font-bold text-slate-600">
-                        No Demo
-                      </div>
-                    )}
+                        <ExternalLink className="w-4 h-4" />
+                      </Link>
+                      <button
+                        onClick={() => handlePurchase(product)}
+                        className="flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/20"
+                      >
+                        <ShoppingCart className="w-3.5 h-3.5" />
+                        Buy Now
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

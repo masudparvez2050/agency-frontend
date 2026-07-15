@@ -2,45 +2,54 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Smartphone, Download, Star, CheckCircle, ArrowRight, Laptop, Sparkles } from "lucide-react";
+import { Smartphone, Download, Star, CheckCircle, ArrowRight, Laptop, Sparkles, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 const FEATURED_APPS = [
   {
     id: "galaxy-games",
-    title: "Galaxy Games",
-    category: "Gaming Hub",
+    title: "Galaxy Games Hub",
+    category: "Gaming",
+    developer: "Plaxora Gaming Labs",
+    version: "V1.2.0",
     description: "An interactive gaming hub presenting multiple retro, physics-based, and strategy web and mobile mini-games.",
     platforms: ["Android", "iOS"],
     downloads: "5,400+",
     rating: 4.9,
+    size: "68 MB",
     accent: "from-amber-500 to-rose-500",
     slug: "/apps/galaxy-games",
-    badge: "New Release",
+    previewImage: "/galaxy-games-preview.png",
   },
   {
     id: "sendpay-wallet",
-    title: "SendPay Wallet",
-    category: "Fintech App",
+    title: "SendPay Digital Wallet",
+    category: "Fintech",
+    developer: "Plaxora Fintech Corp",
+    version: "V2.1.0",
     description: "Secure, lightning-fast digital wallet concept app supporting multi-currency conversions and offline transactions.",
     platforms: ["Android", "iOS", "macOS"],
     downloads: "12,200+",
     rating: 4.8,
+    size: "34 MB",
     accent: "from-blue-600 to-cyan-400",
     slug: "/apps/sendpay-wallet",
-    badge: "Popular",
+    previewImage: "/sendpay-wallet-preview.png",
   },
   {
     id: "plexora-cli",
-    title: "Plexora CLI & Devsuite",
-    category: "Developer Tools",
+    title: "Plexora Developer CLI",
+    category: "DevTools",
+    developer: "Plaxora Open Source",
+    version: "V1.3.1",
     description: "Desktop utility terminal suite that automates Tailwind component generation, Git workflows, and builds local templates.",
     platforms: ["Windows", "macOS", "Linux"],
     downloads: "3,100+",
     rating: 4.9,
+    size: "12 MB",
     accent: "from-purple-600 to-fuchsia-400",
     slug: "/apps/plexora-cli",
-    badge: "Developer Tool",
+    previewImage: "/plexora-cli-preview.png",
   },
 ];
 
@@ -82,39 +91,52 @@ export default function FeaturedApps() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group relative rounded-2xl bg-slate-950 border border-slate-900 overflow-hidden flex flex-col justify-between hover:border-purple-500/20 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/5"
+              className="group relative rounded-2xl bg-slate-950 border border-slate-900 p-6 overflow-hidden flex flex-col justify-between hover:border-purple-500/20 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/5"
             >
               {/* App Glow border */}
-              <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20" />
 
-              <div className="p-6">
-                {/* Header Icon */}
+              {/* Hover App Preview Image & Overlay */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-[0.14] transition-all duration-700 pointer-events-none scale-105 group-hover:scale-100 z-0"
+                style={{ backgroundImage: `url('${app.previewImage}')` }}
+              />
+              <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+
+              <div className="relative z-20">
+                {/* Header Icon & version */}
                 <div className="flex items-center justify-between mb-6">
                   <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${app.accent} p-[1px] flex items-center justify-center`}>
                     <div className="w-full h-full bg-[#030014] rounded-[15px] flex items-center justify-center">
-                      <Smartphone className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                      {app.id === "plexora-cli" ? (
+                        <Laptop className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                      ) : (
+                        <Smartphone className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                      )}
                     </div>
                   </div>
-                  <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase px-2 py-1 rounded bg-slate-900 border border-slate-800">
-                    {app.badge}
+                  <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase px-2.5 py-1 rounded bg-slate-900 border border-slate-850">
+                    {app.version}
                   </span>
                 </div>
 
                 {/* Info */}
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                <h3 className="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">
                   {app.title}
                 </h3>
-                <p className="text-xs font-semibold text-purple-400/80 mb-3">{app.category}</p>
-                <p className="text-sm text-slate-400 mb-6 leading-relaxed">
+                <span className="text-xs font-semibold text-purple-400/80 block mb-3">
+                  {app.category} — Developed by {app.developer}
+                </span>
+                <p className="text-sm text-slate-400 mb-6 leading-relaxed line-clamp-3">
                   {app.description}
                 </p>
 
                 {/* Platforms */}
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-1.5 mb-6">
                   {app.platforms.map((platform) => (
                     <span
                       key={platform}
-                      className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-400 px-2 py-0.5 rounded-full bg-slate-900 border border-slate-800"
+                      className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-850"
                     >
                       {platform === "Windows" || platform === "macOS" || platform === "Linux" ? (
                         <Laptop className="w-2.5 h-2.5" />
@@ -127,28 +149,40 @@ export default function FeaturedApps() {
                 </div>
               </div>
 
-              {/* Stats Footer */}
-              <div className="p-6 bg-slate-900/40 border-t border-slate-900/80 flex items-center justify-between mt-auto">
-                <div className="flex items-center gap-4">
-                  <div className="text-center">
-                    <span className="block text-xs font-bold text-white">{app.downloads}</span>
-                    <span className="text-[10px] text-slate-500 font-semibold uppercase">Downloads</span>
-                  </div>
-                  <div className="w-[1px] h-6 bg-slate-800" />
-                  <div className="text-center">
-                    <span className="flex items-center gap-0.5 text-xs font-bold text-white">
-                      {app.rating} <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                    </span>
-                    <span className="text-[10px] text-slate-500 font-semibold uppercase block">Rating</span>
-                  </div>
+              {/* Stats Footer & Actions */}
+              <div className="relative z-20">
+                <div className="w-full h-[1px] bg-slate-900 mb-6" />
+
+                {/* Stats Row */}
+                <div className="flex items-center justify-between mb-6 text-xs text-slate-500">
+                  <span className="flex items-center gap-1">
+                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    <strong className="text-slate-350">{app.rating}</strong>
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Download className="w-3.5 h-3.5" />
+                    <strong className="text-slate-350">{app.downloads} downloads</strong>
+                  </span>
+                  <span className="font-semibold">{app.size}</span>
                 </div>
 
-                <Link
-                  href={app.slug}
-                  className="p-2.5 rounded-xl bg-slate-900 hover:bg-purple-600 border border-slate-800 hover:border-purple-500 text-slate-300 hover:text-white transition-all shadow-md"
-                >
-                  <Download className="w-4 h-4" />
-                </Link>
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-3">
+                  <Link
+                    href={app.slug}
+                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-850 text-xs font-bold text-slate-350 hover:text-white transition-all"
+                  >
+                    View Details
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </Link>
+                  <Link
+                    href={app.slug}
+                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/25"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    Download
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}
