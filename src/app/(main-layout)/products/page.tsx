@@ -320,28 +320,28 @@ export default function ProductsPage() {
                         </div>
 
                         {/* Price and Action Buttons */}
-                        <div className="flex items-center justify-between gap-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-slate-100">
                           <div className="flex flex-col">
-                            <span className="text-xs font-semibold text-slate-400 line-through">
+                            <span className="text-[10px] font-semibold text-slate-400 line-through">
                               {product.originalPrice}
                             </span>
-                            <span className="text-lg font-black text-slate-900">{product.price}</span>
+                            <span className="text-base font-black text-slate-900">{product.price}</span>
                           </div>
 
-                          <div className="flex gap-2">
+                          <div className="flex items-center gap-2">
                             <Link
                               href={`/products/${product.id}`}
-                              className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 transition-all shadow-sm"
-                              title="View Details"
+                              className="flex items-center gap-1.5 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 hover:text-slate-900 transition-all shadow-sm"
                             >
-                              <ExternalLink className="w-4 h-4" />
+                              <ExternalLink className="w-3.5 h-3.5" />
+                              <span>View Details</span>
                             </Link>
                             <button
                               onClick={() => handleOpenCheckout(product)}
-                              className="flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/15"
+                              className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/15"
                             >
                               <ShoppingCart className="w-3.5 h-3.5" />
-                              Buy Now
+                              <span>Buy Now</span>
                             </button>
                           </div>
                         </div>
