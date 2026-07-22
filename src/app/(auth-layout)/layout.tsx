@@ -10,9 +10,9 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen bg-[#030014] text-slate-100 flex flex-col justify-between relative overflow-hidden">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-900 flex flex-col justify-between relative overflow-hidden">
       {/* Decorative Orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-purple-600/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-purple-500/5 blur-[120px] pointer-events-none" />
       <div className="absolute top-1/3 left-1/3 w-[300px] h-[300px] rounded-full bg-cyan-500/5 blur-[100px] pointer-events-none" />
       <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
 
@@ -21,20 +21,20 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         <div className="container mx-auto flex items-center justify-between">
           <Link
             href="/"
-            className="group inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors"
+            className="group inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
             Back to Store
           </Link>
 
           <Link href="/" className="flex items-center gap-2">
-            <div className="relative w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-cyan-400 p-[1px] flex items-center justify-center">
-              <div className="w-full h-full bg-[#030014] rounded-[7px] flex items-center justify-center">
-                <span className="text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-300">P</span>
+            <div className="relative w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 p-[1px] flex items-center justify-center shadow-sm">
+              <div className="w-full h-full bg-white rounded-[7px] flex items-center justify-center">
+                <span className="text-sm font-black text-purple-700">P</span>
               </div>
             </div>
-            <span className="text-lg font-bold tracking-tight text-white">
-              Plaxora<span className="text-purple-500">.</span>
+            <span className="text-lg font-black tracking-tight text-slate-900">
+              Plaxora<span className="text-purple-600">.</span>
             </span>
           </Link>
         </div>
@@ -48,7 +48,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
       </main>
 
       {/* Footer Bar */}
-      <footer className="p-6 text-center text-xs text-slate-650 relative z-10">
+      <footer className="p-6 text-center text-xs text-slate-500 font-medium relative z-10">
         <p>© {new Date().getFullYear()} Plaxora Ecosystem. All rights reserved.</p>
       </footer>
     </div>

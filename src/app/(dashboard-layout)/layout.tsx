@@ -84,22 +84,22 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
       <div className="space-y-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" onClick={onLinkClick}>
-          <div className="relative w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-cyan-400 p-[1px] flex items-center justify-center">
-            <div className="w-full h-full bg-[#030014] rounded-[7px] flex items-center justify-center">
-              <span className="text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-300">P</span>
+          <div className="relative w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 p-[1px] flex items-center justify-center shadow-sm">
+            <div className="w-full h-full bg-white rounded-[7px] flex items-center justify-center">
+              <span className="text-sm font-black text-purple-700">P</span>
             </div>
           </div>
-          <span className="text-base font-bold tracking-tight text-white">Plaxora Admin</span>
+          <span className="text-base font-black tracking-tight text-slate-900">Plaxora Admin</span>
         </Link>
 
         {/* User Widget */}
-        <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-900">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-500 to-cyan-500 flex items-center justify-center font-extrabold text-sm text-white shrink-0">
+        <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center font-extrabold text-sm text-white shrink-0 shadow-sm">
             {MOCK_USER.avatarInitials}
           </div>
           <div className="overflow-hidden">
-            <h4 className="text-xs font-bold text-white truncate">{MOCK_USER.name}</h4>
-            <p className="text-[10px] text-purple-400 font-semibold">{MOCK_USER.role} Account</p>
+            <h4 className="text-xs font-bold text-slate-900 truncate">{MOCK_USER.name}</h4>
+            <p className="text-[10px] text-purple-700 font-bold">{MOCK_USER.role} Account</p>
           </div>
         </div>
 
@@ -109,7 +109,7 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
           <div>
             <button
               onClick={() => setAdminExpanded(!adminExpanded)}
-              className="w-full flex items-center justify-between px-2 mb-2 text-[9px] font-black text-slate-500 uppercase tracking-widest hover:text-slate-300 transition-colors cursor-pointer"
+              className="w-full flex items-center justify-between px-2 mb-2 text-[9px] font-black text-slate-500 uppercase tracking-widest hover:text-slate-900 transition-colors cursor-pointer"
             >
               <span>Admin Console</span>
               {adminExpanded ? <ChevronDown className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
@@ -124,7 +124,7 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
                 >
                   {ADMIN_NAV.map((group) => (
                     <div key={group.group} className="space-y-1">
-                      <span className="block px-3 text-[9px] font-bold text-slate-600 uppercase tracking-widest mb-1">
+                      <span className="block px-3 text-[9px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">
                         {group.group}
                       </span>
                       {group.items.map((item: any) => {
@@ -138,8 +138,8 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
                                 onClick={() => setPageCmsExpanded(!pageCmsExpanded)}
                                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all border text-left cursor-pointer ${
                                   pathname.startsWith(item.href)
-                                    ? "bg-purple-600/5 border-purple-500/10 text-purple-400"
-                                    : "border-transparent text-slate-455 hover:text-white hover:bg-white/5"
+                                    ? "bg-purple-50 border-purple-200 text-purple-700"
+                                    : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                                 }`}
                               >
                                 <item.icon className="w-4 h-4 shrink-0" />
@@ -153,7 +153,7 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: "auto", opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}
-                                    className="pl-6 space-y-0.5 overflow-hidden border-l border-slate-900/60 ml-5"
+                                    className="pl-6 space-y-0.5 overflow-hidden border-l border-slate-200 ml-5"
                                   >
                                     {item.children?.map((child: any) => {
                                       const childActive = pathname === child.href;
@@ -162,10 +162,10 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
                                           key={child.href}
                                           href={child.href}
                                           onClick={onLinkClick}
-                                          className={`block px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all ${
+                                          className={`block px-3 py-1.5 rounded-lg text-[11px] font-bold transition-all ${
                                             childActive
-                                              ? "text-purple-400 bg-purple-650/10"
-                                              : "text-slate-500 hover:text-slate-200"
+                                              ? "text-purple-700 bg-purple-50"
+                                              : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                                           }`}
                                         >
                                           {child.label}
@@ -186,14 +186,14 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
                             onClick={onLinkClick}
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all border ${
                               active
-                                ? "bg-purple-600/10 border-purple-500/20 text-purple-400"
-                                : "border-transparent text-slate-455 hover:text-white hover:bg-white/5"
+                                ? "bg-purple-50 border-purple-200 text-purple-700"
+                                : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                             }`}
                           >
                             <item.icon className="w-4 h-4 shrink-0" />
                             <span className="flex-grow">{item.label}</span>
                             {(item as any).badge && (
-                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/20">
+                              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
                                 {(item as any).badge}
                               </span>
                             )}
@@ -208,11 +208,11 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
           </div>
 
           {/* Divider */}
-          <div className="h-px bg-slate-900" />
+          <div className="h-px bg-slate-200" />
 
           {/* User nav */}
           <div className="space-y-1">
-            <span className="block px-3 text-[9px] font-black text-slate-655 uppercase tracking-widest mb-1">User Area</span>
+            <span className="block px-3 text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">User Area</span>
             {USER_NAV.map((item) => {
               const active = pathname === item.href;
               return (
@@ -222,8 +222,8 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
                   onClick={onLinkClick}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all border ${
                     active
-                      ? "bg-purple-600/10 border-purple-500/20 text-purple-400"
-                      : "border-transparent text-slate-455 hover:text-white hover:bg-white/5"
+                      ? "bg-purple-50 border-purple-200 text-purple-700"
+                      : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                   }`}
                 >
                   <item.icon className="w-4 h-4 shrink-0" />
@@ -236,11 +236,11 @@ function SidebarContent({ pathname, onLinkClick }: { pathname: string; onLinkCli
       </div>
 
       {/* Footer Logout */}
-      <div className="pt-4 border-t border-slate-900">
+      <div className="pt-4 border-t border-slate-200">
         <Link
           href="/"
           onClick={onLinkClick}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-rose-400 hover:bg-rose-500/5 transition-all border border-transparent"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:text-rose-600 hover:bg-rose-50 transition-all border border-transparent"
         >
           <LogOut className="w-4 h-4 shrink-0" />
           Logout Session
@@ -255,31 +255,31 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#030014] text-slate-100 flex overflow-hidden">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-900 flex overflow-hidden">
       {/* Decorative Orbs */}
       <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-purple-500/5 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
 
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex flex-col w-64 shrink-0 bg-slate-950/70 border-r border-slate-900/80 backdrop-blur-xl relative z-30 p-6 min-h-screen sticky top-0 overflow-y-auto no-scrollbar">
+      <aside className="hidden lg:flex flex-col w-64 shrink-0 bg-white border-r border-slate-200/80 backdrop-blur-xl relative z-30 p-6 min-h-screen sticky top-0 overflow-y-auto no-scrollbar shadow-sm">
         <SidebarContent pathname={pathname} />
       </aside>
 
       {/* Main Panel */}
       <div className="flex-grow flex flex-col min-h-screen relative z-10 overflow-y-auto">
         {/* Mobile Header */}
-        <header className="lg:hidden flex items-center justify-between p-4 bg-[#030014]/90 border-b border-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+        <header className="lg:hidden flex items-center justify-between p-4 bg-white/90 border-b border-slate-200 backdrop-blur-md sticky top-0 z-40">
           <Link href="/" className="flex items-center gap-2">
-            <div className="relative w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-cyan-400 p-[1px] flex items-center justify-center">
-              <div className="w-full h-full bg-[#030014] rounded-[7px] flex items-center justify-center">
-                <span className="text-xs font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-300">P</span>
+            <div className="relative w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 p-[1px] flex items-center justify-center shadow-sm">
+              <div className="w-full h-full bg-white rounded-[7px] flex items-center justify-center">
+                <span className="text-xs font-black text-purple-700">P</span>
               </div>
             </div>
-            <span className="text-sm font-bold text-white">Plaxora Admin</span>
+            <span className="text-sm font-black text-slate-900">Plaxora Admin</span>
           </Link>
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-900"
+            className="p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100"
             aria-label="Toggle Dashboard Menu"
           >
             {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -295,14 +295,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setIsMobileOpen(false)}
-                className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-30"
+                className="lg:hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-30"
               />
               <motion.aside
                 initial={{ x: "-100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "-100%" }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="lg:hidden fixed inset-y-0 left-0 w-64 bg-slate-950/95 border-r border-slate-900 z-40 p-6 overflow-y-auto no-scrollbar"
+                className="lg:hidden fixed inset-y-0 left-0 w-64 bg-white border-r border-slate-200 z-40 p-6 overflow-y-auto no-scrollbar shadow-2xl"
               >
                 <SidebarContent pathname={pathname} onLinkClick={() => setIsMobileOpen(false)} />
               </motion.aside>
