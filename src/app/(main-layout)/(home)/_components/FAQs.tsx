@@ -35,19 +35,19 @@ export default function FAQs() {
   };
 
   return (
-    <section className="py-24 bg-transparent border-t border-slate-900/60 relative overflow-hidden">
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-600/5 blur-[120px] pointer-events-none" />
+    <section className="py-24 bg-transparent border-t border-slate-200 relative overflow-hidden">
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/5 blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs font-semibold text-cyan-300 mb-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 mb-4">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Support & Help</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-400">
+          <p className="text-slate-600 font-medium">
             Got questions about our digital products, manual transaction validation, or custom contract services? We have answers.
           </p>
         </div>
@@ -59,14 +59,14 @@ export default function FAQs() {
             return (
               <div
                 key={idx}
-                className="rounded-2xl bg-slate-950 border border-slate-900 overflow-hidden hover:border-slate-800 transition-colors"
+                className="rounded-2xl bg-white border border-slate-200/80 overflow-hidden hover:border-slate-300 shadow-sm transition-all"
               >
                 <button
                   onClick={() => toggleFAQ(idx)}
-                  className="w-full flex items-center justify-between p-6 text-left font-bold text-white hover:text-purple-400 transition-colors"
+                  className="w-full flex items-center justify-between p-6 text-left font-bold text-slate-900 hover:text-purple-700 transition-colors"
                 >
                   <span className="text-sm md:text-base leading-snug">{item.question}</span>
-                  <ChevronDown className={`w-5 h-5 text-slate-500 transition-transform duration-300 ${isOpen ? "rotate-180 text-purple-400" : ""}`} />
+                  <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-300 ${isOpen ? "rotate-180 text-purple-600" : ""}`} />
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -76,9 +76,9 @@ export default function FAQs() {
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.25 }}
-                      className="overflow-hidden border-t border-slate-900/60 bg-slate-950/40"
+                      className="overflow-hidden border-t border-slate-200 bg-slate-50/50"
                     >
-                      <div className="p-6 text-sm text-slate-400 leading-relaxed border-t border-slate-900">
+                      <div className="p-6 text-sm text-slate-600 leading-relaxed font-normal">
                         {item.answer}
                       </div>
                     </motion.div>

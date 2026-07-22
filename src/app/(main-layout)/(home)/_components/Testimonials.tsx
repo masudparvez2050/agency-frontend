@@ -44,25 +44,25 @@ export default function Testimonials() {
 
   return (
     <section className="py-24 relative overflow-hidden">
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-cyan-600/5 blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-purple-500/5 blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-semibold text-purple-300 mb-4">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 mb-4">
             <MessageSquare className="w-3.5 h-3.5" />
             <span>Customer Testimonials</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
             Loved By Developers & Clients
           </h2>
-          <p className="text-slate-400">
+          <p className="text-slate-600 font-medium">
             Read what other engineers and business operations leaders say about their software experience working with Plaxora.
           </p>
         </div>
 
         {/* Testimonial slider */}
-        <div className="relative max-w-4xl mx-auto rounded-2xl bg-slate-950 border border-slate-900 p-8 md:p-12 shadow-2xl hover:border-purple-500/10 transition-all">
-          <div className="absolute top-8 right-8 text-purple-500/10 pointer-events-none">
+        <div className="relative max-w-4xl mx-auto rounded-2xl bg-white border border-slate-200/80 p-8 md:p-12 shadow-xl shadow-slate-200/40 hover:border-purple-300 transition-all">
+          <div className="absolute top-8 right-8 text-purple-600/10 pointer-events-none">
             <Quote className="w-24 h-24 stroke-[4]" />
           </div>
 
@@ -84,19 +84,19 @@ export default function Testimonials() {
                 </div>
 
                 {/* Quote */}
-                <p className="text-base md:text-lg text-slate-300 leading-relaxed italic">
+                <p className="text-base md:text-lg text-slate-700 leading-relaxed italic font-medium">
                   &ldquo;{TESTIMONIALS[current].quote}&rdquo;
                 </p>
 
                 {/* Author Info */}
-                <div className="flex items-center gap-4 pt-4 border-t border-slate-900">
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-tr ${TESTIMONIALS[current].avatarGradient} flex items-center justify-center text-white font-extrabold text-lg`}>
+                <div className="flex items-center gap-4 pt-4 border-t border-slate-200">
+                  <div className={`w-12 h-12 rounded-full bg-gradient-to-tr ${TESTIMONIALS[current].avatarGradient} flex items-center justify-center text-white font-black text-lg shadow-sm`}>
                     {TESTIMONIALS[current].author[0]}
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-white">{TESTIMONIALS[current].author}</h4>
-                    <p className="text-xs text-slate-500">
-                      {TESTIMONIALS[current].role} — <span className="text-purple-400 font-semibold">{TESTIMONIALS[current].company}</span>
+                    <h4 className="text-sm font-extrabold text-slate-900">{TESTIMONIALS[current].author}</h4>
+                    <p className="text-xs text-slate-500 font-medium">
+                      {TESTIMONIALS[current].role} — <span className="text-purple-700 font-bold">{TESTIMONIALS[current].company}</span>
                     </p>
                   </div>
                 </div>
@@ -108,14 +108,14 @@ export default function Testimonials() {
           <div className="flex gap-2 justify-end mt-8">
             <button
               onClick={handlePrev}
-              className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-colors"
+              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
               aria-label="Previous Testimonial"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={handleNext}
-              className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-colors"
+              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 hover:text-slate-900 transition-colors"
               aria-label="Next Testimonial"
             >
               <ChevronRight className="w-5 h-5" />

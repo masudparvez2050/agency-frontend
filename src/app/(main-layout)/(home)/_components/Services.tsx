@@ -45,16 +45,16 @@ const SERVICES = [
 
 export default function Services() {
   return (
-    <section className="py-24 bg-transparent border-y border-slate-900/60 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-purple-600/5 blur-[120px] pointer-events-none" />
+    <section className="py-24 bg-transparent border-y border-slate-200 relative overflow-hidden">
+      <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-purple-500/5 blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-20">
-          <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-3">Our Core Agency Services</p>
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+          <p className="text-xs font-bold text-purple-700 uppercase tracking-widest mb-3">Our Core Agency Services</p>
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
             Bespoke Software Services
           </h2>
-          <p className="text-slate-400">
+          <p className="text-slate-600 font-medium">
             Though templates are our strength, we provide premier bespoke development services to seed startup growth and deploy enterprise operations.
           </p>
         </div>
@@ -68,31 +68,31 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group p-8 rounded-2xl bg-slate-950 border border-slate-900 hover:border-cyan-500/25 transition-all duration-300 relative overflow-hidden hover:shadow-2xl hover:shadow-cyan-500/5"
+              className="group p-8 rounded-2xl bg-white border border-slate-200/80 hover:border-purple-300 transition-all duration-300 relative overflow-hidden shadow-md hover:shadow-xl hover:shadow-purple-500/5"
             >
               {/* Decorative accent element */}
-              <div className={`absolute top-0 left-0 w-2 h-full bg-gradient-to-b ${service.color} opacity-80`} />
+              <div className={`absolute top-0 left-0 w-2 h-full bg-gradient-to-b ${service.color} opacity-90`} />
 
               <div className="pl-4">
                 {/* Header */}
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-cyan-400 group-hover:scale-110 transition-transform">
+                  <div className="p-3 rounded-xl bg-purple-50 border border-purple-100 text-purple-700 group-hover:scale-110 transition-transform">
                     <service.icon className="w-6 h-6" />
                   </div>
-                  <h3 className="text-xl font-bold text-white group-hover:text-cyan-400 transition-colors">
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-purple-700 transition-colors">
                     {service.title}
                   </h3>
                 </div>
 
-                <p className="text-sm text-slate-400 mb-6 leading-relaxed">
+                <p className="text-sm text-slate-600 mb-6 leading-relaxed">
                   {service.description}
                 </p>
 
                 {/* Bullets */}
                 <ul className="space-y-2.5 mb-8">
                   {service.bullets.map((bullet, i) => (
-                    <li key={i} className="flex items-center gap-2 text-xs text-slate-300">
-                      <div className="p-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 shrink-0">
+                    <li key={i} className="flex items-center gap-2 text-xs font-medium text-slate-700">
+                      <div className="p-0.5 rounded-full bg-purple-100 border border-purple-200 text-purple-700 shrink-0">
                         <Check className="w-3 h-3" />
                       </div>
                       <span>{bullet}</span>
@@ -105,7 +105,7 @@ export default function Services() {
                   {service.tech.map((tech) => (
                     <span
                       key={tech}
-                      className="text-[10px] font-bold text-slate-400 px-2.5 py-1 rounded bg-slate-900 border border-slate-800/80 uppercase tracking-wider"
+                      className="text-[10px] font-bold text-slate-600 px-2.5 py-1 rounded bg-slate-100 border border-slate-200 uppercase tracking-wider"
                     >
                       {tech}
                     </span>

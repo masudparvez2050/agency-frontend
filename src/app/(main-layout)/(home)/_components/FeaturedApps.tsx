@@ -62,20 +62,20 @@ export default function FeaturedApps() {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-xs font-semibold text-purple-300 mb-4">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 mb-4">
               <Smartphone className="w-3.5 h-3.5" />
               <span>Plaxora App Store</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
               Explore Our Native Apps
             </h2>
-            <p className="text-slate-400 max-w-xl">
+            <p className="text-slate-600 font-medium max-w-xl">
               We publish and maintain custom applications for mobile, desktop, and terminal. Fast download, zero trackers, 100% utility.
             </p>
           </div>
           <Link
             href="/apps"
-            className="group inline-flex items-center gap-1.5 text-sm font-semibold text-purple-400 hover:text-purple-300 mt-4 md:mt-0 transition-colors"
+            className="group inline-flex items-center gap-1.5 text-sm font-bold text-purple-700 hover:text-purple-800 mt-4 md:mt-0 transition-colors"
           >
             Browse all apps
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -91,43 +91,43 @@ export default function FeaturedApps() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group relative rounded-2xl bg-slate-950 border border-slate-900 p-6 overflow-hidden flex flex-col justify-between hover:border-purple-500/20 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/5"
+              className="group relative rounded-2xl bg-white border border-slate-200/80 p-6 overflow-hidden flex flex-col justify-between hover:border-purple-300 transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-purple-500/5"
             >
               {/* App Glow border */}
-              <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20" />
+              <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20" />
 
               {/* Hover App Preview Image & Overlay */}
               <div 
-                className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-[0.14] transition-all duration-700 pointer-events-none scale-105 group-hover:scale-100 z-0"
+                className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-[0.1] transition-all duration-700 pointer-events-none scale-105 group-hover:scale-100 z-0"
                 style={{ backgroundImage: `url('${app.previewImage}')` }}
               />
-              <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+              <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
 
               <div className="relative z-20">
                 {/* Header Icon & version */}
                 <div className="flex items-center justify-between mb-6">
-                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${app.accent} p-[1px] flex items-center justify-center`}>
-                    <div className="w-full h-full bg-[#030014] rounded-[15px] flex items-center justify-center">
+                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${app.accent} p-[1px] flex items-center justify-center shadow-sm`}>
+                    <div className="w-full h-full bg-white rounded-[15px] flex items-center justify-center">
                       {app.id === "plexora-cli" ? (
-                        <Laptop className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                        <Laptop className="w-6 h-6 text-purple-700 group-hover:scale-110 transition-transform" />
                       ) : (
-                        <Smartphone className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                        <Smartphone className="w-6 h-6 text-purple-700 group-hover:scale-110 transition-transform" />
                       )}
                     </div>
                   </div>
-                  <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase px-2.5 py-1 rounded bg-slate-900 border border-slate-850">
+                  <span className="text-[10px] font-bold tracking-widest text-slate-600 uppercase px-2.5 py-1 rounded bg-slate-100 border border-slate-200">
                     {app.version}
                   </span>
                 </div>
 
                 {/* Info */}
-                <h3 className="text-xl font-bold text-white group-hover:text-purple-400 transition-colors">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-purple-700 transition-colors">
                   {app.title}
                 </h3>
-                <span className="text-xs font-semibold text-purple-400/80 block mb-3">
+                <span className="text-xs font-bold text-purple-700 block mb-3">
                   {app.category} — Developed by {app.developer}
                 </span>
-                <p className="text-sm text-slate-400 mb-6 leading-relaxed line-clamp-3">
+                <p className="text-sm text-slate-600 mb-6 leading-relaxed line-clamp-3 font-normal">
                   {app.description}
                 </p>
 
@@ -136,7 +136,7 @@ export default function FeaturedApps() {
                   {app.platforms.map((platform) => (
                     <span
                       key={platform}
-                      className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-400 px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-850"
+                      className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600 px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200"
                     >
                       {platform === "Windows" || platform === "macOS" || platform === "Linux" ? (
                         <Laptop className="w-2.5 h-2.5" />
@@ -151,33 +151,33 @@ export default function FeaturedApps() {
 
               {/* Stats Footer & Actions */}
               <div className="relative z-20">
-                <div className="w-full h-[1px] bg-slate-900 mb-6" />
+                <div className="w-full h-[1px] bg-slate-200 mb-6" />
 
                 {/* Stats Row */}
-                <div className="flex items-center justify-between mb-6 text-xs text-slate-500">
+                <div className="flex items-center justify-between mb-6 text-xs text-slate-500 font-medium">
                   <span className="flex items-center gap-1">
                     <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                    <strong className="text-slate-350">{app.rating}</strong>
+                    <strong className="text-slate-800">{app.rating}</strong>
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Download className="w-3.5 h-3.5" />
-                    <strong className="text-slate-350">{app.downloads} downloads</strong>
+                    <strong className="text-slate-800">{app.downloads} downloads</strong>
                   </span>
-                  <span className="font-semibold">{app.size}</span>
+                  <span className="font-bold text-slate-700">{app.size}</span>
                 </div>
 
                 {/* Action Buttons */}
                 <div className="grid grid-cols-2 gap-3">
                   <Link
                     href={app.slug}
-                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-850 text-xs font-bold text-slate-350 hover:text-white transition-all"
+                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 transition-all"
                   >
                     View Details
                     <ExternalLink className="w-3.5 h-3.5" />
                   </Link>
                   <Link
                     href={app.slug}
-                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/25"
+                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/15"
                   >
                     <Download className="w-3.5 h-3.5" />
                     Download

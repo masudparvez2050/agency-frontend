@@ -51,7 +51,7 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleModalClose}
-            className="absolute inset-0 bg-black/85 backdrop-blur-md"
+            className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
           />
 
           {/* Modal Content */}
@@ -59,43 +59,43 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
             initial={{ scale: 0.9, y: 20, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.9, y: 20, opacity: 0 }}
-            className="relative w-full max-w-lg rounded-2xl bg-slate-950 border border-slate-900 p-6 md:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
+            className="relative w-full max-w-lg rounded-2xl bg-white border border-slate-200 p-6 md:p-8 shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
           >
             {/* Close Button */}
             <button
               onClick={handleModalClose}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-900 border border-transparent transition-all"
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-all"
             >
               <X className="w-5 h-5" />
             </button>
 
             {!orderSuccess ? (
               <>
-                <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                  <ShoppingCart className="w-5 h-5 text-purple-400" />
+                <h3 className="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
+                  <ShoppingCart className="w-5 h-5 text-purple-600" />
                   Checkout Order
                 </h3>
-                <p className="text-xs text-slate-400 mb-6">
-                  Product: <span className="font-bold text-purple-400">{product.title}</span> (Price: <span className="text-white font-extrabold">{product.price}</span>)
+                <p className="text-xs text-slate-600 mb-6">
+                  Product: <span className="font-bold text-purple-700">{product.title}</span> (Price: <span className="text-slate-900 font-extrabold">{product.price}</span>)
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-3">
+                    <label className="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">
                       Choose Manual Payment Method
                     </label>
                     <div className="grid grid-cols-3 gap-3">
                       {[
-                        { id: "bkash", name: "bKash", color: "border-pink-500/20 hover:border-pink-500 bg-pink-500/5 text-pink-300" },
-                        { id: "nagad", name: "Nagad", color: "border-orange-500/20 hover:border-orange-500 bg-orange-500/5 text-orange-300" },
-                        { id: "rocket", name: "Rocket", color: "border-purple-500/20 hover:border-purple-500 bg-purple-500/5 text-purple-300" },
+                        { id: "bkash", name: "bKash", color: "border-pink-200 hover:border-pink-500 bg-pink-50 text-pink-700" },
+                        { id: "nagad", name: "Nagad", color: "border-orange-200 hover:border-orange-500 bg-orange-50 text-orange-700" },
+                        { id: "rocket", name: "Rocket", color: "border-purple-200 hover:border-purple-500 bg-purple-50 text-purple-700" },
                       ].map((method) => (
                         <button
                           key={method.id}
                           type="button"
                           onClick={() => setPaymentMethod(method.id as any)}
                           className={`p-3 rounded-xl border text-sm font-black transition-all flex flex-col items-center justify-center ${method.color} ${
-                            paymentMethod === method.id ? "ring-2 ring-purple-400 border-transparent bg-white/5" : ""
+                            paymentMethod === method.id ? "ring-2 ring-purple-600 border-transparent shadow-sm" : ""
                           }`}
                         >
                           {method.name}
@@ -109,19 +109,19 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 space-y-2.5"
+                      className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 space-y-2.5"
                     >
-                      <div className="flex items-center gap-1.5 text-purple-400 font-bold">
+                      <div className="flex items-center gap-1.5 text-purple-700 font-bold">
                         <AlertCircle className="w-4 h-4 shrink-0" />
                         <span>Instructions</span>
                       </div>
                       <p>
-                        Please send <strong className="text-white">{product.price}</strong> to the following personal/merchant number using {paymentMethod === "bkash" ? "bKash" : paymentMethod === "nagad" ? "Nagad" : "Rocket"} app or code dial:
+                        Please send <strong className="text-slate-900">{product.price}</strong> to the following personal/merchant number using {paymentMethod === "bkash" ? "bKash" : paymentMethod === "nagad" ? "Nagad" : "Rocket"} app or code dial:
                       </p>
-                      <p className="text-lg font-mono font-bold text-center text-white py-1.5 bg-black/30 rounded border border-slate-800 tracking-wider">
+                      <p className="text-lg font-mono font-bold text-center text-slate-900 py-1.5 bg-white rounded border border-slate-200 tracking-wider shadow-inner">
                         {paymentMethod === "bkash" ? "01783-XXXXXX (bKash)" : paymentMethod === "nagad" ? "01944-XXXXXX (Nagad)" : "01521-XXXXXX (Rocket)"}
                       </p>
-                      <p className="text-[10px] text-slate-400 leading-normal">
+                      <p className="text-[10px] text-slate-500 leading-normal">
                         Use the <strong>Send Money</strong> or <strong>Cash Out</strong> option. Keep your Transaction ID (TxnID) ready to submit below.
                       </p>
                     </motion.div>
@@ -135,7 +135,7 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
                       className="space-y-4"
                     >
                       <div>
-                        <label htmlFor="sender-phone" className="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">
+                        <label htmlFor="sender-phone" className="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-2">
                           Your Payment Phone Number
                         </label>
                         <input
@@ -144,13 +144,13 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
                           placeholder="e.g. 017XXXXXXXX"
                           value={senderNumber}
                           onChange={(e) => setSenderNumber(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/40 transition-colors"
+                          className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-100 transition-all font-medium"
                           required
                         />
                       </div>
 
                       <div>
-                        <label htmlFor="txn-code" className="block text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">
+                        <label htmlFor="txn-code" className="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-2">
                           Transaction ID (TxnID)
                         </label>
                         <input
@@ -159,7 +159,7 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
                           placeholder="e.g. A2B9KD82LL"
                           value={transactionId}
                           onChange={(e) => setTransactionId(e.target.value)}
-                          className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-850 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/40 transition-colors font-mono uppercase"
+                          className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-100 transition-all font-mono uppercase font-medium"
                           required
                         />
                       </div>
@@ -170,7 +170,7 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
                   <button
                     type="submit"
                     disabled={!paymentMethod || !senderNumber || !transactionId || isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 disabled:from-slate-800 disabled:to-slate-800 hover:opacity-95 text-sm font-bold text-white transition-all disabled:text-slate-600 disabled:cursor-not-allowed shadow-lg shadow-purple-500/10"
+                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 disabled:from-slate-200 disabled:to-slate-200 hover:opacity-95 text-sm font-bold text-white transition-all disabled:text-slate-400 disabled:cursor-not-allowed shadow-md shadow-purple-500/15"
                   >
                     {isSubmitting ? (
                       <span>Submitting Request...</span>
@@ -185,19 +185,19 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
               </>
             ) : (
               <div className="text-center py-8 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto text-emerald-400">
+                <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto text-emerald-600 shadow-sm">
                   <Check className="w-8 h-8" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Order Submitted!</h3>
-                <p className="text-sm text-slate-400 max-w-sm mx-auto leading-relaxed">
-                  Thank you! Your manual transaction ID (<strong className="text-white font-mono">{transactionId}</strong>) has been submitted to the Admin panel.
+                <h3 className="text-2xl font-bold text-slate-900">Order Submitted!</h3>
+                <p className="text-sm text-slate-600 max-w-sm mx-auto leading-relaxed">
+                  Thank you! Your manual transaction ID (<strong className="text-slate-900 font-mono">{transactionId}</strong>) has been submitted to the Admin panel.
                 </p>
                 <p className="text-xs text-slate-500 max-w-xs mx-auto leading-normal">
                   Our administrators will cross-verify this ID. Once validated, your code downloads will unlock in your User Dashboard.
                 </p>
                 <button
                   onClick={handleModalClose}
-                  className="mt-6 px-6 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-slate-300 transition-all"
+                  className="mt-6 px-6 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 transition-all"
                 >
                   Close Window
                 </button>
