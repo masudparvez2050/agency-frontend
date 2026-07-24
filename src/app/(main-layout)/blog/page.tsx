@@ -5,8 +5,7 @@ import { BLOG_POSTS } from "@/lib/blog-data";
 import { BlogPost } from "@/types/blog";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Search, SlidersHorizontal, Calendar, Clock, User, 
-  ArrowRight, X, BookOpen, Sparkles, Check, AlertCircle 
+  Search, Clock, X, BookOpen, Check, Sparkles, Send, ArrowRight
 } from "lucide-react";
 
 import { useCMSData } from "@/hooks/useCMS";
@@ -17,36 +16,30 @@ export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [activeArticle, setActiveArticle] = useState<BlogPost | null>(null);
 
-  // Newsletter states
   const [emailInput, setEmailInput] = useState("");
   const [subSuccess, setSubSuccess] = useState(false);
 
   const categories = ["All", "Next.js", "DevOps", "Fintech", "Case Study"];
 
-  // Filter blog posts
   const filteredPosts = useMemo(() => {
-    // Filter published posts
     let result = allPosts.filter((p: any) => p.published !== false);
 
-    // 1. Search Query
     if (searchQuery.trim() !== "") {
       const q = searchQuery.toLowerCase();
       result = result.filter(
-        (post) =>
+        (post: any) =>
           post.title.toLowerCase().includes(q) ||
           post.excerpt.toLowerCase().includes(q) ||
           (post.author && post.author.toLowerCase().includes(q))
       );
     }
 
-    // 2. Category Filter
     if (selectedCategory !== "All") {
-      result = result.filter((post) => post.category === selectedCategory);
+      result = result.filter((post: any) => post.category === selectedCategory);
     }
 
     return result;
   }, [allPosts, searchQuery, selectedCategory]);
-
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -57,49 +50,60 @@ export default function BlogPage() {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-24 overflow-hidden relative">
-      {/* Glow Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-purple-500/5 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
-      <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
+    <div className="min-h-screen pt-28 pb-24 overflow-hidden relative bg-gradient-to-b from-white via-slate-50/50 to-white font-sans">
+      
+      {/* Background Ambient Glows */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-200/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-200/15 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
         
         {/* Page Header */}
         <div className="text-center max-w-2xl mx-auto">
-          <span className="text-xs font-extrabold text-purple-700 uppercase tracking-widest mb-3 block">Tech Insights</span>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 mb-4 leading-tight">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Tech Insights</span>
+          </div>
+          <h1 className="font-heading font-extrabold text-4xl md:text-5xl tracking-tight text-slate-900 leading-tight mb-3">
             Plaxora Blog
           </h1>
-          <p className="text-slate-600 font-medium">
+          <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
             Tutorials and engineering case studies covering React Server Components, cloud VPS server setups, and tokenized mobile payment API integrations.
           </p>
         </div>
 
         {/* Filters Toolbar */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 rounded-2xl bg-white border border-slate-200/80 backdrop-blur-xl max-w-4xl mx-auto shadow-md">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 sm:p-5 rounded-[24px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] max-w-4xl mx-auto">
           {/* Search bar */}
-          <div className="relative w-full md:max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <div className="relative w-full md:w-72 shrink-0">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search tutorials by name..."
+              placeholder="Search tutorials by title..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-purple-500/50 transition-all font-medium"
+              className="w-full pl-11 pr-10 py-2.5 rounded-full bg-slate-100/80 border border-slate-200/70 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-purple-600 focus:bg-white transition-all font-medium"
             />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
 
           {/* Category selection */}
-          <div className="flex flex-wrap gap-1.5 justify-end w-full md:w-auto">
+          <div className="flex items-center gap-1.5 flex-wrap justify-start md:justify-end w-full overflow-x-auto no-scrollbar py-1">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all border ${
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${
                   selectedCategory === cat
-                    ? "bg-purple-50 border-purple-200 text-purple-700 font-extrabold"
-                    : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    ? "bg-purple-600 text-white shadow-md shadow-purple-500/20"
+                    : "bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/80"
                 }`}
               >
                 {cat}
@@ -111,85 +115,84 @@ export default function BlogPage() {
         {/* Blog Grid */}
         {filteredPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {filteredPosts.map((post, idx) => (
+            {filteredPosts.map((post: any, idx: number) => (
               <motion.div
                 key={post.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="group relative rounded-2xl bg-white border border-slate-200/80 p-6 overflow-hidden flex flex-col justify-between hover:border-purple-300 transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-purple-500/5 cursor-pointer"
+                className="bg-white/95 backdrop-blur-xl rounded-[28px] border border-slate-200/80 hover:border-purple-400/50 p-7 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(147,51,234,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer group"
                 onClick={() => setActiveArticle(post)}
               >
-                {/* Visual Top Glow */}
-                <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                <div>
-                  {/* Meta tag & date */}
-                  <div className="flex items-center justify-between mb-4 text-[10px] font-bold text-slate-500">
-                    <span className="uppercase text-purple-700 tracking-wider font-extrabold">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-[10px] font-bold uppercase tracking-wider">
                       {post.category}
                     </span>
-                    <span className="flex items-center gap-1 font-medium">
-                      <Clock className="w-3 h-3" />
+                    <span className="flex items-center gap-1.5 text-slate-400 text-xs font-medium">
+                      <Clock className="w-3.5 h-3.5 text-purple-500" />
                       {post.readTime}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-purple-700 transition-colors leading-snug">
+                  <h3 className="font-heading font-bold text-xl sm:text-2xl text-slate-900 group-hover:text-purple-600 transition-colors leading-snug">
                     {post.title}
                   </h3>
 
-                  <p className="text-xs text-slate-600 mt-3 leading-relaxed line-clamp-3 font-normal">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3 font-normal">
                     {post.excerpt}
                   </p>
                 </div>
 
                 <div>
-                  <div className="w-full h-[1px] bg-slate-200 my-5" />
+                  <div className="w-full h-[1px] bg-slate-100 my-5" />
 
-                  {/* Author details */}
-                  <div className="flex justify-between items-center text-[10px]">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 font-bold uppercase">
+                  <div className="flex justify-between items-center text-xs">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-2xl bg-purple-600 text-white font-bold flex items-center justify-center text-xs font-heading shadow-xs">
                         {post.author.substring(0, 1)}
                       </div>
                       <div>
-                        <strong className="text-slate-900 block font-bold">{post.author}</strong>
-                        <span className="text-slate-500 block font-semibold">{post.authorRole}</span>
+                        <strong className="text-slate-900 block font-bold text-xs">{post.author}</strong>
+                        <span className="text-[10px] text-slate-400 block font-semibold">{post.authorRole}</span>
                       </div>
                     </div>
 
-                    <span className="text-slate-500 font-semibold">{post.date}</span>
+                    <span className="text-slate-400 text-[11px] font-mono font-bold">{post.date}</span>
                   </div>
                 </div>
               </motion.div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-24 rounded-2xl bg-white border border-slate-200 max-w-md mx-auto shadow-md">
-            <BookOpen className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-slate-900 mb-2">No articles found</h3>
-            <p className="text-sm text-slate-600 px-6 font-medium">
+          <div className="text-center py-20 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 max-w-md mx-auto shadow-[0_10px_35px_rgba(0,0,0,0.03)]">
+            <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-3" />
+            <h3 className="font-heading font-bold text-lg text-slate-900 mb-1">No articles found</h3>
+            <p className="text-xs text-slate-500 px-6 font-normal">
               We couldn&apos;t find any tech articles matching your query or category filter.
             </p>
           </div>
         )}
 
         {/* Newsletter subscription box */}
-        <div className="p-8 rounded-3xl bg-white border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-slate-200/50 relative overflow-hidden max-w-4xl mx-auto">
-          <div className="absolute top-0 right-0 w-40 h-40 bg-purple-500/5 blur-2xl rounded-full" />
-          <div className="space-y-1.5 relative z-10 max-w-md">
-            <h3 className="text-lg font-bold text-slate-900">Subscribe to Plaxora Insights</h3>
-            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+        <div className="p-8 sm:p-10 rounded-[32px] bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 text-white border border-purple-800/40 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl max-w-4xl mx-auto relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="space-y-1.5 max-w-md relative z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider mb-1">
+              <Sparkles className="w-3.5 h-3.5" /> Weekly Tech Digest
+            </div>
+            <h3 className="font-heading font-extrabold text-2xl text-white">Subscribe to Plaxora Insights</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
               Receive notifications when we release new open-source scripts, Next.js templates, and detailed tech tutorials. Zero spam.
             </p>
           </div>
 
           <form onSubmit={handleSubscribe} className="flex gap-2 w-full md:max-w-sm relative z-10">
             {subSuccess ? (
-              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-center gap-2 w-full justify-center font-bold">
-                <Check className="w-4 h-4" />
-                <span>Subscription active!</span>
+              <div className="p-3.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2 w-full justify-center font-bold">
+                <Check className="w-4 h-4 text-emerald-400" />
+                <span>Subscription Active!</span>
               </div>
             ) : (
               <>
@@ -198,14 +201,15 @@ export default function BlogPage() {
                   placeholder="name@business.com"
                   value={emailInput}
                   onChange={(e) => setEmailInput(e.target.value)}
-                  className="flex-grow px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-purple-500/50 transition-all font-medium"
+                  className="flex-grow px-4 py-3 rounded-full bg-white/10 border border-white/20 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-purple-400 focus:bg-slate-950 transition-all font-medium"
                   required
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/15 shrink-0 cursor-pointer"
+                  className="px-6 py-3 rounded-full bg-white hover:bg-purple-50 text-slate-900 font-bold text-xs transition-all shadow-lg shrink-0 cursor-pointer flex items-center gap-1.5 hover:scale-105"
                 >
-                  Subscribe
+                  <span>Subscribe</span>
+                  <Send className="w-3.5 h-3.5 text-purple-600" />
                 </button>
               </>
             )}
@@ -213,7 +217,7 @@ export default function BlogPage() {
         </div>
       </div>
 
-      {/* Case Study Detail Overlay Modal */}
+      {/* Article Detail Overlay Modal */}
       <AnimatePresence>
         {activeArticle && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -223,7 +227,7 @@ export default function BlogPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setActiveArticle(null)}
-              className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-slate-950/70 backdrop-blur-md"
             />
 
             {/* Modal Body */}
@@ -232,49 +236,45 @@ export default function BlogPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", stiffness: 350, damping: 28 }}
-              className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-2xl bg-white border border-slate-200 p-6 md:p-8 space-y-6 z-10 shadow-2xl no-scrollbar"
+              className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-[32px] bg-white/95 backdrop-blur-2xl border border-slate-200/90 p-7 md:p-9 space-y-6 z-10 shadow-2xl no-scrollbar font-sans"
             >
-              {/* Close Button */}
               <button
                 onClick={() => setActiveArticle(null)}
-                className="absolute top-4 right-4 p-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
+                className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 hover:bg-rose-600 hover:text-white border border-slate-200 text-slate-600 transition-all cursor-pointer shadow-xs"
                 aria-label="Close Article"
               >
                 <X className="w-4 h-4" />
               </button>
 
-              {/* Title Header */}
-              <div className="space-y-2 border-b border-slate-200 pb-5">
-                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500">
-                  <span className="uppercase text-purple-700 tracking-widest px-2 py-0.5 rounded bg-purple-50 border border-purple-200">
+              <div className="space-y-2 border-b border-slate-100 pb-5">
+                <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold">
+                  <span className="uppercase text-purple-600 font-extrabold text-[10px] px-3 py-1 rounded-full bg-purple-50 border border-purple-100">
                     {activeArticle.category}
                   </span>
                   <span>•</span>
                   <span>{activeArticle.readTime}</span>
                 </div>
-                <h2 className="text-xl md:text-3xl font-black text-slate-900 leading-snug">{activeArticle.title}</h2>
+                <h2 className="font-heading font-extrabold text-2xl md:text-3xl text-slate-900 leading-snug">{activeArticle.title}</h2>
               </div>
 
-              {/* Content text */}
-              <div className="text-xs md:text-sm text-slate-700 space-y-4 leading-relaxed font-normal">
-                {activeArticle.content.split("\n\n").map((para, i) => (
+              <div className="text-xs sm:text-sm text-slate-700 space-y-4 leading-relaxed font-normal">
+                {activeArticle.content.split("\n\n").map((para: string, i: number) => (
                   <p key={i}>{para}</p>
                 ))}
               </div>
 
-              {/* Article Footer (Author Details) */}
-              <div className="flex justify-between items-center text-[10px] pt-6 border-t border-slate-900">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-slate-900 border border-slate-850 flex items-center justify-center text-slate-400 font-bold uppercase">
+              <div className="flex justify-between items-center text-xs pt-4 border-t border-slate-100">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-2xl bg-purple-600 text-white font-bold flex items-center justify-center text-xs font-heading shadow-xs">
                     {activeArticle.author.substring(0, 1)}
                   </div>
                   <div>
-                    <strong className="text-white block">{activeArticle.author}</strong>
-                    <span className="text-slate-550 block font-semibold">{activeArticle.authorRole}</span>
+                    <strong className="text-slate-900 block font-bold text-xs">{activeArticle.author}</strong>
+                    <span className="text-[10px] text-slate-400 block font-semibold">{activeArticle.authorRole}</span>
                   </div>
                 </div>
 
-                <span className="text-slate-550 font-semibold">Published: {activeArticle.date}</span>
+                <span className="text-slate-400 text-[11px] font-mono font-bold">Published: {activeArticle.date}</span>
               </div>
             </motion.div>
           </div>

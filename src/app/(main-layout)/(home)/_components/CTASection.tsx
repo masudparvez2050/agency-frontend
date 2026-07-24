@@ -10,52 +10,53 @@ export default function CTASection() {
   const [pageConfig] = usePageCMS();
 
   return (
-    <section className="py-28 relative overflow-hidden bg-transparent">
-      {/* Decorative Orbs */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-purple-500/10 via-indigo-500/5 to-cyan-500/10 blur-[130px] pointer-events-none rounded-full" />
-      <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
+    <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white via-slate-50/50 to-white font-sans border-t border-slate-100">
+      
+      {/* Background Ambient Glow Spheres */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative max-w-5xl mx-auto rounded-3xl p-10 md:p-16 border border-slate-200/80 bg-white/90 backdrop-blur-xl overflow-hidden shadow-2xl shadow-purple-500/5 text-center"
+          className="relative max-w-5xl mx-auto rounded-[36px] p-10 sm:p-16 border border-slate-200/80 bg-white/95 backdrop-blur-2xl text-center shadow-[0_20px_60px_rgba(0,0,0,0.05)] overflow-hidden"
         >
-          {/* Ambient Glow Corner */}
-          <div className="absolute -top-32 -right-32 w-64 h-64 bg-purple-400/10 blur-3xl rounded-full" />
+          {/* Internal Glow Blobs */}
+          <div className="absolute -top-24 -left-24 w-72 h-72 bg-purple-500/10 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
 
           {/* Heading content */}
           <div className="relative z-10 max-w-3xl mx-auto space-y-6">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-xs font-bold text-blue-600 uppercase tracking-wider shadow-2xs">
               <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse" />
               <span>Launch Your Vision Today</span>
             </div>
 
-            <h2 className="text-3xl md:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-indigo-600 to-cyan-600 leading-tight">
-              {pageConfig.home.cta.title}
+            {/* Title */}
+            <h2 className="font-heading font-extrabold text-3xl sm:text-5xl text-slate-900 tracking-tight leading-tight">
+              {pageConfig.home.cta.title || "Ready to Accelerate Your Digital Growth?"}
             </h2>
 
-            <p className="text-sm md:text-base text-slate-600 leading-relaxed font-medium">
-              {pageConfig.home.cta.subtitle}
+            <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+              {pageConfig.home.cta.subtitle || "Explore our ecosystem of ready-to-deploy templates and native apps, or get in touch for custom software development tailored to your enterprise goals."}
             </p>
 
-
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 font-sans">
               <Link
                 href="/contact"
-                className="group flex items-center gap-2 px-7 py-4 text-xs font-extrabold text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 rounded-xl hover:opacity-95 shadow-xl shadow-purple-500/20 transition-all hover:-translate-y-0.5 duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 rounded-full transition-all shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/35 cursor-pointer"
               >
-                <Send className="w-3.5 h-3.5" />
+                <Send className="w-4 h-4" />
                 Start Your Project
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 ml-1" />
               </Link>
               <Link
                 href="/products"
-                className="flex items-center gap-2 px-7 py-4 text-xs font-extrabold text-slate-800 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl shadow-sm hover:border-slate-300 transition-all hover:-translate-y-0.5 duration-300"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 text-xs font-bold text-slate-700 bg-white border border-slate-200/90 hover:bg-slate-50 rounded-full transition-all shadow-2xs cursor-pointer"
               >
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-4 h-4" />
                 Browse Products
               </Link>
             </div>

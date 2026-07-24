@@ -22,6 +22,7 @@ export const PORTFOLIO_PROJECTS: Project[] = [
       role: "Operations Director, Rongdhonu Fashion",
     },
     imageGradient: "from-blue-600 via-indigo-650 to-cyan-500",
+    image: "/vortex-pos-preview.png",
   },
   {
     id: "medplus-emr-case",
@@ -44,6 +45,7 @@ export const PORTFOLIO_PROJECTS: Project[] = [
       role: "Chief Medical Officer, MedPlus Clinic",
     },
     imageGradient: "from-teal-600 via-emerald-650 to-cyan-500",
+    image: "/medplus-emr-preview.png",
   },
   {
     id: "sendpay-wallet-case",
@@ -66,6 +68,7 @@ export const PORTFOLIO_PROJECTS: Project[] = [
       role: "Founder & CTO, SendPay Wallet",
     },
     imageGradient: "from-purple-600 via-pink-650 to-rose-500",
+    image: "/sendpay-wallet-preview.png",
   },
   {
     id: "proptech-catalog-case",
@@ -88,5 +91,6 @@ export const PORTFOLIO_PROJECTS: Project[] = [
       role: "CEO, BariChai Real Estate",
     },
     imageGradient: "from-amber-500 via-orange-550 to-rose-550",
+    image: "/proptech-catalog-preview.png",
   },
 ];

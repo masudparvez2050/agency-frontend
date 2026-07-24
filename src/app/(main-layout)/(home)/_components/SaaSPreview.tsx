@@ -2,124 +2,136 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Database, Play, CheckCircle, Flame, Server, ArrowRight } from "lucide-react";
+import { Database, ArrowRight, ExternalLink, CheckCircle2, Sparkles, Activity } from "lucide-react";
 import Link from "next/link";
-
-const SAAS_ITEMS = [
-  {
-    id: "plaxora-crm",
-    title: "Plaxora CRM & Client Center",
-    status: "Live",
-    description: "Manage client contracts, automated monthly invoice triggers, task pipelines, and lead allocations from a unified portal.",
-    features: ["Invoice Automation", "Lead Pipeline", "Contract Signatures"],
-    uptime: "99.98%",
-    color: "from-purple-500 to-indigo-600",
-  },
-  {
-    id: "retail-pos",
-    title: "Vortice Point-of-Sale (POS)",
-    status: "Beta",
-    description: "Cloud-hosted inventory POS database with barcode scanner integration, print receipt engines, and daily sales charts.",
-    features: ["Offline Cache", "Barcode Scanner Support", "Daily PDF Reports"],
-    uptime: "99.95%",
-    color: "from-cyan-500 to-blue-600",
-  },
-  {
-    id: "ai-support-agent",
-    title: "Plaxora Support AI Agents",
-    status: "Live",
-    description: "Embeddable intelligent support chatbot that reads documentation files to resolve customer queries in real-time.",
-    features: ["Retrieval-Augmented Chat", "Embed Widget Script", "Admin Slack Sync"],
-    uptime: "99.99%",
-    color: "from-pink-500 to-purple-600",
-  },
-];
+import { SAAS_PRODUCTS } from "@/lib/saas-data";
 
 export default function SaaSPreview() {
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-cyan-500/5 blur-[120px] pointer-events-none" />
+    <section id="saas" className="py-20 bg-gradient-to-b from-white via-slate-50/50 to-white border-t border-slate-100 font-sans relative overflow-hidden">
+      
+      {/* Background Decorative Ambient Glows */}
+      <div className="absolute top-1/3 right-10 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 mb-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
               <Database className="w-3.5 h-3.5" />
               <span>SaaS Portfolio & Live Tools</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
+            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-slate-900 tracking-tight leading-tight">
               Production-Ready SaaS Products
             </h2>
-            <p className="text-slate-600 font-medium max-w-xl">
+            <p className="text-sm sm:text-base text-slate-600 mt-2 font-normal max-w-2xl leading-relaxed">
               We deploy and manage highly scalable SaaS systems designed to run complex workflows with near-perfect uptime metrics.
             </p>
           </div>
+
           <Link
             href="/saas"
-            className="group inline-flex items-center gap-1.5 text-sm font-bold text-purple-700 hover:text-purple-800 mt-4 md:mt-0 transition-colors"
+            className="mt-6 md:mt-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-slate-700 bg-white border border-slate-200/90 hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200 transition-all duration-200 shadow-2xs group"
           >
-            Explore SaaS hub
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span>Explore SaaS hub</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {SAAS_ITEMS.map((item, idx) => (
+        {/* SaaS Product Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
+          {SAAS_PRODUCTS.slice(0, 3).map((saas, idx) => (
             <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
+              key={saas.id}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group rounded-2xl bg-white border border-slate-200/80 p-6 flex flex-col justify-between hover:border-purple-300 transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-purple-500/5"
+              className="bg-white/95 backdrop-blur-xl rounded-[28px] border border-slate-200/80 overflow-hidden hover:border-purple-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(147,51,234,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
-                {/* Header */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center gap-2">
-                    <span className={`inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded ${
-                      item.status === "Live" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-amber-50 text-amber-700 border border-amber-200"
-                    }`}>
-                      <Server className="w-3 h-3" />
-                      {item.status}
-                    </span>
-                    <span className="text-[10px] font-bold text-slate-500">
-                      Uptime: {item.uptime}
-                    </span>
-                  </div>
+                {/* Product Cover Preview Image */}
+                <div className="relative bg-slate-950 h-48 sm:h-52 overflow-hidden">
+                  <img
+                    src={`/${saas.id}-preview.png`}
+                    alt={saas.title}
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/product-1-preview.png";
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+                  
+                  {/* Status & Uptime Badge Overlay */}
+                  <span className="absolute top-3.5 left-3.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/85 backdrop-blur-md border border-white/20 text-[10px] font-mono font-bold text-emerald-400 shadow-sm">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    LIVE • {saas.stats.find(s => s.label.includes("Uptime"))?.value || "99.99% Uptime"}
+                  </span>
+
+                  {/* Niche Badge Overlay */}
+                  <span className="absolute top-3.5 right-3.5 inline-flex items-center px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-white/90 text-[10px] font-extrabold text-purple-600 uppercase tracking-wider shadow-sm">
+                    {saas.niche.split(",")[0].trim()}
+                  </span>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-purple-700 transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-                  {item.description}
-                </p>
+                {/* Card Content */}
+                <div className="p-6 sm:p-7">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-purple-600" />
+                    <span className="text-[11px] font-bold text-purple-600 uppercase tracking-wide">
+                      {saas.niche}
+                    </span>
+                  </div>
 
-                {/* Bullet list */}
-                <ul className="space-y-2 mb-6">
-                  {item.features.map((feat) => (
-                    <li key={feat} className="flex items-center gap-2 text-xs font-medium text-slate-700">
-                      <CheckCircle className="w-3.5 h-3.5 text-purple-600 shrink-0" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+                  <h3 className="font-heading font-bold text-xl text-slate-900 group-hover:text-purple-600 transition-colors leading-snug">
+                    {saas.title}
+                  </h3>
+
+                  <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed line-clamp-2">
+                    {saas.description}
+                  </p>
+
+                  {/* Tech Stack Pills */}
+                  <div className="flex flex-wrap gap-1.5 mt-4 mb-5">
+                    {saas.techStack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2.5 py-1 bg-slate-100/80 text-[10px] font-bold text-slate-600 rounded-full border border-slate-200/60"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Features List */}
+                  <div className="border-t border-slate-100 pt-4 space-y-2">
+                    {saas.features.slice(0, 3).map((feat, i) => (
+                      <div key={i} className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                        <span className="line-clamp-1">{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              {/* Action */}
-              <Link
-                href={`/saas/${item.id}`}
-                className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-slate-100 group-hover:bg-purple-600 border border-slate-200 group-hover:border-purple-600 text-xs font-bold text-slate-700 group-hover:text-white transition-all shadow-sm"
-              >
-                <Play className="w-3.5 h-3.5" />
-                Launch Console
-              </Link>
+              {/* Action Button Footer */}
+              <div className="p-6 sm:p-7 pt-0">
+                <a
+                  href={saas.demoUrl || `/saas/${saas.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-xs font-bold transition-all shadow-md shadow-purple-500/20 flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" /> Visit Site
+                </a>
+              </div>
             </motion.div>
           ))}
         </div>
+
       </div>
     </section>
   );

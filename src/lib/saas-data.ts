@@ -21,6 +21,7 @@ export const SAAS_PRODUCTS: SaaSProduct[] = [
       { label: "Daily Sales processed", value: "32,000+" },
       { label: "Uptime SLA", value: "99.98%" },
     ],
+    demoUrl: "https://vortex-pos.plaxora.com",
   },
   {
     id: "apex-crm",
@@ -42,6 +43,7 @@ export const SAAS_PRODUCTS: SaaSProduct[] = [
       { label: "Deals Automated", value: "120K+" },
       { label: "Conversion Lift", value: "+28% avg" },
     ],
+    demoUrl: "https://apex-crm.plaxora.com",
   },
   {
     id: "edulink-lms",
@@ -63,5 +65,6 @@ export const SAAS_PRODUCTS: SaaSProduct[] = [
       { label: "Report Cards Issued", value: "45K+" },
       { label: "Fee Collection rate", value: "98.2%" },
     ],
+    demoUrl: "https://edulink-lms.plaxora.com",
   },
 ];

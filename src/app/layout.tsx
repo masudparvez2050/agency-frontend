@@ -1,20 +1,29 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Manrope, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Plaxora | Digital Product & App Ecosystem",
-  description: "Plaxora is a digital product ecosystem, featuring software templates, mobile apps, SaaS tools, and bespoke software agency solutions.",
+  title: "Plaxora Group | Premier Digital Product Ecosystem & Tech Conglomerate",
+  description: "Plaxora Group is a digital product ecosystem, featuring software templates, native mobile apps, SaaS tools, and bespoke software agency solutions.",
 };
 
 export default function RootLayout({
@@ -23,11 +32,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{ colorScheme: 'light' }}>
+    <html lang="en" className="scroll-smooth" style={{ colorScheme: 'light' }}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f8fafc] text-slate-900`}
+        className={`${inter.variable} ${manrope.variable} ${plusJakartaSans.variable} font-sans antialiased bg-[#F8FAFC] text-[#0F172A] selection:bg-blue-600 selection:text-white`}
       >
-        {children}
+        <SmoothScrollProvider>
+          {children}
+        </SmoothScrollProvider>
       </body>
     </html>
   );

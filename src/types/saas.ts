@@ -9,4 +9,5 @@ export interface SaaSProduct {
   features: string[];
   techStack: string[];
   stats: { label: string; value: string }[];
+  demoUrl?: string;
 }

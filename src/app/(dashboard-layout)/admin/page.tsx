@@ -5,13 +5,12 @@ import Link from "next/link";
 import { MOCK_ORDERS, MOCK_TICKETS } from "@/lib/orders-data";
 import { motion } from "framer-motion";
 import {
-  DollarSign, Clock, ShieldAlert, Layers, Users, TrendingUp,
+  DollarSign, Clock, ShieldAlert, TrendingUp,
   ShoppingCart, Package, Smartphone, BookOpen, MessageSquare,
-  ArrowRight, CheckCircle, AlertTriangle
+  ArrowRight, CheckCircle
 } from "lucide-react";
 import { useCMSData } from "@/hooks/useCMS";
 
-// Mock weekly revenue data for SVG chart
 const WEEKLY_DATA = [18000, 24000, 21000, 31000, 27000, 38000, 42000];
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const maxVal = Math.max(...WEEKLY_DATA);
@@ -20,40 +19,42 @@ export default function AdminOverviewPage() {
   const [orders] = useCMSData<any>("orders", MOCK_ORDERS);
   const [tickets] = useCMSData<any>("tickets", MOCK_TICKETS);
 
-  const totalRevenue = orders.filter(o => o.status === "approved")
-    .reduce((sum, o) => sum + parseInt(o.price.replace(/[^0-9]/g, "")), 0);
-  const pendingOrders = orders.filter(o => o.status === "pending").length;
-  const openTickets = tickets.filter(t => t.status === "open").length;
-  const approvedOrders = orders.filter(o => o.status === "approved").length;
+  const totalRevenue = orders.filter((o: any) => o.status === "approved")
+    .reduce((sum: number, o: any) => sum + parseInt(o.price.replace(/[^0-9]/g, "")), 0);
+  const pendingOrders = orders.filter((o: any) => o.status === "pending").length;
+  const openTickets = tickets.filter((t: any) => t.status === "open").length;
+  const approvedOrders = orders.filter((o: any) => o.status === "approved").length;
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8 font-sans">
       {/* Header */}
-      <div className="p-8 rounded-3xl bg-gradient-to-r from-purple-900/20 via-slate-950 to-cyan-900/10 border border-purple-500/10 shadow-xl">
-        <h1 className="text-2xl md:text-4xl font-black text-white">Admin CMS Console</h1>
-        <p className="text-xs md:text-sm text-slate-400 mt-1">
-          Ecosystem Manager — Monitor revenue, verify payments, manage content, and respond to support.
-        </p>
+      <div className="p-8 rounded-3xl bg-blue-600 text-white relative overflow-hidden shadow-2xs">
+        <div className="relative z-10 space-y-2">
+          <h1 className="font-heading font-extrabold text-2xl md:text-4xl">Admin CMS Console</h1>
+          <p className="text-xs md:text-sm text-blue-100 font-medium">
+            Ecosystem Manager — Monitor revenue, verify payments, manage content, and respond to support.
+          </p>
+        </div>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {[
-          { label: "Total Revenue", value: `${totalRevenue.toLocaleString()} BDT`, icon: DollarSign, color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
-          { label: "Pending Verification", value: pendingOrders.toString(), icon: Clock, color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20" },
-          { label: "Open Support Tickets", value: openTickets.toString(), icon: ShieldAlert, color: "text-pink-400", bg: "bg-pink-500/10 border-pink-500/20" },
-          { label: "Orders Approved", value: approvedOrders.toString(), icon: CheckCircle, color: "text-cyan-400", bg: "bg-cyan-500/10 border-cyan-500/20" },
+          { label: "Total Revenue", value: `${totalRevenue.toLocaleString()} BDT`, icon: DollarSign, color: "text-emerald-600", bg: "bg-emerald-50 border-emerald-200" },
+          { label: "Pending Verification", value: pendingOrders.toString(), icon: Clock, color: "text-amber-600", bg: "bg-amber-50 border-amber-200" },
+          { label: "Open Support Tickets", value: openTickets.toString(), icon: ShieldAlert, color: "text-rose-600", bg: "bg-rose-50 border-rose-200" },
+          { label: "Orders Approved", value: approvedOrders.toString(), icon: CheckCircle, color: "text-blue-600", bg: "bg-blue-50 border-blue-200" },
         ].map((stat, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            className="p-6 rounded-2xl bg-slate-950/70 border border-slate-900/80 backdrop-blur-md flex items-center justify-between shadow-lg"
+            className="p-6 rounded-2xl bg-white border border-slate-200 flex items-center justify-between shadow-2xs"
           >
             <div>
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">{stat.label}</span>
-              <span className="text-xl md:text-2xl font-black text-white">{stat.value}</span>
+              <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider block mb-1">{stat.label}</span>
+              <span className="font-heading font-extrabold text-xl md:text-2xl text-slate-900">{stat.value}</span>
             </div>
             <div className={`p-3 rounded-xl border ${stat.bg} ${stat.color}`}>
               <stat.icon className="w-5 h-5 shrink-0" />
@@ -65,81 +66,68 @@ export default function AdminOverviewPage() {
       {/* Revenue Chart + Quick Links */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Weekly Revenue SVG Chart */}
-        <div className="lg:col-span-2 p-6 rounded-2xl bg-slate-950/70 border border-slate-900 shadow-lg space-y-4">
+        <div className="lg:col-span-2 p-6 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-purple-400" />
+            <h3 className="font-heading font-bold text-base text-slate-900 flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-blue-600" />
               Weekly Revenue (BDT)
             </h3>
-            <span className="text-[10px] font-bold text-slate-500 uppercase">Last 7 days</span>
+            <span className="text-[10px] font-semibold text-slate-500 uppercase">Last 7 days</span>
           </div>
           <div className="relative h-44">
             <svg viewBox="0 0 420 140" className="w-full h-full" preserveAspectRatio="none">
-              {/* Grid lines */}
               {[0, 1, 2, 3].map(i => (
-                <line key={i} x1="0" y1={i * 35} x2="420" y2={i * 35} stroke="#1e293b" strokeWidth="1" />
+                <line key={i} x1="0" y1={i * 35} x2="420" y2={i * 35} stroke="#f1f5f9" strokeWidth="1" />
               ))}
-              {/* Area fill */}
-              <defs>
-                <linearGradient id="revenueGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#9333ea" stopOpacity="0.3" />
-                  <stop offset="100%" stopColor="#9333ea" stopOpacity="0" />
-                </linearGradient>
-              </defs>
-              <polygon
-                points={`0,140 ${WEEKLY_DATA.map((v, i) => `${(i / (WEEKLY_DATA.length - 1)) * 420},${140 - (v / maxVal) * 130}`).join(" ")} 420,140`}
-                fill="url(#revenueGrad)"
-              />
-              {/* Line */}
               <polyline
                 points={WEEKLY_DATA.map((v, i) => `${(i / (WEEKLY_DATA.length - 1)) * 420},${140 - (v / maxVal) * 130}`).join(" ")}
                 fill="none"
-                stroke="#9333ea"
+                stroke="#2563eb"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-              {/* Dots */}
               {WEEKLY_DATA.map((v, i) => (
                 <circle
                   key={i}
                   cx={(i / (WEEKLY_DATA.length - 1)) * 420}
                   cy={140 - (v / maxVal) * 130}
                   r="4"
-                  fill="#9333ea"
-                  stroke="#030014"
+                  fill="#2563eb"
+                  stroke="#ffffff"
                   strokeWidth="2"
                 />
               ))}
             </svg>
-            {/* X axis labels */}
             <div className="absolute bottom-0 left-0 right-0 flex justify-between px-0 -mb-5">
               {DAYS.map((d) => (
-                <span key={d} className="text-[9px] font-bold text-slate-600">{d}</span>
+                <span key={d} className="text-[9px] font-semibold text-slate-400">{d}</span>
               ))}
             </div>
           </div>
         </div>
 
         {/* Quick Access Links */}
-        <div className="p-6 rounded-2xl bg-slate-950/70 border border-slate-900 shadow-lg space-y-4">
-          <h3 className="text-base font-bold text-white">Quick Access</h3>
+        <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-4">
+          <h3 className="font-heading font-bold text-base text-slate-900">Quick Access</h3>
           <div className="space-y-2">
             {[
-              { label: "Verify Payments", href: "/admin/orders", icon: ShoppingCart, color: "text-amber-400" },
-              { label: "Manage Products", href: "/admin/products", icon: Package, color: "text-blue-400" },
-              { label: "Manage Apps", href: "/admin/apps", icon: Smartphone, color: "text-cyan-400" },
-              { label: "Blog Posts", href: "/admin/blog", icon: BookOpen, color: "text-green-400" },
-              { label: "Tickets Inbox", href: "/admin/tickets", icon: MessageSquare, color: "text-pink-400" },
+              { label: "Verify Payments", href: "/admin/orders", icon: ShoppingCart, color: "text-amber-600 bg-amber-50" },
+              { label: "Manage Products", href: "/admin/products", icon: Package, color: "text-blue-600 bg-blue-50" },
+              { label: "Manage Apps", href: "/admin/apps", icon: Smartphone, color: "text-purple-600 bg-purple-50" },
+              { label: "Blog Posts", href: "/admin/blog", icon: BookOpen, color: "text-emerald-600 bg-emerald-50" },
+              { label: "Tickets Inbox", href: "/admin/tickets", icon: MessageSquare, color: "text-rose-600 bg-rose-50" },
             ].map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="flex items-center gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-900 hover:border-slate-800 text-xs font-bold text-slate-350 hover:text-white transition-all group"
+                className="flex items-center gap-3 p-3 rounded-xl bg-[#F8FAFC] border border-slate-200 hover:border-blue-200 hover:bg-blue-50/50 text-xs font-semibold text-slate-700 hover:text-slate-900 transition-all group"
               >
-                <link.icon className={`w-4 h-4 ${link.color} shrink-0`} />
+                <div className={`p-1.5 rounded-lg ${link.color}`}>
+                  <link.icon className="w-4 h-4 shrink-0" />
+                </div>
                 <span className="flex-grow">{link.label}</span>
-                <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-all" />
               </Link>
             ))}
           </div>
@@ -149,32 +137,32 @@ export default function AdminOverviewPage() {
       {/* Recent Orders */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-white">Recent Orders</h3>
-          <Link href="/admin/orders" className="text-[10px] font-bold text-purple-400 hover:text-purple-300 flex items-center gap-1">
+          <h3 className="font-heading font-bold text-base text-slate-900">Recent Orders</h3>
+          <Link href="/admin/orders" className="text-[11px] font-semibold text-blue-600 hover:text-purple-600 flex items-center gap-1">
             View All <ArrowRight className="w-3 h-3" />
           </Link>
         </div>
-        <div className="rounded-2xl bg-slate-950/70 border border-slate-900 overflow-hidden shadow-lg">
+        <div className="rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-2xs">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-900/50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-900">
+              <tr className="bg-slate-50 text-slate-500 font-semibold uppercase tracking-wider border-b border-slate-200">
                 <th className="p-4">Product</th>
                 <th className="p-4">Customer</th>
                 <th className="p-4">Amount</th>
                 <th className="p-4">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-900">
+            <tbody className="divide-y divide-slate-100">
               {orders.slice(0, 5).map((order: any) => (
-                <tr key={order.id} className="hover:bg-slate-900/10 transition-colors">
-                  <td className="p-4 font-semibold text-white">{order.productTitle}</td>
-                  <td className="p-4 text-slate-400">{order.senderPhone}</td>
-                  <td className="p-4 font-bold text-white">{order.price}</td>
+                <tr key={order.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="p-4 font-bold text-slate-900">{order.productTitle}</td>
+                  <td className="p-4 text-slate-600 font-medium">{order.senderPhone}</td>
+                  <td className="p-4 font-black text-slate-900">{order.price}</td>
                   <td className="p-4">
-                    <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
-                      order.status === "approved" ? "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" :
-                      order.status === "cancelled" ? "text-rose-400 bg-rose-500/10 border-rose-500/20" :
-                      "text-amber-400 bg-amber-500/10 border-amber-500/20 animate-pulse"
+                    <span className={`text-[9px] font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+                      order.status === "approved" ? "text-emerald-600 bg-emerald-50 border-emerald-200" :
+                      order.status === "cancelled" ? "text-rose-600 bg-rose-50 border-rose-200" :
+                      "text-amber-700 bg-amber-50 border-amber-200"
                     }`}>{order.status}</span>
                   </td>
                 </tr>

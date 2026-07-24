@@ -1,14 +1,14 @@
 "use client";
 
-import React, { use, useState, useMemo } from "react";
+import React, { use, useState, useRef, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { PRODUCTS } from "@/lib/products-data";
-import { Product } from "@/types/product";
 import CheckoutModal from "@/components/shared/main/CheckoutModal";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  ArrowLeft, Star, Download, ShoppingCart, ExternalLink, 
-  CheckCircle, Server, FileText, AlertCircle, Info, Calendar, X, ThumbsUp
+  ArrowLeft, ArrowRight, Star, Download, ShoppingCart, ExternalLink, 
+  CheckCircle2, Server, FileText, AlertCircle, Info, Calendar, X, ThumbsUp, Sparkles, ShieldCheck
 } from "lucide-react";
 
 interface PageProps {
@@ -21,11 +21,31 @@ export default function ProductDetailPage({ params }: PageProps) {
 
   const product = PRODUCTS.find((p) => p.id === id);
 
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState<"overview" | "features" | "requirements" | "changelog">("overview");
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
-  // Review System States
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const screenshots = product ? [
+    { url: `/${product.id}-preview.png`, title: `${product.title} - Main Preview` },
+    { url: `/${product.id}-preview.png`, title: "Dashboard & Analytics View", style: { filter: "hue-rotate(60deg) saturate(1.1)" } },
+    { url: `/${product.id}-preview.png`, title: "UI Components & Layout", style: { filter: "hue-rotate(180deg) brightness(0.95)" } },
+    { url: `/${product.id}-preview.png`, title: "Dark & Light Mode Themes", style: { filter: "hue-rotate(280deg) saturate(1.2)" } },
+  ] : [];
+
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const scrollSlider = (direction: "left" | "right") => {
+    if (sliderRef.current) {
+      const scrollAmount = direction === "left" ? -320 : 320;
+      sliderRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
+
   const getInitialReviews = (prodId: string) => {
     const baseReviews = [
       {
@@ -34,7 +54,8 @@ export default function ProductDetailPage({ params }: PageProps) {
         rating: 5,
         date: "2026-07-10",
         title: "Absolutely fantastic!",
-        comment: "This has completely changed how I manage my daily workflows. Extremely optimized, zero lag, and the UI is gorgeous."
+        comment: "This has completely changed how I manage my daily workflows. Extremely optimized, zero lag, and the UI is gorgeous.",
+        helpfulCount: 8,
       },
       {
         id: "2",
@@ -42,7 +63,8 @@ export default function ProductDetailPage({ params }: PageProps) {
         rating: 4,
         date: "2026-07-05",
         title: "Highly recommended, minor tweaks needed",
-        comment: "Great product. Very smooth performance. I would love to see more dark mode color theme options in the next version."
+        comment: "Great product. Very smooth performance. I would love to see more dark mode color theme options in the next version.",
+        helpfulCount: 5,
       }
     ];
 
@@ -54,7 +76,8 @@ export default function ProductDetailPage({ params }: PageProps) {
           rating: 5,
           date: "2026-07-12",
           title: "Saves so much time!",
-          comment: "bKash checkout integration is very easy to connect, page load times are literally near-instant. A complete solution."
+          comment: "bKash checkout integration is very easy to connect, page load times are literally near-instant. A complete solution.",
+          helpfulCount: 14,
         },
         {
           id: "pr2",
@@ -62,107 +85,8 @@ export default function ProductDetailPage({ params }: PageProps) {
           rating: 4,
           date: "2026-06-28",
           title: "Solid clean code structure",
-          comment: "Upgraded tailwind v4 classes are very clean. Manual payments verification forms work flawlessly."
-        }
-      ];
-    }
-    if (prodId === "sass-dashboard-boilerplate") {
-      return [
-        {
-          id: "s1",
-          userName: "Elena Rostova",
-          rating: 5,
-          date: "2026-07-14",
-          title: "Saves hours of dashboard coding",
-          comment: "Very neat Recharts components setup. Global Zustand store simplifies notification alerts."
-        },
-        {
-          id: "s2",
-          userName: "Jordan Smith",
-          rating: 4,
-          date: "2026-07-01",
-          title: "Stripe webhook configs are clean",
-          comment: "Axios client setup with JWT decoding wrappers is highly modular. Ideal for SaaS projects."
-        }
-      ];
-    }
-    if (prodId === "figma-ui-kit-pro") {
-      return [
-        {
-          id: "f1",
-          userName: "Tyler Durden",
-          rating: 5,
-          date: "2026-07-13",
-          title: "Auto-layout variables are a lifesaver",
-          comment: "Resizes beautifully, dark-first neon cyan styling looks extremely premium. Highly recommended."
-        },
-        {
-          id: "f2",
-          userName: "Sasha Grey",
-          rating: 5,
-          date: "2026-07-03",
-          title: "Lifetime updates is awesome",
-          comment: "Drag-and-resize testing auto-layout settings works on the first try. Extremely responsive assets."
-        }
-      ];
-    }
-    if (prodId === "flutter-wallet-app") {
-      return [
-        {
-          id: "fl1",
-          userName: "Robert Downey",
-          rating: 5,
-          date: "2026-07-11",
-          title: "Runs smoothly on iOS & Android",
-          comment: "Local secure relational SQLite caching system handles offline states seamlessly. Clean BLoC setup."
-        },
-        {
-          id: "fl2",
-          userName: "Chris Evans",
-          rating: 4,
-          date: "2026-06-29",
-          title: "Stunning chart visualizations",
-          comment: "Fl_chart components are nicely configured. Biometric FaceID auth wraps are fully functional."
-        }
-      ];
-    }
-    if (prodId === "wordpress-agency-theme") {
-      return [
-        {
-          id: "w1",
-          userName: "Bruce Banner",
-          rating: 5,
-          date: "2026-07-08",
-          title: "One-click import works perfectly",
-          comment: "Drag and drop Elementor custom widgets compile very fast. bKash payment extension is very easy to configure."
-        },
-        {
-          id: "w2",
-          userName: "Natasha Romanoff",
-          rating: 4,
-          date: "2026-06-25",
-          title: "Very fast loading speeds",
-          comment: "Code quality is high with minimal JS dependencies. Gutenberg and XML sitemap works out of the box."
-        }
-      ];
-    }
-    if (prodId === "plexora-cli") {
-      return [
-        {
-          id: "c1",
-          userName: "Arthur Dent",
-          rating: 5,
-          date: "2026-07-14",
-          title: "Best CLI productivity scripts",
-          comment: "Scaffolding modular Tailwind components in seconds is brilliant. Saved me hours this week."
-        },
-        {
-          id: "c2",
-          userName: "Ford Prefect",
-          rating: 4,
-          date: "2026-07-02",
-          title: "Interactive shell prompt is clean",
-          comment: "Powershell and Bash execution triggers are extremely fast. Auto linting saves compile checks."
+          comment: "Upgraded tailwind classes are very clean. Manual payments verification forms work flawlessly.",
+          helpfulCount: 9,
         }
       ];
     }
@@ -193,9 +117,9 @@ export default function ProductDetailPage({ params }: PageProps) {
     return counts.map((count) => (reviews.length > 0 ? (count / reviews.length) * 100 : 0)).reverse();
   }, [reviews]);
 
-  const handleHelpfulClick = (reviewId: string) => {
+  const handleHelpfulClick = (reviewId: string, baseCount: number) => {
     setHelpfulness((prev) => {
-      const current = prev[reviewId] || { count: Math.floor(Math.random() * 12) + 2, voted: false };
+      const current = prev[reviewId] || { count: baseCount, voted: false };
       if (current.voted) {
         return { ...prev, [reviewId]: { count: current.count - 1, voted: false } };
       } else {
@@ -219,6 +143,7 @@ export default function ProductDetailPage({ params }: PageProps) {
         date: new Date().toISOString().split("T")[0],
         title: formTitle,
         comment: formComment,
+        helpfulCount: 0,
       };
       setReviews((prev) => [newReview, ...prev]);
       setFormName("");
@@ -232,17 +157,16 @@ export default function ProductDetailPage({ params }: PageProps) {
 
   if (!product) {
     return (
-      <div className="min-h-screen pt-32 pb-24 flex items-center justify-center relative">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
-        <div className="text-center relative z-10 p-8 rounded-2xl bg-slate-950/40 border border-slate-900 backdrop-blur-sm max-w-md">
+      <div className="min-h-screen pt-28 pb-24 flex items-center justify-center relative bg-gradient-to-b from-white via-slate-50/50 to-white font-sans">
+        <div className="text-center relative z-10 p-10 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] max-w-md">
           <AlertCircle className="w-12 h-12 text-rose-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-black text-white mb-2">Product Not Found</h1>
-          <p className="text-sm text-slate-400 mb-6">
+          <h1 className="font-heading font-extrabold text-2xl text-slate-900 mb-2">Product Not Found</h1>
+          <p className="text-xs text-slate-500 mb-6 font-normal">
             The template or digital asset you are looking for does not exist or has been removed.
           </p>
           <Link
             href="/products"
-            className="inline-flex items-center gap-1.5 px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-xs font-bold text-white transition-all shadow-md shadow-blue-500/20"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Marketplace
@@ -253,62 +177,91 @@ export default function ProductDetailPage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-24 relative overflow-hidden">
-      {/* Decorative Orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-purple-500/5 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
-      <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
+    <div className="min-h-screen pt-28 pb-24 relative overflow-hidden bg-gradient-to-b from-white via-slate-50/50 to-white font-sans">
+      
+      {/* Background Ambient Glows */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-200/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-200/15 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
         {/* Back Link */}
         <Link
           href="/products"
-          className="group inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-purple-400 mb-8 transition-colors"
+          className="group inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100/80 hover:bg-blue-600 hover:text-white border border-slate-200/80 text-xs font-bold text-slate-700 mb-8 transition-all duration-200 shadow-2xs"
         >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-          Back to Marketplace
+          <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
+          <span>Back to Marketplace</span>
         </Link>
 
         {/* Product Layout Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Main Info Column (Left) */}
-          <div className="lg:col-span-2 space-y-10">
-            {/* Header info */}
+          <div className="lg:col-span-7 xl:col-span-8 space-y-8">
             <div>
-              <span className="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[10px] font-extrabold text-purple-300 uppercase tracking-widest mb-4">
-                {product.category} Template
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-3">
+                <Sparkles className="w-3 h-3" /> {product.category} Template
               </span>
-              <h1 className="text-3xl md:text-5xl font-black text-white leading-tight mb-4">
+              <h1 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-5xl text-slate-900 leading-tight mb-3">
                 {product.title}
               </h1>
-              <p className="text-base text-slate-400 leading-relaxed">
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
                 {product.description}
               </p>
             </div>
 
-            {/* High-Fidelity Product Cover Image */}
-            <div 
-              onClick={() => setIsLightboxOpen(true)}
-              className="relative h-80 md:h-[400px] rounded-2xl overflow-hidden border border-slate-900 shadow-2xl group/preview cursor-pointer"
-            >
-              <img
-                src={`/${product.id}-preview.png`}
-                alt={product.title}
-                className="w-full h-full object-cover group-hover/preview:scale-102 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent pointer-events-none" />
+            {/* Interactive Screenshot Slider (Inline Gallery Preview) */}
+            <div className="relative group/slider w-full bg-white/95 backdrop-blur-xl border border-slate-200/80 p-6 sm:p-7 rounded-[28px] shadow-[0_10px_35px_rgba(0,0,0,0.03)]">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Screenshots Preview</h3>
+                <span className="text-[11px] text-slate-400 font-semibold">Click to Zoom 3D Lightbox</span>
+              </div>
               
-              {/* Zoom overlay indicator */}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/preview:opacity-100 flex items-center justify-center transition-all duration-305">
-                <span className="text-xs font-bold text-white px-4 py-2 rounded-xl bg-slate-950/80 border border-slate-800 backdrop-blur-md">
-                  Click to Zoom Image
-                </span>
+              <div className="relative w-full">
+                <button
+                  onClick={() => scrollSlider("left")}
+                  className="absolute -left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white border border-slate-200 text-slate-700 flex items-center justify-center hover:bg-blue-600 hover:text-white shadow-md cursor-pointer transition-all z-30 opacity-0 group-hover/slider:opacity-100 duration-200"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+
+                <div
+                  ref={sliderRef}
+                  className="flex overflow-x-auto gap-4 pb-2 snap-x snap-mandatory scroll-smooth scrollbar-none"
+                >
+                  {screenshots.map((shot, i) => (
+                    <div
+                      key={i}
+                      onClick={() => setSelectedImageIndex(i)}
+                      className="shrink-0 snap-start rounded-2xl overflow-hidden border border-slate-200/80 hover:border-blue-400/60 transition-all cursor-zoom-in relative group/shot shadow-sm bg-slate-950 w-72 sm:w-80 h-48 sm:h-52"
+                    >
+                      <img
+                        src={shot.url}
+                        alt={shot.title}
+                        style={shot.style}
+                        className="w-full h-full object-cover group-hover/shot:scale-108 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover/shot:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                        <span className="text-[11px] font-bold text-slate-900 bg-white/95 px-3 py-1 rounded-full shadow-sm">
+                          Zoom 3D
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => scrollSlider("right")}
+                  className="absolute -right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white border border-slate-200 text-slate-700 flex items-center justify-center hover:bg-blue-600 hover:text-white shadow-md cursor-pointer transition-all z-30 opacity-0 group-hover/slider:opacity-100 duration-200"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
 
             {/* Details tabs navigation */}
-            <div className="border-b border-slate-900 flex gap-6 overflow-x-auto no-scrollbar">
+            <div className="p-1.5 rounded-full bg-slate-100/80 border border-slate-200/70 inline-flex gap-1 overflow-x-auto no-scrollbar max-w-full">
               {[
                 { id: "overview", label: "Overview" },
                 { id: "features", label: "Key Features" },
@@ -318,10 +271,10 @@ export default function ProductDetailPage({ params }: PageProps) {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`py-3.5 text-sm font-bold border-b-2 transition-all shrink-0 ${
+                  className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 shrink-0 cursor-pointer ${
                     activeTab === tab.id
-                      ? "border-purple-500 text-white"
-                      : "border-transparent text-slate-500 hover:text-slate-300"
+                      ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                      : "text-slate-600 hover:text-slate-900"
                   }`}
                 >
                   {tab.label}
@@ -330,19 +283,19 @@ export default function ProductDetailPage({ params }: PageProps) {
             </div>
 
             {/* Tab content area */}
-            <div className="relative min-h-[250px]">
+            <div className="relative min-h-[200px] p-7 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)]">
               {activeTab === "overview" && (
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="space-y-6"
+                  className="space-y-4"
                 >
-                  <h3 className="text-lg font-bold text-white">Product Description</h3>
-                  <p className="text-sm md:text-base text-slate-400 leading-relaxed">
+                  <h3 className="font-heading font-bold text-xl text-slate-900">Product Description</h3>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
                     {product.fullDescription}
                   </p>
-                  <div className="p-4 rounded-xl bg-slate-950 border border-slate-900 flex gap-3 text-xs text-slate-400">
-                    <Info className="w-5 h-5 text-purple-400 shrink-0" />
+                  <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-100 flex gap-3 text-xs text-slate-700 font-normal">
+                    <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                     <p className="leading-relaxed">
                       This digital asset is packaged as a standard ZIP archive containing clean, modular source code. Standard manual payment confirmation processes apply. Verified purchases unlock lifetime access to the zip file downloads.
                     </p>
@@ -354,13 +307,13 @@ export default function ProductDetailPage({ params }: PageProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="space-y-6"
+                  className="space-y-4"
                 >
-                  <h3 className="text-lg font-bold text-white">Ecosystem Features</h3>
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <h3 className="font-heading font-bold text-xl text-slate-900">Ecosystem Features</h3>
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                     {product.features.map((feat, i) => (
-                      <li key={i} className="flex gap-2.5 text-sm text-slate-300 items-start">
-                        <CheckCircle className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                      <li key={i} className="flex gap-2.5 text-xs sm:text-sm text-slate-700 items-start font-semibold">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                         <span>{feat}</span>
                       </li>
                     ))}
@@ -372,14 +325,14 @@ export default function ProductDetailPage({ params }: PageProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="space-y-6"
+                  className="space-y-4"
                 >
-                  <h3 className="text-lg font-bold text-white">System Requirements</h3>
-                  <div className="p-6 rounded-2xl bg-slate-950 border border-slate-900">
-                    <ul className="space-y-4">
+                  <h3 className="font-heading font-bold text-xl text-slate-900">System Requirements</h3>
+                  <div className="p-5 rounded-2xl bg-slate-50/80 border border-slate-200/70">
+                    <ul className="space-y-3">
                       {product.requirements.map((req, i) => (
-                        <li key={i} className="flex gap-3 text-sm text-slate-300 items-center">
-                          <Server className="w-4 h-4 text-purple-400" />
+                        <li key={i} className="flex gap-2.5 text-xs sm:text-sm text-slate-700 items-center font-semibold">
+                          <Server className="w-4 h-4 text-blue-600 shrink-0" />
                           <span>{req}</span>
                         </li>
                       ))}
@@ -392,22 +345,22 @@ export default function ProductDetailPage({ params }: PageProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="space-y-8"
+                  className="space-y-6"
                 >
                   {product.changelog.map((entry, idx) => (
-                    <div key={idx} className="relative pl-6 border-l border-slate-900 space-y-3">
-                      <div className="absolute left-[-5px] top-1.5 w-2.5 h-2.5 rounded-full bg-purple-500" />
+                    <div key={idx} className="relative pl-6 border-l-2 border-slate-200 space-y-2">
+                      <div className="absolute left-[-6px] top-1.5 w-2.5 h-2.5 rounded-full bg-blue-600" />
                       <div className="flex items-center gap-3 flex-wrap">
-                        <span className="text-sm font-black text-white">{entry.version}</span>
+                        <span className="font-heading font-bold text-sm text-slate-900">{entry.version}</span>
                         <span className="flex items-center gap-1.5 text-xs text-slate-500 font-semibold">
-                          <Calendar className="w-3.5 h-3.5" />
+                          <Calendar className="w-3.5 h-3.5 text-blue-600" />
                           {entry.date}
                         </span>
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1.5">
                         {entry.changes.map((change, i) => (
-                          <li key={i} className="text-xs text-slate-400 flex gap-2">
-                            <span className="text-purple-500">•</span>
+                          <li key={i} className="text-xs text-slate-600 flex gap-2 font-normal">
+                            <span className="text-blue-600 font-bold">•</span>
                             <span>{change}</span>
                           </li>
                         ))}
@@ -419,53 +372,51 @@ export default function ProductDetailPage({ params }: PageProps) {
             </div>
 
             {/* Ratings & Reviews Section */}
-            <div className="pt-10 border-t border-slate-900/60 space-y-8">
-              <h3 className="text-xl font-bold text-white">Ratings & Reviews</h3>
+            <div className="pt-8 border-t border-slate-200/80 space-y-6">
+              <h3 className="font-heading font-bold text-2xl text-slate-900">Ratings & Reviews</h3>
 
               {/* Rating Dashboard Summary */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 rounded-2xl bg-slate-950/40 border border-slate-900 shadow-xl items-center">
-                {/* Total Stats */}
-                <div className="text-center md:border-r md:border-slate-900/60 py-2">
-                  <div className="text-5xl font-black text-white">{averageRating}</div>
-                  <div className="flex justify-center my-2.5">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-7 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] items-center">
+                <div className="text-center md:border-r md:border-slate-100 py-2">
+                  <div className="font-heading font-extrabold text-4xl text-slate-900">{averageRating}</div>
+                  <div className="flex justify-center my-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}
                         className={`w-4 h-4 ${
                           star <= Math.round(averageRating)
                             ? "fill-amber-400 text-amber-400"
-                            : "text-slate-700 fill-slate-700"
+                            : "text-slate-200 fill-slate-200"
                         }`}
                       />
                     ))}
                   </div>
-                  <div className="text-xs text-slate-550 font-bold uppercase tracking-wider">{reviews.length} Ratings</div>
+                  <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{reviews.length} Ratings</div>
                 </div>
 
-                {/* Rating bars */}
                 <div className="space-y-1.5 md:col-span-2 md:pl-6">
                   {ratingBreakdown.map((percent, idx) => (
                     <div key={idx} className="flex items-center gap-3 text-xs">
-                      <span className="w-3 text-slate-550 font-bold">{5 - idx}</span>
-                      <Star className="w-3.5 h-3.5 fill-slate-750 text-slate-755" />
-                      <div className="flex-1 h-2 rounded-full bg-slate-900/80 overflow-hidden">
+                      <span className="w-3 text-slate-600 font-bold">{5 - idx}</span>
+                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                      <div className="flex-1 h-2 rounded-full bg-slate-100 overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full"
+                          className="h-full bg-amber-400 rounded-full"
                           style={{ width: `${percent}%` }}
                         />
                       </div>
-                      <span className="w-8 text-right text-slate-550 font-semibold">{Math.round(percent)}%</span>
+                      <span className="w-8 text-right text-slate-500 font-semibold">{Math.round(percent)}%</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Write a Review Actions */}
-              <div className="flex items-center justify-between pb-2 border-b border-slate-900/40">
-                <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">User Opinions</span>
+              <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">User Opinions</span>
                 <button
                   onClick={() => setShowReviewForm((prev) => !prev)}
-                  className="px-4 py-2 rounded-xl border border-slate-850 hover:border-purple-500 bg-[#0c101b] hover:bg-slate-900 text-xs font-bold text-slate-300 hover:text-white transition-all shadow-sm"
+                  className="px-4 py-2 rounded-full border border-slate-200/90 bg-white hover:bg-slate-50 text-xs font-bold text-slate-700 transition-all shadow-2xs cursor-pointer"
                 >
                   {showReviewForm ? "Cancel Review" : "Write a Review"}
                 </button>
@@ -479,23 +430,23 @@ export default function ProductDetailPage({ params }: PageProps) {
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
                     onSubmit={handleReviewSubmit}
-                    className="p-6 rounded-2xl bg-slate-950/60 border border-slate-900 space-y-4 shadow-2xl overflow-hidden"
+                    className="p-7 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 space-y-4 shadow-[0_10px_35px_rgba(0,0,0,0.03)] overflow-hidden"
                   >
-                    <div className="flex flex-col gap-2">
-                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Rating</label>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Your Rating</label>
                       <div className="flex items-center gap-1.5">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <button
                             type="button"
                             key={star}
                             onClick={() => setFormRating(star)}
-                            className="focus:outline-none transition-transform hover:scale-110 active:scale-95"
+                            className="focus:outline-none transition-transform hover:scale-110 cursor-pointer"
                           >
                             <Star
                               className={`w-6 h-6 ${
                                 star <= formRating
                                   ? "fill-amber-400 text-amber-400"
-                                  : "text-slate-700 fill-slate-700"
+                                  : "text-slate-200 fill-slate-200"
                               }`}
                             />
                           </button>
@@ -505,45 +456,45 @@ export default function ProductDetailPage({ params }: PageProps) {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Name</label>
+                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Your Name</label>
                         <input
                           type="text"
                           required
                           value={formName}
                           onChange={(e) => setFormName(e.target.value)}
                           placeholder="e.g. John Doe"
-                          className="px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-850 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-purple-500/30 transition-colors"
+                          className="px-4 py-2.5 rounded-full bg-slate-100/80 border border-slate-200/70 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-colors font-medium"
                         />
                       </div>
                       <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Review Title</label>
+                        <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Review Title</label>
                         <input
                           type="text"
                           required
                           value={formTitle}
                           onChange={(e) => setFormTitle(e.target.value)}
                           placeholder="e.g. Excellent experience!"
-                          className="px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-850 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-purple-500/30 transition-colors"
+                          className="px-4 py-2.5 rounded-full bg-slate-100/80 border border-slate-200/70 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-colors font-medium"
                         />
                       </div>
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Review Details</label>
+                      <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Review Details</label>
                       <textarea
                         required
                         rows={3}
                         value={formComment}
                         onChange={(e) => setFormComment(e.target.value)}
-                        placeholder="Tell us what you like or dislike about the app..."
-                        className="px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-850 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-purple-500/30 transition-colors resize-none"
+                        placeholder="Tell us what you like or dislike about the template..."
+                        className="px-4 py-3 rounded-2xl bg-slate-100/80 border border-slate-200/70 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 focus:bg-white transition-colors resize-none font-medium"
                       />
                     </div>
 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:bg-purple-600/30 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/25 disabled:cursor-not-allowed"
+                      className="px-6 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-xs font-bold text-white transition-all shadow-md shadow-blue-500/20 cursor-pointer"
                     >
                       {isSubmitting ? "Submitting..." : "Submit Review"}
                     </button>
@@ -560,67 +511,56 @@ export default function ProductDetailPage({ params }: PageProps) {
                     .join("")
                     .toUpperCase()
                     .slice(0, 2);
-                  const glows = [
-                    "from-purple-600 to-indigo-600",
-                    "from-cyan-600 to-blue-600",
-                    "from-amber-500 to-rose-500",
-                    "from-teal-600 to-emerald-600",
-                  ];
-                  const charCode = review.userName.charCodeAt(0) || 0;
-                  const gradient = glows[charCode % glows.length];
                   
-                  const voteState = helpfulness[review.id] || { count: Math.floor(Math.random() * 12) + 2, voted: false };
+                  const baseCount = (review as any).helpfulCount || 6;
+                  const voteState = helpfulness[review.id] || { count: baseCount, voted: false };
 
                   return (
                     <div
                       key={review.id}
-                      className="p-5 rounded-2xl bg-slate-950/20 border border-slate-900 space-y-3 hover:border-slate-850 transition-all duration-300 shadow-sm"
+                      className="p-6 rounded-[24px] bg-white/95 backdrop-blur-xl border border-slate-200/80 space-y-3 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-blue-300 transition-all duration-200"
                     >
                       <div className="flex items-center justify-between gap-3 flex-wrap">
-                        {/* User Header */}
-                        <div className="flex items-center gap-2.5">
-                          <div className={`w-8 h-8 rounded-full bg-gradient-to-tr ${gradient} flex items-center justify-center text-[10px] font-black text-white shadow-sm`}>
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-2xl bg-blue-600 flex items-center justify-center text-xs font-bold text-white font-heading shadow-xs">
                             {initials}
                           </div>
                           <div>
-                            <span className="text-xs font-bold text-white block">{review.userName}</span>
-                            <span className="text-[9px] text-slate-550 block font-semibold">Posted {review.date}</span>
+                            <span className="font-heading font-bold text-sm text-slate-900 block">{review.userName}</span>
+                            <span className="text-[10px] text-slate-400 block font-semibold">Posted {review.date}</span>
                           </div>
                         </div>
 
-                        {/* Stars rating */}
-                        <div className="flex items-center gap-0.5">
+                        <div className="flex items-center gap-1">
                           {[1, 2, 3, 4, 5].map((star) => (
                             <Star
                               key={star}
-                              className={`w-3 h-3 ${
+                              className={`w-3.5 h-3.5 ${
                                 star <= review.rating
                                   ? "fill-amber-400 text-amber-400"
-                                  : "text-slate-800 fill-slate-800"
+                                  : "text-slate-200 fill-slate-200"
                               }`}
                             />
                           ))}
                         </div>
                       </div>
 
-                      {/* Content */}
-                      <div className="space-y-1.5 pl-0.5">
-                        <h4 className="text-xs font-bold text-slate-200">{review.title}</h4>
-                        <p className="text-xs text-slate-400 leading-relaxed">{review.comment}</p>
+                      <div className="space-y-1">
+                        <h4 className="font-heading font-bold text-sm text-slate-900">{review.title}</h4>
+                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">{review.comment}</p>
                       </div>
 
-                      {/* Helpfulness Action */}
-                      <div className="flex items-center gap-3 pt-2 border-t border-slate-900/20 text-[10px] text-slate-550 pl-0.5">
+                      <div className="flex items-center gap-3 pt-2.5 border-t border-slate-100 text-xs text-slate-500 font-semibold">
                         <span>Was this review helpful?</span>
                         <button
-                          onClick={() => handleHelpfulClick(review.id)}
-                          className={`flex items-center gap-1 py-1 px-2.5 rounded-lg border transition-all ${
+                          onClick={() => handleHelpfulClick(review.id, baseCount)}
+                          className={`flex items-center gap-1.5 py-1 px-3 rounded-full border transition-all cursor-pointer ${
                             voteState.voted
-                              ? "bg-purple-500/10 border-purple-500/20 text-purple-400"
-                              : "bg-slate-900/40 border-slate-900 hover:border-slate-850 text-slate-400 hover:text-white"
+                              ? "bg-blue-50 border-blue-200 text-blue-600 font-bold"
+                              : "bg-slate-100/80 border-slate-200/80 hover:bg-slate-200 text-slate-600"
                           }`}
                         >
-                          <ThumbsUp className="w-3 h-3" />
+                          <ThumbsUp className="w-3.5 h-3.5" />
                           <span className="font-bold">{voteState.count}</span>
                         </button>
                       </div>
@@ -633,25 +573,25 @@ export default function ProductDetailPage({ params }: PageProps) {
           </div>
 
           {/* Checkout Info Sidebar (Right) */}
-          <div className="space-y-8 sticky top-28">
-            {/* Purchase Box */}
-            <div className="p-6 md:p-8 rounded-2xl bg-slate-950/40 border border-slate-900 shadow-2xl hover:border-purple-500/10 transition-all duration-300 space-y-6">
+          <div className="lg:col-span-5 xl:col-span-4 space-y-6 sticky top-28">
+            <div className="p-7 sm:p-8 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_12px_45px_rgba(0,0,0,0.04)] space-y-6">
               <div>
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block mb-1.5">Purchase Price</span>
-                <div className="flex items-center gap-2.5">
-                  <span className="text-3xl font-black text-white">{product.price}</span>
-                  <span className="text-xs text-slate-500 line-through font-semibold">{product.originalPrice}</span>
-                  <span className="inline-flex items-center px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20 text-[9px] font-extrabold text-purple-400 uppercase tracking-widest">
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">Purchase Price</span>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-purple-50 border border-purple-100 text-[10px] font-extrabold text-purple-600 uppercase tracking-wider whitespace-nowrap">
                     Special Deal
                   </span>
                 </div>
+                <div className="flex items-baseline gap-2.5 flex-wrap">
+                  <span className="font-heading font-extrabold text-3xl sm:text-4xl text-slate-900 leading-none whitespace-nowrap">{product.price}</span>
+                  <span className="text-xs text-slate-400 line-through font-mono whitespace-nowrap">{product.originalPrice}</span>
+                </div>
               </div>
 
-              {/* Actions */}
               <div className="space-y-3">
                 <button
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full flex items-center justify-center gap-2.5 py-4 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 text-sm font-bold text-white shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30 hover:scale-[1.02] transition-all hover:brightness-110 active:scale-98"
+                  className="w-full flex items-center justify-center gap-2 py-3.5 rounded-full bg-blue-600 hover:bg-blue-700 text-xs font-bold text-white shadow-md shadow-blue-500/20 transition-all cursor-pointer"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   Purchase Template
@@ -661,201 +601,225 @@ export default function ProductDetailPage({ params }: PageProps) {
                     href={product.demoLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full flex items-center justify-center gap-1.5 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-sm font-bold text-slate-350 hover:text-white transition-all"
+                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-full bg-slate-100/80 hover:bg-slate-200 border border-slate-200/80 text-xs font-bold text-slate-800 transition-all cursor-pointer"
                   >
-                    Launch Live Demo
+                    <span>Launch Live Demo</span>
                     <ExternalLink className="w-3.5 h-3.5" />
                   </a>
                 )}
               </div>
 
-              <div className="w-full h-[1px] bg-slate-900/60" />
+              <div className="w-full h-[1px] bg-slate-100" />
 
-              {/* Specs List */}
-              <div className="space-y-3.5 text-xs">
-                <div className="flex items-center justify-between py-1 border-b border-slate-900/40">
-                  <span className="text-slate-500 font-semibold flex items-center gap-1.5">
-                    <FileText className="w-3.5 h-3.5 text-purple-400/80" />
+              <div className="space-y-3.5 text-xs font-medium">
+                <div className="flex items-center justify-between py-1 border-b border-slate-100">
+                  <span className="text-slate-500 flex items-center gap-2">
+                    <FileText className="w-3.5 h-3.5 text-blue-600" />
                     License model
                   </span>
-                  <span className="text-white font-bold tracking-wide">Standard Developer</span>
+                  <span className="text-slate-900 font-bold">Standard Developer</span>
                 </div>
-                <div className="flex items-center justify-between py-1 border-b border-slate-900/40">
-                  <span className="text-slate-500 font-semibold flex items-center gap-1.5">
-                    <Download className="w-3.5 h-3.5 text-purple-400/80" />
+                <div className="flex items-center justify-between py-1 border-b border-slate-100">
+                  <span className="text-slate-500 flex items-center gap-2">
+                    <Download className="w-3.5 h-3.5 text-blue-600" />
                     Downloads
                   </span>
-                  <span className="text-white font-extrabold flex items-center gap-1">
+                  <span className="text-slate-900 font-bold">
                     {product.downloads}
                   </span>
                 </div>
-                <div className="flex items-center justify-between py-1 border-b border-slate-900/40">
-                  <span className="text-slate-500 font-semibold flex items-center gap-1.5">
-                    <Star className="w-3.5 h-3.5 text-purple-400/80" />
+                <div className="flex items-center justify-between py-1 border-b border-slate-200">
+                  <span className="text-slate-500 flex items-center gap-2">
+                    <Star className="w-3.5 h-3.5 text-blue-600" />
                     User Rating
                   </span>
-                  <span className="flex items-center gap-1 text-amber-400 font-black">
+                  <span className="flex items-center gap-1 text-amber-500 font-bold">
                     {averageRating}
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                   </span>
                 </div>
-                <div className="flex items-center justify-between py-1 last:border-b-0">
-                  <span className="text-slate-500 font-semibold flex items-center gap-1.5">
-                    <Server className="w-3.5 h-3.5 text-purple-400/80" />
+                <div className="flex items-center justify-between py-1">
+                  <span className="text-slate-500 flex items-center gap-2">
+                    <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
                     Tech stack
                   </span>
-                  <span className="text-purple-400 font-black tracking-wider uppercase">
+                  <span className="text-blue-600 font-bold uppercase">
                     {product.tags[0]}
                   </span>
                 </div>
               </div>
             </div>
           </div>
-
-        </div>
-
-        {/* Related Products Section */}
-        <div className="mt-24 pt-12 border-t border-slate-900/60">
-          <h3 className="text-xl md:text-2xl font-black text-white mb-2">Related Products</h3>
-          <p className="text-xs md:text-sm text-slate-550 mb-8">Discover other templates and assets in the digital marketplace.</p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {PRODUCTS
-              .filter((p) => p.id !== product.id)
-              .slice(0, 3)
-              .map((relProd) => (
-                <div
-                  key={`related-${relProd.id}`}
-                  className="group relative rounded-2xl bg-slate-950/40 border border-slate-900 p-6 overflow-hidden flex flex-col justify-between hover:border-purple-500/20 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/5"
-                >
-                  {/* App Glow border */}
-                  <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20" />
-
-                  {/* Hover Preview Image & Overlay */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-[0.14] transition-all duration-700 pointer-events-none scale-105 group-hover:scale-100 z-0"
-                    style={{ backgroundImage: `url('/${relProd.id}-preview.png')` }}
-                  />
-                  <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
-
-                  <div className="relative z-20">
-                    {/* Header Icon & version */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="w-12 h-12 rounded-2xl bg-slate-900/60 border border-slate-850 p-[1px] flex items-center justify-center">
-                        <FileText className="w-6 h-6 text-purple-400" />
-                      </div>
-                      <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase px-2.5 py-1 rounded bg-slate-900 border border-slate-850">
-                        {relProd.category}
-                      </span>
-                    </div>
-
-                    {/* Info */}
-                    <h4 className="text-lg font-bold text-white group-hover:text-purple-400 transition-colors truncate">
-                      {relProd.title}
-                    </h4>
-                    <span className="text-xs font-semibold text-purple-400/80 block mb-2 truncate font-mono">
-                      {relProd.category} — {relProd.tags[0]}
-                    </span>
-                    <p className="text-xs text-slate-400 mb-6 leading-relaxed line-clamp-3">
-                      {relProd.description}
-                    </p>
-                  </div>
-
-                  {/* Stats Footer & Actions */}
-                  <div className="relative z-20 w-full mt-auto">
-                    <div className="w-full h-[1px] bg-slate-900 mb-4" />
-
-                    {/* Stats Row */}
-                    <div className="flex items-center justify-between mb-4 text-xs text-slate-500">
-                      <span className="flex items-center gap-1">
-                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                        <strong className="text-slate-350">{relProd.rating}</strong>
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <Download className="w-3.5 h-3.5" />
-                        <strong className="text-slate-350">{relProd.downloads}</strong>
-                      </span>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="grid grid-cols-2 gap-2">
-                      <Link
-                        href={`/products/${relProd.id}`}
-                        className="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-850 border border-slate-850 text-xs font-bold text-slate-350 hover:text-white transition-all text-center"
-                      >
-                        Details
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </Link>
-                      <button
-                        onClick={() => setIsCheckoutOpen(true)}
-                        className="flex items-center justify-center gap-1.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/25"
-                      >
-                        <ShoppingCart className="w-3.5 h-3.5" />
-                        Buy Now
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-          </div>
         </div>
       </div>
 
-      {/* Lightbox Zoom Modal */}
-      <AnimatePresence>
-        {isLightboxOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsLightboxOpen(false)}
-              className="absolute inset-0 bg-black/95 backdrop-blur-md cursor-zoom-out"
-            />
-
-            {/* Content Container */}
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: "spring", duration: 0.5 }}
-              className="relative max-w-5xl w-full max-h-[85vh] z-10 flex flex-col items-center select-none"
-            >
-              {/* Close Button */}
-              <button
-                onClick={() => setIsLightboxOpen(false)}
-                className="absolute top-[-50px] right-2 p-2.5 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-slate-800 text-slate-400 hover:text-white transition-all shadow-xl focus:outline-none"
-                title="Close"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {/* Zoomed Image */}
-              <div className="relative rounded-2xl overflow-hidden border border-slate-900 shadow-2xl max-w-full">
-                <img
-                  src={`/${product.id}-preview.png`}
-                  alt={product.title}
-                  className="max-h-[75vh] w-auto object-contain"
-                />
-              </div>
-
-              {/* Title label */}
-              <div className="mt-4 text-center">
-                <h4 className="text-sm font-bold text-white">{product.title}</h4>
-                <p className="text-[10px] text-slate-500 uppercase tracking-widest mt-1 font-semibold">{product.category} Preview</p>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Manual Payment Checkout Modal */}
+      {/* Global Manual Payment Checkout Modal */}
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
         product={product}
       />
+
+      {/* Full-Screen Floating 3D Coverflow Lightbox Portal */}
+      {mounted && selectedImageIndex !== null && createPortal(
+        <AnimatePresence>
+          <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-between p-4 sm:p-8 bg-slate-950/75 backdrop-blur-2xl overflow-hidden">
+            
+            {/* Top Floating Control Bar */}
+            <div className="w-full max-w-6xl flex items-center justify-between z-50 pt-2">
+              <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
+                <Sparkles className="w-4 h-4 text-blue-400" />
+                <span className="text-xs font-bold tracking-wide">
+                  {screenshots[selectedImageIndex]?.title || product.title}
+                </span>
+                <span className="text-[11px] font-mono text-slate-300 px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15">
+                  {selectedImageIndex + 1} / {screenshots.length}
+                </span>
+              </div>
+
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedImageIndex(null)}
+                className="p-3 rounded-full bg-white/10 hover:bg-rose-600/90 text-white border border-white/20 backdrop-blur-md transition-all cursor-pointer shadow-xl hover:scale-110"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Main Fullscreen 3D Coverflow Perspective Stage */}
+            <div className="relative w-full flex-1 flex items-center justify-center my-4 overflow-hidden [perspective:1400px]">
+              
+              {/* Floating Left Arrow */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedImageIndex((prev) => (prev === null || prev === 0 ? screenshots.length - 1 : prev - 1));
+                }}
+                className="absolute left-4 sm:left-12 z-50 p-4 rounded-full bg-white/10 hover:bg-blue-600 text-white border border-white/20 backdrop-blur-md transition-transform duration-150 shadow-2xl cursor-pointer hover:scale-110 active:scale-95"
+              >
+                <ArrowLeft className="w-6 h-6" />
+              </button>
+
+              {/* 3D Floating Carousel Stage */}
+              <div className="relative w-full max-w-5xl h-[420px] sm:h-[560px] flex items-center justify-center [transform-style:preserve-3d]">
+                {screenshots.map((shot, idx) => {
+                  const offset = idx - selectedImageIndex;
+                  const isActive = offset === 0;
+
+                  let rotateY = 0;
+                  let translateX = 0;
+                  let scale = 1;
+                  let opacity = 1;
+                  let zIndex = 30;
+
+                  if (offset === -1) {
+                    rotateY = 32;
+                    translateX = -62;
+                    scale = 0.85;
+                    opacity = 0.7;
+                    zIndex = 20;
+                  } else if (offset === 1) {
+                    rotateY = -32;
+                    translateX = 62;
+                    scale = 0.85;
+                    opacity = 0.7;
+                    zIndex = 20;
+                  } else if (offset < -1) {
+                    rotateY = 45;
+                    translateX = -110;
+                    scale = 0.7;
+                    opacity = 0;
+                    zIndex = 10;
+                  } else if (offset > 1) {
+                    rotateY = -45;
+                    translateX = 110;
+                    scale = 0.7;
+                    opacity = 0;
+                    zIndex = 10;
+                  }
+
+                  return (
+                    <motion.div
+                      key={idx}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedImageIndex(idx);
+                      }}
+                      animate={{
+                        rotateY,
+                        x: `${translateX}%`,
+                        scale,
+                        opacity,
+                        zIndex,
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 380,
+                        damping: 32,
+                        mass: 0.8,
+                      }}
+                      className={`absolute w-full max-w-2xl h-[340px] sm:h-[480px] rounded-[28px] overflow-hidden cursor-pointer shadow-2xl ${
+                        isActive
+                          ? "border-2 border-white/80 shadow-[0_25px_70px_rgba(59,130,246,0.4)] ring-4 ring-blue-500/40"
+                          : "border border-white/20 hover:opacity-90"
+                      }`}
+                      style={{
+                        transformStyle: "preserve-3d",
+                      }}
+                    >
+                      <img
+                        src={shot.url}
+                        alt={shot.title}
+                        style={shot.style}
+                        className="w-full h-full object-cover bg-slate-950"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute bottom-5 left-5 right-5 text-center">
+                        <span className="inline-block px-4 py-1.5 rounded-full bg-slate-900/85 backdrop-blur-md border border-white/20 text-xs font-bold text-white shadow-lg">
+                          {shot.title}
+                        </span>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Floating Right Arrow */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedImageIndex((prev) => (prev === null || prev === screenshots.length - 1 ? 0 : prev + 1));
+                }}
+                className="absolute right-4 sm:right-12 z-50 p-4 rounded-full bg-white/10 hover:bg-blue-600 text-white border border-white/20 backdrop-blur-md transition-transform duration-150 shadow-2xl cursor-pointer hover:scale-110 active:scale-95"
+              >
+                <ArrowRight className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Floating Bottom Thumbnail Strip */}
+            <div className="flex items-center justify-center gap-3 p-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 z-50 shadow-xl overflow-x-auto">
+              {screenshots.map((shot, idx) => (
+                <button
+                  key={idx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImageIndex(idx);
+                  }}
+                  className={`w-14 h-10 rounded-full overflow-hidden border-2 transition-all cursor-pointer ${
+                    selectedImageIndex === idx
+                      ? "border-blue-400 scale-110 shadow-md shadow-blue-500/40"
+                      : "border-white/20 opacity-50 hover:opacity-100"
+                  }`}
+                >
+                  <img src={shot.url} style={shot.style} alt={shot.title} className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+
+          </div>
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 }

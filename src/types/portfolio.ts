@@ -22,4 +22,5 @@ export interface Project {
   techStack: string[];
   testimonial: ProjectTestimonial;
   imageGradient: string; // CSS gradient e.g. "from-purple-600 via-indigo-650 to-pink-500"
+  image?: string;
 }

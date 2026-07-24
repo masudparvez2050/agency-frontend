@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CreditCard, Check, AlertCircle, ShoppingCart } from "lucide-react";
 import { Product } from "@/types/product";
@@ -12,11 +13,16 @@ interface CheckoutModalProps {
 }
 
 export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModalProps) {
+  const [mounted, setMounted] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"bkash" | "nagad" | "rocket" | null>(null);
   const [senderNumber, setSenderNumber] = useState("");
   const [transactionId, setTransactionId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (!product) return null;
 
@@ -41,10 +47,12 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
     onClose();
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -206,6 +214,7 @@ export default function CheckoutModal({ isOpen, onClose, product }: CheckoutModa
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

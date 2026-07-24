@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Briefcase, ArrowRight, ExternalLink, Calendar, Users, Trophy } from "lucide-react";
+import { Briefcase, ArrowRight, Calendar, Users, Trophy, Sparkles, CheckCircle2, AlertCircle } from "lucide-react";
+import Link from "next/link";
 
 const CASE_STUDIES = [
   {
@@ -14,7 +15,6 @@ const CASE_STUDIES = [
     solution: "Designed a multi-tenant hospital dashboard integrating live doctor roster calendars, payment slips, and SMS reminders.",
     result: "Reduced wait times by 65% and processed over 15,000 online registrations in the first two months.",
     tags: ["Next.js", "PostgreSQL", "Node.js", "Firebase SMS"],
-    gradient: "from-blue-600 to-cyan-500",
   },
   {
     id: "apex-pos-inventory",
@@ -25,7 +25,6 @@ const CASE_STUDIES = [
     solution: "Built a customized web POS system using local IndexedDB caching that auto-syncs to cloud servers once back online.",
     result: "Eliminated transaction downtime completely across 5 retail stores.",
     tags: ["React", "IndexedDB", "Zustand", "Express API"],
-    gradient: "from-purple-600 to-fuchsia-500",
   },
   {
     id: "educare-school-portal",
@@ -36,7 +35,6 @@ const CASE_STUDIES = [
     solution: "Consolidated student information system providing online mark sheets, automated fee collections, and parent push chats.",
     result: "Centralized management for 1,200 students with zero ledger accounting error rates.",
     tags: ["Flutter", "Next.js", "Prisma", "PostgreSQL"],
-    gradient: "from-amber-600 to-rose-500",
   },
 ];
 
@@ -44,34 +42,39 @@ export default function PortfolioCaseStudies() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-purple-500/5 blur-[120px] pointer-events-none" />
+    <section id="case-studies" className="py-20 bg-gradient-to-b from-white via-slate-50/50 to-white border-t border-slate-100 font-sans relative overflow-hidden">
+      
+      {/* Background Ambient Glow */}
+      <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-blue-200/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-200/15 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 mb-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
               <Briefcase className="w-3.5 h-3.5" />
               <span>Agency Portfolio</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
+            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-slate-900 tracking-tight leading-tight">
               Featured Case Studies
             </h2>
-            <p className="text-slate-600 font-medium max-w-xl">
+            <p className="text-sm sm:text-base text-slate-600 mt-2 font-normal max-w-2xl leading-relaxed">
               Take a closer look at our custom project lifecycle—from problem identification to delivering measurable user success.
             </p>
           </div>
 
           {/* Tab buttons */}
-          <div className="flex flex-wrap gap-2 mt-6 md:mt-0">
+          <div className="flex flex-wrap gap-2 mt-6 md:mt-0 p-1.5 rounded-full bg-slate-100/80 border border-slate-200/70">
             {CASE_STUDIES.map((item, idx) => (
               <button
                 key={item.id}
                 onClick={() => setActiveIndex(idx)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
                   activeIndex === idx
-                    ? "bg-purple-600 border-purple-600 text-white shadow-md shadow-purple-500/15"
-                    : "bg-white border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                    : "text-slate-600 hover:text-slate-900"
                 }`}
               >
                 {item.title.split(" ")[0]} Project
@@ -81,9 +84,7 @@ export default function PortfolioCaseStudies() {
         </div>
 
         {/* Dynamic Display Panel */}
-        <div className="relative rounded-2xl bg-white border border-slate-200/80 p-8 md:p-12 overflow-hidden hover:border-purple-300 transition-all shadow-xl shadow-slate-200/40">
-          <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
-
+        <div className="rounded-[32px] bg-white/95 backdrop-blur-xl border border-slate-200/80 p-8 sm:p-12 shadow-[0_12px_45px_rgba(0,0,0,0.04)] relative overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -91,36 +92,48 @@ export default function PortfolioCaseStudies() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.4 }}
-              className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center relative z-10"
+              className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center"
             >
               {/* Meta column */}
               <div className="lg:col-span-2 space-y-6">
                 <div>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-purple-700">Client Case Study</span>
-                  <h3 className="text-2xl md:text-3xl font-black text-slate-900 mt-1">{CASE_STUDIES[activeIndex].title}</h3>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-[10px] uppercase font-extrabold tracking-wider text-purple-600 border border-purple-100 mb-2">
+                    <Sparkles className="w-3 h-3" /> Client Case Study
+                  </span>
+                  <h3 className="font-heading font-bold text-2xl sm:text-3xl text-slate-900 leading-snug">
+                    {CASE_STUDIES[activeIndex].title}
+                  </h3>
                 </div>
 
-                <div className="space-y-3.5 border-y border-slate-200 py-6">
-                  <div className="flex items-center gap-3 text-sm text-slate-600">
-                    <Users className="w-4 h-4 text-purple-600 shrink-0" />
-                    <span>Client: <strong className="text-slate-900">{CASE_STUDIES[activeIndex].client}</strong></span>
+                <div className="space-y-4 border-y border-slate-100 py-6">
+                  <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-600 font-medium">
+                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                      <Users className="w-4 h-4" />
+                    </div>
+                    <span>Client: <strong className="text-slate-900 font-bold">{CASE_STUDIES[activeIndex].client}</strong></span>
                   </div>
-                  <div className="flex items-center gap-3 text-sm text-slate-600">
-                    <Calendar className="w-4 h-4 text-purple-600 shrink-0" />
-                    <span>Timeline: <strong className="text-slate-900">{CASE_STUDIES[activeIndex].timeline}</strong></span>
+                  
+                  <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-600 font-medium">
+                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                      <Calendar className="w-4 h-4" />
+                    </div>
+                    <span>Timeline: <strong className="text-slate-900 font-bold">{CASE_STUDIES[activeIndex].timeline}</strong></span>
                   </div>
-                  <div className="flex items-center gap-3 text-sm text-slate-600">
-                    <Trophy className="w-4 h-4 text-purple-600 shrink-0" />
-                    <span>Result: <strong className="text-emerald-700">{CASE_STUDIES[activeIndex].result}</strong></span>
+
+                  <div className="flex items-center gap-3 text-xs sm:text-sm text-slate-600 font-medium">
+                    <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600 shrink-0">
+                      <Trophy className="w-4 h-4" />
+                    </div>
+                    <span>Result: <strong className="text-emerald-600 font-bold">{CASE_STUDIES[activeIndex].result}</strong></span>
                   </div>
                 </div>
 
                 {/* Tech Tags */}
                 <div>
-                  <span className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Technologies Used</span>
-                  <div className="flex flex-wrap gap-2">
+                  <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Technologies Used</span>
+                  <div className="flex flex-wrap gap-1.5">
                     {CASE_STUDIES[activeIndex].tags.map((tag) => (
-                      <span key={tag} className="text-[10px] bg-slate-100 border border-slate-200 font-bold text-slate-700 px-2.5 py-1 rounded">
+                      <span key={tag} className="text-[10px] font-bold bg-slate-100/80 text-slate-600 px-3 py-1 rounded-full border border-slate-200/60">
                         {tag}
                       </span>
                     ))}
@@ -129,30 +142,37 @@ export default function PortfolioCaseStudies() {
               </div>
 
               {/* Description column */}
-              <div className="lg:col-span-3 space-y-8">
-                <div className="p-6 rounded-xl bg-slate-50 border border-slate-200/80">
-                  <h4 className="text-xs font-extrabold uppercase tracking-widest text-rose-600 mb-2">The Challenge</h4>
-                  <p className="text-sm md:text-base text-slate-700 leading-relaxed font-medium">{CASE_STUDIES[activeIndex].problem}</p>
+              <div className="lg:col-span-3 space-y-6">
+                <div className="p-6 sm:p-7 rounded-[22px] bg-slate-50/80 border border-slate-200/70">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertCircle className="w-4 h-4 text-rose-500" />
+                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-rose-600">The Challenge</h4>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">{CASE_STUDIES[activeIndex].problem}</p>
                 </div>
 
-                <div className="p-6 rounded-xl bg-slate-50 border border-slate-200/80">
-                  <h4 className="text-xs font-extrabold uppercase tracking-widest text-emerald-700 mb-2">The Solution</h4>
-                  <p className="text-sm md:text-base text-slate-700 leading-relaxed font-medium">{CASE_STUDIES[activeIndex].solution}</p>
+                <div className="p-6 sm:p-7 rounded-[22px] bg-emerald-50/50 border border-emerald-100">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-emerald-700">The Solution</h4>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">{CASE_STUDIES[activeIndex].solution}</p>
                 </div>
 
-                <div className="flex justify-end">
-                  <a
+                <div className="flex justify-end pt-2">
+                  <Link
                     href={`/portfolio/${CASE_STUDIES[activeIndex].id}`}
-                    className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900 hover:bg-purple-600 text-xs font-bold text-white transition-all shadow-md"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-xs font-bold text-white transition-all shadow-md shadow-blue-500/20 cursor-pointer"
                   >
                     Read Full Case Study
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </a>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
+
       </div>
     </section>
   );

@@ -2,191 +2,180 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Smartphone, Download, Star, CheckCircle, ArrowRight, Laptop, Sparkles, ExternalLink } from "lucide-react";
+import { Smartphone, Download, Star, ArrowRight, Gamepad, Wallet, Terminal, Sparkles, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 const FEATURED_APPS = [
   {
     id: "galaxy-games",
     title: "Galaxy Games Hub",
-    category: "Gaming",
+    category: "Gaming & Entertainment",
     developer: "Plaxora Gaming Labs",
-    version: "V1.2.0",
+    version: "v1.2.0",
     description: "An interactive gaming hub presenting multiple retro, physics-based, and strategy web and mobile mini-games.",
     platforms: ["Android", "iOS"],
-    downloads: "5,400+",
+    downloads: "5.4k+",
     rating: 4.9,
     size: "68 MB",
-    accent: "from-amber-500 to-rose-500",
+    icon: Gamepad,
+    gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)",
+    glowColor: "rgba(236,72,153,0.25)",
     slug: "/apps/galaxy-games",
-    previewImage: "/galaxy-games-preview.png",
   },
   {
     id: "sendpay-wallet",
     title: "SendPay Digital Wallet",
-    category: "Fintech",
+    category: "Fintech & Payments",
     developer: "Plaxora Fintech Corp",
-    version: "V2.1.0",
+    version: "v2.1.0",
     description: "Secure, lightning-fast digital wallet concept app supporting multi-currency conversions and offline transactions.",
     platforms: ["Android", "iOS", "macOS"],
-    downloads: "12,200+",
+    downloads: "12.2k+",
     rating: 4.8,
     size: "34 MB",
-    accent: "from-blue-600 to-cyan-400",
+    icon: Wallet,
+    gradient: "linear-gradient(135deg, #3b82f6, #06b6d4)",
+    glowColor: "rgba(6,182,212,0.25)",
     slug: "/apps/sendpay-wallet",
-    previewImage: "/sendpay-wallet-preview.png",
   },
   {
     id: "plexora-cli",
     title: "Plexora Developer CLI",
-    category: "DevTools",
+    category: "DevTools & Terminal",
     developer: "Plaxora Open Source",
-    version: "V1.3.1",
+    version: "v1.3.1",
     description: "Desktop utility terminal suite that automates Tailwind component generation, Git workflows, and builds local templates.",
     platforms: ["Windows", "macOS", "Linux"],
-    downloads: "3,100+",
+    downloads: "3.1k+",
     rating: 4.9,
     size: "12 MB",
-    accent: "from-purple-600 to-fuchsia-400",
+    icon: Terminal,
+    gradient: "linear-gradient(135deg, #06b6d4, #10b981)",
+    glowColor: "rgba(16,185,129,0.25)",
     slug: "/apps/plexora-cli",
-    previewImage: "/plexora-cli-preview.png",
   },
 ];
 
 export default function FeaturedApps() {
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/4 w-96 h-96 rounded-full bg-purple-500/5 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-96 h-96 rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
+    <section id="apps" className="py-20 bg-gradient-to-b from-white via-slate-50/50 to-white border-t border-slate-100 font-sans relative overflow-hidden">
+      
+      {/* Background Subtle Gradient Blobs */}
+      <div className="absolute top-1/3 left-10 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-xs font-bold text-purple-700 mb-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
               <Smartphone className="w-3.5 h-3.5" />
               <span>Plaxora App Store</span>
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4">
+            <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-slate-900 tracking-tight leading-tight">
               Explore Our Native Apps
             </h2>
-            <p className="text-slate-600 font-medium max-w-xl">
+            <p className="text-sm sm:text-base text-slate-600 mt-2 font-normal max-w-2xl leading-relaxed">
               We publish and maintain custom applications for mobile, desktop, and terminal. Fast download, zero trackers, 100% utility.
             </p>
           </div>
+          
           <Link
             href="/apps"
-            className="group inline-flex items-center gap-1.5 text-sm font-bold text-purple-700 hover:text-purple-800 mt-4 md:mt-0 transition-colors"
+            className="mt-6 md:mt-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold text-slate-700 bg-white border border-slate-200/90 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all duration-200 shadow-2xs group"
           >
-            Browse all apps
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <span>Browse all apps</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* Apps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Apps Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
           {FEATURED_APPS.map((app, idx) => (
             <motion.div
               key={app.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="group relative rounded-2xl bg-white border border-slate-200/80 p-6 overflow-hidden flex flex-col justify-between hover:border-purple-300 transition-all duration-300 shadow-md hover:shadow-xl hover:shadow-purple-500/5"
+              className="bg-white/95 backdrop-blur-xl rounded-[28px] p-6 sm:p-7 border border-slate-200/80 hover:border-blue-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(37,99,235,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
             >
-              {/* App Glow border */}
-              <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-purple-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-20" />
-
-              {/* Hover App Preview Image & Overlay */}
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-[0.1] transition-all duration-700 pointer-events-none scale-105 group-hover:scale-100 z-0"
-                style={{ backgroundImage: `url('${app.previewImage}')` }}
-              />
-              <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
-
-              <div className="relative z-20">
-                {/* Header Icon & version */}
-                <div className="flex items-center justify-between mb-6">
-                  <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${app.accent} p-[1px] flex items-center justify-center shadow-sm`}>
-                    <div className="w-full h-full bg-white rounded-[15px] flex items-center justify-center">
-                      {app.id === "plexora-cli" ? (
-                        <Laptop className="w-6 h-6 text-purple-700 group-hover:scale-110 transition-transform" />
-                      ) : (
-                        <Smartphone className="w-6 h-6 text-purple-700 group-hover:scale-110 transition-transform" />
-                      )}
-                    </div>
+              {/* Card Header & Content */}
+              <div>
+                {/* Top Row: Icon + Version */}
+                <div className="flex items-center justify-between mb-5">
+                  <div
+                    className="w-13 h-13 rounded-2xl flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-108"
+                    style={{ background: app.gradient, boxShadow: `0 10px 25px -5px ${app.glowColor}` }}
+                  >
+                    <app.icon style={{ width: 24, height: 24, color: "#fff" }} strokeWidth={2} />
                   </div>
-                  <span className="text-[10px] font-bold tracking-widest text-slate-600 uppercase px-2.5 py-1 rounded bg-slate-100 border border-slate-200">
+                  <span className="text-[11px] font-mono font-bold px-3 py-1 bg-slate-100/80 text-slate-600 rounded-full border border-slate-200/70">
                     {app.version}
                   </span>
                 </div>
 
-                {/* Info */}
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-purple-700 transition-colors">
+                {/* Title & Developer info */}
+                <h3 className="font-heading font-bold text-xl text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
                   {app.title}
                 </h3>
-                <span className="text-xs font-bold text-purple-700 block mb-3">
-                  {app.category} — Developed by {app.developer}
-                </span>
-                <p className="text-sm text-slate-600 mb-6 leading-relaxed line-clamp-3 font-normal">
+                <p className="text-xs font-semibold text-slate-400 mt-1 mb-3">
+                  {app.category} <span className="mx-1">•</span> {app.developer}
+                </p>
+
+                {/* Description */}
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5">
                   {app.description}
                 </p>
 
-                {/* Platforms */}
+                {/* Platform Pills */}
                 <div className="flex flex-wrap gap-1.5 mb-6">
                   {app.platforms.map((platform) => (
                     <span
                       key={platform}
-                      className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600 px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200"
+                      className="px-3 py-1 bg-slate-50 text-[11px] font-semibold text-slate-600 rounded-full border border-slate-200/80 flex items-center gap-1.5"
                     >
-                      {platform === "Windows" || platform === "macOS" || platform === "Linux" ? (
-                        <Laptop className="w-2.5 h-2.5" />
-                      ) : (
-                        <Smartphone className="w-2.5 h-2.5" />
-                      )}
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                       {platform}
                     </span>
                   ))}
                 </div>
               </div>
 
-              {/* Stats Footer & Actions */}
-              <div className="relative z-20">
-                <div className="w-full h-[1px] bg-slate-200 mb-6" />
-
-                {/* Stats Row */}
-                <div className="flex items-center justify-between mb-6 text-xs text-slate-500 font-medium">
-                  <span className="flex items-center gap-1">
-                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                    <strong className="text-slate-800">{app.rating}</strong>
+              {/* Card Footer */}
+              <div>
+                {/* Stats row */}
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-500 py-3.5 border-t border-slate-100 mb-5">
+                  <span className="flex items-center text-amber-500 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">
+                    <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500 mr-1" /> {app.rating}
                   </span>
-                  <span className="flex items-center gap-1.5">
-                    <Download className="w-3.5 h-3.5" />
-                    <strong className="text-slate-800">{app.downloads} downloads</strong>
+                  <span className="flex items-center text-slate-600">
+                    <Download className="w-3.5 h-3.5 mr-1.5 text-blue-500" /> {app.downloads}
                   </span>
-                  <span className="font-bold text-slate-700">{app.size}</span>
+                  <span className="text-slate-400 font-mono text-[11px]">{app.size}</span>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2.5">
                   <Link
                     href={app.slug}
-                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-xs font-bold text-slate-700 transition-all"
+                    className="py-2.5 px-3 rounded-xl border border-slate-200/90 bg-slate-50/80 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all text-center"
                   >
                     View Details
-                    <ExternalLink className="w-3.5 h-3.5" />
                   </Link>
                   <Link
                     href={app.slug}
-                    className="flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-xs font-bold text-white transition-all shadow-md shadow-purple-500/15"
+                    className="py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/20 text-center flex items-center justify-center gap-1.5 cursor-pointer"
                   >
-                    <Download className="w-3.5 h-3.5" />
-                    Download
+                    <Download className="w-3.5 h-3.5" /> Download
                   </Link>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
+
       </div>
     </section>
   );
