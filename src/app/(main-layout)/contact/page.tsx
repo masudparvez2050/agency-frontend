@@ -4,10 +4,8 @@ import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Mail, MapPin, Clock, Send, CheckCircle, 
-  AlertCircle, PhoneCall
+  Send, CheckCircle, AlertCircle, PhoneCall
 } from "lucide-react";
-import { FaFacebook, FaXTwitter, FaDiscord, FaGithub } from "react-icons/fa6";
 
 function ContactFormInner() {
   const searchParams = useSearchParams();
@@ -142,7 +140,7 @@ function ContactFormInner() {
               </label>
               <textarea
                 id="cnt-msg"
-                rows={4}
+                rows={5}
                 placeholder="Describe your tech stack preferences, target release dates, and key features..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
@@ -210,7 +208,7 @@ export default function ContactPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Page Header */}
-        <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
             <PhoneCall className="w-3.5 h-3.5" />
             <span>{pageConfig.contact.hero.badge || "Start Your Project"}</span>
@@ -223,77 +221,15 @@ export default function ContactPage() {
           </p>
         </div>
 
-        {/* Layout Split Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-5xl mx-auto items-start">
-          
-          {/* Form Column (Left - 3 cols) */}
-          <div className="lg:col-span-3 p-7 md:p-9 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)]">
-            <Suspense fallback={
-              <div className="py-24 text-center text-xs text-slate-500 animate-pulse font-medium">
-                Loading interactive form...
-              </div>
-            }>
-              <ContactFormInner />
-            </Suspense>
-          </div>
-
-          {/* Coordinates Column (Right - 2 cols) */}
-          <div className="lg:col-span-2 space-y-6">
-            
-            {/* Info Box */}
-            <div className="p-7 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] space-y-6">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block border-b border-slate-100 pb-3">
-                Agency Coordinates
-              </span>
-
-              <div className="space-y-5">
-                {[
-                  { title: "Direct Contact", detail: "masudparvez00019@gmail.com", icon: Mail, sub: "Response within 12 hours" },
-                  { title: "Plaxora Office", detail: "Dhaka, Bangladesh", icon: MapPin, sub: "Ecosystem headquarters" },
-                  { title: "Support Timings", detail: "Sun - Thu (9 AM - 6 PM BDT)", icon: Clock, sub: "Excludes holidays" },
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-3.5 items-start">
-                    <div className="w-10 h-10 rounded-2xl bg-purple-50 border border-purple-100 text-purple-600 flex items-center justify-center shrink-0">
-                      <item.icon className="w-4.5 h-4.5" />
-                    </div>
-                    <div>
-                      <strong className="text-xs font-bold text-slate-900 block">{item.title}</strong>
-                      <span className="text-xs text-slate-600 font-medium block mt-0.5">{item.detail}</span>
-                      <span className="text-[10px] text-slate-400 block mt-0.5">{item.sub}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+        {/* Centered Full-Width Form Card */}
+        <div className="max-w-3xl mx-auto p-7 sm:p-10 rounded-[32px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)]">
+          <Suspense fallback={
+            <div className="py-24 text-center text-xs text-slate-500 animate-pulse font-medium">
+              Loading interactive form...
             </div>
-
-            {/* Social Links Box */}
-            <div className="p-7 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] space-y-4">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                Social Networks
-              </span>
-              <div className="grid grid-cols-4 gap-3 text-center">
-                {[
-                  { label: "Github", link: "https://github.com/masudparvez00019", icon: FaGithub },
-                  { label: "Facebook", link: "https://facebook.com", icon: FaFacebook },
-                  { label: "X-Twitter", link: "https://twitter.com", icon: FaXTwitter },
-                  { label: "Discord", link: "https://discord.com", icon: FaDiscord },
-                ].map((soc) => (
-                  <a
-                    key={soc.label}
-                    href={soc.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-3.5 rounded-2xl bg-slate-100/80 hover:bg-purple-600 hover:text-white border border-slate-200/80 text-slate-700 transition-all flex items-center justify-center cursor-pointer shadow-xs hover:scale-105"
-                    title={soc.label}
-                  >
-                    <soc.icon className="w-4 h-4 shrink-0" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
+          }>
+            <ContactFormInner />
+          </Suspense>
         </div>
 
       </div>

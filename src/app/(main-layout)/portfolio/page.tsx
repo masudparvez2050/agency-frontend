@@ -65,7 +65,7 @@ export default function PortfolioPage() {
 
         {/* Portfolio grid showcase */}
         {filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {filteredProjects.map((project, idx) => (
               <motion.div
                 key={project.id}
@@ -75,7 +75,7 @@ export default function PortfolioPage() {
                 className="bg-white/95 backdrop-blur-xl rounded-[28px] border border-slate-200/80 overflow-hidden flex flex-col justify-between hover:border-purple-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(147,51,234,0.12)] hover:-translate-y-1 transition-all duration-300 group"
               >
                 {/* Banner / High-Fidelity Project Preview Cover */}
-                <div className="h-56 relative overflow-hidden bg-slate-950 p-6 sm:p-7 flex flex-col justify-between group/banner">
+                <div className="h-52 relative overflow-hidden bg-slate-950 p-5 sm:p-6 flex flex-col justify-between group/banner">
                   {project.image && (
                     <img
                       src={project.image}
@@ -91,24 +91,24 @@ export default function PortfolioPage() {
                   
                   <div className="relative z-10">
                     <span className="text-xs text-purple-300 font-bold block mb-0.5">{project.client}</span>
-                    <h3 className="font-heading font-bold text-xl sm:text-2xl text-white leading-snug drop-shadow-sm">{project.title}</h3>
+                    <h3 className="font-heading font-bold text-lg sm:text-xl text-white leading-snug drop-shadow-sm">{project.title}</h3>
                   </div>
                 </div>
 
                 {/* Card Content */}
-                <div className="p-6 sm:p-7 flex flex-col justify-between flex-grow space-y-6">
+                <div className="p-5 sm:p-6 flex flex-col justify-between flex-grow space-y-5">
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3 font-normal">
                     {project.description}
                   </p>
 
                   {/* Highlights KPI stats row */}
-                  <div className="grid grid-cols-3 gap-2 p-4 rounded-2xl bg-slate-50/80 border border-slate-200/70 text-center">
+                  <div className="grid grid-cols-3 gap-1.5 p-3 sm:p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200/70 text-center">
                     {project.results.slice(0, 3).map((res, i) => (
-                      <div key={i} className="space-y-0.5">
-                        <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">
+                      <div key={i} className="space-y-0.5 min-w-0">
+                        <span className="text-[8px] sm:text-[9px] text-slate-400 font-bold uppercase tracking-wider block truncate">
                           {res.label}
                         </span>
-                        <strong className="font-heading font-extrabold text-sm sm:text-base text-slate-900 block">{res.value}</strong>
+                        <strong className="font-heading font-extrabold text-xs sm:text-sm text-slate-900 block truncate">{res.value}</strong>
                       </div>
                     ))}
                   </div>
@@ -116,7 +116,7 @@ export default function PortfolioPage() {
                   {/* Action trigger button */}
                   <button
                     onClick={() => setActiveProject(project)}
-                    className="w-full py-3 rounded-full bg-slate-100/80 hover:bg-purple-600 hover:text-white border border-slate-200/80 text-xs font-bold text-slate-700 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full py-2.5 rounded-full bg-slate-100/80 hover:bg-purple-600 hover:text-white border border-slate-200/80 text-xs font-bold text-slate-700 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>Read Case Study</span>
                     <ExternalLink className="w-3.5 h-3.5" />

@@ -1,56 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { CheckCircle2, ArrowRight, Tag, Sparkles } from "lucide-react";
 import Link from "next/link";
-
-const TEMPLATE_PLANS = [
-  {
-    name: "Starter License",
-    price: "1,500 BDT",
-    frequency: "Single Product",
-    desc: "Perfect for single-domain web platforms and developers starting out.",
-    features: [
-      "1 Website Template Zip",
-      "Standard SQLite / Local JSON config",
-      "6 Months updates & bug-fixes",
-      "Manual payments activation key",
-      "Standard Discord community support",
-    ],
-    cta: "Purchase Template",
-    highlight: false,
-  },
-  {
-    name: "Developer Pass",
-    price: "5,000 BDT",
-    frequency: "Annual Ecosystem Pass",
-    desc: "Unlocks standard developer tools and templates for client websites.",
-    features: [
-      "Access to all 15+ website templates",
-      "Figma UI Design kit files included",
-      "Unlimited domain deployments",
-      "12 Months developer updates",
-      "Priority API support & developer keys",
-    ],
-    cta: "Get Developer Pass",
-    highlight: true,
-  },
-  {
-    name: "Enterprise Bundle",
-    price: "12,000 BDT",
-    frequency: "Lifetime Pass",
-    desc: "Full codebases and scripts licensing for software houses.",
-    features: [
-      "Access to all templates & scripts",
-      "SaaS dashboard boilerplate zip files",
-      "Lifetime updates & source patches",
-      "Manual / Stripe API custom adapters",
-      "Private Slack channel developer support",
-    ],
-    cta: "Get Lifetime Pass",
-    highlight: false,
-  },
-];
 
 const CUSTOM_PLANS = [
   {
@@ -101,9 +53,6 @@ const CUSTOM_PLANS = [
 ];
 
 export default function Pricing() {
-  const [billingType, setBillingType] = useState<"templates" | "custom">("templates");
-  const activePlans = billingType === "templates" ? TEMPLATE_PLANS : CUSTOM_PLANS;
-
   return (
     <section id="pricing" className="py-20 bg-gradient-to-b from-slate-50/50 via-white to-slate-50/50 border-t border-slate-100 font-sans relative overflow-hidden">
       
@@ -119,38 +68,17 @@ export default function Pricing() {
             <Tag className="w-3.5 h-3.5" />
             <span>Pricing Matrix</span>
           </div>
-          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-slate-900 tracking-tight leading-tight mb-6">
+          <h2 className="font-heading font-extrabold text-3xl sm:text-4xl text-slate-900 tracking-tight leading-tight">
             Transparent Pricing Plans
           </h2>
-
-          {/* Toggle buttons */}
-          <div className="inline-flex p-1.5 rounded-full bg-slate-100/80 border border-slate-200/70 shadow-2xs">
-            <button
-              onClick={() => setBillingType("templates")}
-              className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
-                billingType === "templates"
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Marketplace Templates
-            </button>
-            <button
-              onClick={() => setBillingType("custom")}
-              className={`px-6 py-2.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
-                billingType === "custom"
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Bespoke Development
-            </button>
-          </div>
+          <p className="text-sm sm:text-base text-slate-600 mt-2 font-normal leading-relaxed">
+            Choose the right development package tailored to your business scale and engineering requirements.
+          </p>
         </div>
 
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-7 items-stretch max-w-6xl mx-auto">
-          {activePlans.map((plan) => (
+          {CUSTOM_PLANS.map((plan) => (
             <div
               key={plan.name}
               className={`relative rounded-[28px] p-7 sm:p-8 flex flex-col justify-between transition-all duration-300 border ${
@@ -191,7 +119,7 @@ export default function Pricing() {
 
               {/* Action Button */}
               <Link
-                href={billingType === "templates" ? "/products" : "/contact"}
+                href="/contact"
                 className={`w-full flex items-center justify-center gap-2 py-3 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   plan.highlight
                     ? "bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-500/20"

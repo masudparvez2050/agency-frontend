@@ -82,15 +82,25 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: SaaS Tools */}
+          {/* Column 3: Office Info */}
           <div>
-            <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">SaaS Hub</h4>
-            <ul className="space-y-2.5 text-sm font-medium">
-              <li><Link href="/saas" className="text-slate-600 hover:text-blue-600 transition-colors">CRM Portal</Link></li>
-              <li><Link href="/saas" className="text-slate-600 hover:text-blue-600 transition-colors">Business POS</Link></li>
-              <li><Link href="/saas" className="text-slate-600 hover:text-blue-600 transition-colors">AI Assistants</Link></li>
-              <li><Link href="/saas" className="text-slate-600 hover:text-blue-600 transition-colors">API Keys</Link></li>
-            </ul>
+            <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">Office Info</h4>
+            <div className="space-y-3 text-xs text-slate-600 font-normal">
+              <div>
+                <strong className="text-slate-900 block font-bold text-xs mb-0.5">Direct Contact</strong>
+                <a href="mailto:masudparvez00019@gmail.com" className="hover:text-blue-600 transition-colors break-all">
+                  masudparvez00019@gmail.com
+                </a>
+              </div>
+              <div>
+                <strong className="text-slate-900 block font-bold text-xs mb-0.5">Plaxora Office</strong>
+                <p className="text-slate-600">Dhaka, Bangladesh</p>
+              </div>
+              <div>
+                <strong className="text-slate-900 block font-bold text-xs mb-0.5">Support Timings</strong>
+                <p className="text-slate-600">Sun - Thu (9 AM - 6 PM BDT)</p>
+              </div>
+            </div>
           </div>
 
           {/* Column 4: Ecosystem */}

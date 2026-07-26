@@ -7,7 +7,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, SlidersHorizontal, Smartphone, Download, Star, 
-  Laptop, Cpu, Check, X, Gamepad, Wallet, Terminal, RotateCcw, Filter, Sparkles
+  Laptop, Cpu, Check, X, Gamepad, Wallet, Terminal, RotateCcw, Filter, Sparkles, PhoneCall, ArrowRight
 } from "lucide-react";
 
 import { useCMSData } from "@/hooks/useCMS";
@@ -318,6 +318,29 @@ export default function AppsPage() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* Custom Solution Call to Action Banner */}
+        <div className="mt-16 p-8 sm:p-10 rounded-[32px] bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 text-white border border-purple-800/40 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="space-y-2 max-w-xl relative z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider mb-1">
+              <Sparkles className="w-3.5 h-3.5" /> Bespoke Engineering
+            </div>
+            <h3 className="font-heading font-extrabold text-2xl sm:text-3xl text-white">Need a Custom Software Solution?</h3>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+              We specialize in custom web and mobile software architecture. Tell us your business parameters and we will estimate, design, develop, and host a bespoke solution tailored to your workflow.
+            </p>
+          </div>
+          <Link
+            href="/contact"
+            className="flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white hover:bg-purple-50 text-slate-900 font-bold text-xs transition-all shadow-lg shrink-0 cursor-pointer relative z-10 group-hover:scale-105"
+          >
+            <PhoneCall className="w-4 h-4 text-purple-600" />
+            <span>Request Bespoke Setup</span>
+            <ArrowRight className="w-4 h-4 text-purple-600" />
+          </Link>
         </div>
       </div>
 

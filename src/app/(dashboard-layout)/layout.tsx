@@ -35,7 +35,6 @@ const ADMIN_NAV = [
           { label: "Home Page", href: "/admin/cms/home" },
           { label: "Products Page", href: "/admin/cms/products" },
           { label: "Apps Page", href: "/admin/cms/apps" },
-          { label: "SaaS Page", href: "/admin/cms/saas" },
           { label: "Portfolio Page", href: "/admin/cms/portfolio" },
           { label: "Services Page", href: "/admin/cms/services" },
           { label: "Pricing Page", href: "/admin/cms/pricing" },

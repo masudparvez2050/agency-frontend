@@ -31,18 +31,7 @@ const ServiceIcon = ({ name, className }: { name: string; className?: string }) 
 import { usePageCMS } from "@/hooks/usePageCMS";
 
 export default function ServicesPage() {
-  const [activeService, setActiveService] = useState<string>("custom-web-dev");
-  const packagesRef = useRef<HTMLDivElement>(null);
   const [pageConfig] = usePageCMS();
-
-  const currentService = SERVICES.find((s) => s.id === activeService) || SERVICES[0];
-
-  const handleScrollToPackages = (id: string) => {
-    setActiveService(id);
-    if (packagesRef.current) {
-      packagesRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
 
   return (
     <div className="min-h-screen pt-28 pb-24 overflow-hidden relative bg-gradient-to-b from-white via-slate-50/50 to-white font-sans">
@@ -107,106 +96,15 @@ export default function ServicesPage() {
                 </ul>
               </div>
 
-              <button
-                onClick={() => handleScrollToPackages(service.id)}
+              <Link
+                href={`/pricing?service=${service.id}`}
                 className="w-full py-3 rounded-full bg-slate-100/80 hover:bg-purple-600 hover:text-white border border-slate-200/80 text-xs font-bold text-slate-700 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>View Packages Matrix</span>
+                <span>View Pricing Matrix</span>
                 <ArrowRight className="w-3.5 h-3.5" />
-              </button>
+              </Link>
             </motion.div>
           ))}
-        </div>
-
-        {/* INTERACTIVE PRICING TIERS PACKAGE PANEL */}
-        <div ref={packagesRef} className="space-y-8 pt-6">
-          <div className="text-center max-w-xl mx-auto space-y-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-xs font-bold uppercase tracking-wider">Est. Packages Matrix</span>
-            <h2 className="font-heading font-extrabold text-3xl md:text-4xl text-slate-900">Compare Pricing & Timelines</h2>
-            <p className="text-xs sm:text-sm text-slate-600 font-normal">
-              Select an agency service category below to view deliverables list and estimated delivery schedules.
-            </p>
-          </div>
-
-          {/* Services selector Tabs */}
-          <div className="flex flex-wrap gap-2 p-2 rounded-full bg-slate-100/80 border border-slate-200/70 max-w-4xl mx-auto justify-center shadow-2xs">
-            {SERVICES.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => setActiveService(s.id)}
-                className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
-                  activeService === s.id
-                    ? "bg-purple-600 text-white shadow-md shadow-purple-500/20"
-                    : "bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
-                }`}
-              >
-                <ServiceIcon name={s.iconName} className="w-3.5 h-3.5" />
-                {s.title}
-              </button>
-            ))}
-          </div>
-
-          {/* Pricing tiers grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {currentService.tiers.map((tier, idx) => {
-              const isPopular = idx === 1;
-              return (
-                <div
-                  key={tier.name}
-                  className={`p-7 sm:p-8 rounded-[28px] border flex flex-col justify-between relative overflow-hidden transition-all duration-300 ${
-                    isPopular
-                      ? "bg-gradient-to-b from-purple-50/70 via-white to-white border-purple-300 shadow-[0_15px_40px_rgba(147,51,234,0.12)] ring-2 ring-purple-600/20"
-                      : "bg-white/95 backdrop-blur-xl border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:border-purple-300/60"
-                  }`}
-                >
-                  {isPopular && (
-                    <div className="absolute top-4 right-4 bg-purple-600 text-white text-[10px] font-display font-extrabold uppercase px-3 py-0.5 rounded-full tracking-wider shadow-sm">
-                      Recommended
-                    </div>
-                  )}
-
-                  <div>
-                    <div className="space-y-1 mb-4">
-                      <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider block">
-                        Package Tier
-                      </span>
-                      <h4 className="font-heading font-extrabold text-xl text-slate-900">{tier.name}</h4>
-                    </div>
-
-                    <div className="mb-6 pb-6 border-b border-slate-100 space-y-1">
-                      <div className="font-heading font-extrabold text-3xl text-slate-900">
-                        {tier.price}
-                      </div>
-                      <span className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-                        <Calendar className="w-3.5 h-3.5 text-purple-500" />
-                        Timeframe: {tier.timeframe}
-                      </span>
-                    </div>
-
-                    <ul className="space-y-3 mb-8 text-xs text-slate-700 font-medium">
-                      {tier.deliverables.map((item, i) => (
-                        <li key={i} className="flex gap-2 items-start">
-                          <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <Link
-                    href={`/contact?service=${currentService.id}&tier=${tier.name.toLowerCase().replace(/ /g, "-")}`}
-                    className={`w-full py-3 rounded-full text-center text-xs font-bold transition-all cursor-pointer shadow-xs ${
-                      isPopular
-                        ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-500/25"
-                        : "bg-slate-100 hover:bg-slate-200/80 border border-slate-200/80 text-slate-700"
-                    }`}
-                  >
-                    Select Package
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
         </div>
 
         {/* Company bespoke project CTA */}

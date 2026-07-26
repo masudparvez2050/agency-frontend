@@ -42,18 +42,6 @@ const SERVICES = [
     glowColor: "rgba(6,182,212,0.25)",
     iconBg: "rgba(230, 251, 250, 1)",
   },
-  {
-    id: "saas-infra",
-    title: "SaaS & API Architecture",
-    icon: Cpu,
-    description: "Multi-tenant cloud databases, JWT authorization gates, email notification servers, and developer portal configurations.",
-    bullets: ["Docker containerization", "Redis caching integration", "PostgreSQL database optimization"],
-    tech: ["Node.js", "Docker", "PostgreSQL", "Redis"],
-    accent: "#10b981",
-    gradient: "linear-gradient(135deg, #10b981, #059669)",
-    glowColor: "rgba(16,185,129,0.25)",
-    iconBg: "rgba(236, 253, 245, 1)",
-  },
 ];
 
 export default function Services() {
@@ -80,8 +68,8 @@ export default function Services() {
           </p>
         </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-7 mb-14">
+        {/* Services Grid — 3 columns on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
           {SERVICES.map((service, idx) => (
             <motion.div
               key={service.id}
@@ -89,7 +77,7 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="bg-white/95 backdrop-blur-xl rounded-[28px] p-7 sm:p-8 border border-slate-200/80 hover:border-blue-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(37,99,235,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group"
+              className="bg-white/95 backdrop-blur-xl rounded-[28px] p-6 sm:p-7 border border-slate-200/80 hover:border-blue-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(37,99,235,0.12)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group flex flex-col justify-between"
             >
               {/* Left Accent Glow Line */}
               <div
@@ -97,35 +85,35 @@ export default function Services() {
                 style={{ background: service.gradient }}
               />
 
-              <div className="pl-3">
+              <div className="pl-2">
                 {/* Header: Icon + Title */}
-                <div className="flex items-center gap-4 mb-5">
+                <div className="flex items-center gap-3.5 mb-4">
                   <div
-                    className="w-13 h-13 rounded-2xl flex items-center justify-center shadow-sm shrink-0 transition-transform duration-300 group-hover:scale-108"
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm shrink-0 transition-transform duration-300 group-hover:scale-108"
                     style={{ background: service.iconBg }}
                   >
-                    <service.icon style={{ width: 24, height: 24, color: service.accent }} strokeWidth={2} />
+                    <service.icon style={{ width: 22, height: 22, color: service.accent }} strokeWidth={2} />
                   </div>
                   <div>
-                    <h3 className="font-heading font-bold text-xl text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
+                    <h3 className="font-heading font-bold text-lg text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
                       {service.title}
                     </h3>
-                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">
                       Bespoke Engineering
                     </span>
                   </div>
                 </div>
 
                 {/* Description */}
-                <p className="text-xs sm:text-sm text-slate-600 mb-6 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 mb-5 leading-relaxed">
                   {service.description}
                 </p>
 
                 {/* Bullet Features */}
-                <div className="space-y-2.5 mb-6">
+                <div className="space-y-2 mb-5">
                   {service.bullets.map((bullet, i) => (
-                    <div key={i} className="flex items-center gap-2.5 text-xs font-semibold text-slate-700">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <div key={i} className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                       <span>{bullet}</span>
                     </div>
                   ))}
@@ -136,7 +124,7 @@ export default function Services() {
                   {service.tech.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-slate-100/80 text-[10px] font-bold text-slate-600 rounded-full border border-slate-200/60 group-hover:border-blue-200 transition-colors"
+                      className="px-2.5 py-0.5 bg-slate-100/80 text-[10px] font-bold text-slate-600 rounded-full border border-slate-200/60 group-hover:border-blue-200 transition-colors"
                     >
                       {tech}
                     </span>

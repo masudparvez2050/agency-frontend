@@ -10,7 +10,6 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products", icon: FileCode2 },
   { label: "Apps", href: "/apps", icon: Smartphone },
-  { label: "SaaS", href: "/saas", icon: Database },
   { label: "Portfolio", href: "/portfolio", icon: Briefcase },
   { label: "Services", href: "/services" },
   { label: "Pricing", href: "/pricing" },

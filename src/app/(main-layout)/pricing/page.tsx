@@ -1,19 +1,42 @@
 "use client";
 
 import React, { useState } from "react";
-import { PLANS, FEATURE_ROWS, PRICING_FAQS } from "@/lib/pricing-data";
+import { FEATURE_ROWS, PRICING_FAQS } from "@/lib/pricing-data";
+import { SERVICES } from "@/lib/services-data";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Check, X, ChevronDown, HelpCircle, Calendar, 
-  ArrowRight, Info, Tag 
+  ArrowRight, Info, Tag, Laptop, Smartphone, Server, Palette, CreditCard, ShieldCheck, Sparkles 
 } from "lucide-react";
 
 import { usePageCMS } from "@/hooks/usePageCMS";
 
+const ServiceIcon = ({ name, className }: { name: string; className?: string }) => {
+  switch (name) {
+    case "Laptop":
+      return <Laptop className={className} />;
+    case "Smartphone":
+      return <Smartphone className={className} />;
+    case "Server":
+      return <Server className={className} />;
+    case "Palette":
+      return <Palette className={className} />;
+    case "CreditCard":
+      return <CreditCard className={className} />;
+    case "ShieldCheck":
+      return <ShieldCheck className={className} />;
+    default:
+      return <Laptop className={className} />;
+  }
+};
+
 export default function PricingPage() {
+  const [activeService, setActiveService] = useState<string>("custom-web-dev");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [pageConfig] = usePageCMS();
+
+  const currentService = SERVICES.find((s) => s.id === activeService) || SERVICES[0];
 
   const toggleFaq = (idx: number) => {
     setActiveFaq(activeFaq === idx ? null : idx);
@@ -32,83 +55,97 @@ export default function PricingPage() {
         <div className="text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-xs font-bold uppercase tracking-wider mb-3 shadow-2xs">
             <Tag className="w-3.5 h-3.5" />
-            <span>{pageConfig.pricing.hero.badge || "Pricing Matrix"}</span>
+            <span>{pageConfig.pricing.hero.badge || "EST. PACKAGES MATRIX"}</span>
           </div>
           <h1 className="font-heading font-extrabold text-4xl md:text-5xl tracking-tight text-slate-900 leading-tight mb-3">
-            {pageConfig.pricing.hero.title || "Transparent Pricing Plans"}
+            {pageConfig.pricing.hero.title || "Compare Pricing & Timelines"}
           </h1>
           <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
-            {pageConfig.pricing.hero.subtitle || "Simple, predictable plans designed for startups, software developers, and scaling enterprise operations."}
+            {pageConfig.pricing.hero.subtitle || "Select an agency service category below to view deliverables list and estimated delivery schedules."}
           </p>
         </div>
 
-        {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
-          {PLANS.map((plan, idx) => {
-            const isPopular = plan.popular;
-            return (
-              <motion.div
-                key={plan.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className={`p-7 sm:p-8 rounded-[28px] border flex flex-col justify-between relative overflow-hidden transition-all duration-300 ${
-                  isPopular
-                    ? "bg-gradient-to-b from-purple-50/70 via-white to-white border-purple-300 shadow-[0_15px_40px_rgba(147,51,234,0.12)] ring-2 ring-purple-600/20"
-                    : "bg-white/95 backdrop-blur-xl border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:border-purple-300/60 hover:-translate-y-1"
+        {/* INTERACTIVE PRICING TIERS PACKAGE PANEL */}
+        <div className="space-y-8">
+          {/* Services selector Tabs */}
+          <div className="flex flex-wrap gap-2 p-2 rounded-full bg-slate-100/80 border border-slate-200/70 max-w-4xl mx-auto justify-center shadow-2xs">
+            {SERVICES.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => setActiveService(s.id)}
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
+                  activeService === s.id
+                    ? "bg-purple-600 text-white shadow-md shadow-purple-500/20"
+                    : "bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
                 }`}
               >
-                {isPopular && (
-                  <div className="absolute top-4 right-4 bg-purple-600 text-white text-[10px] font-display font-extrabold uppercase px-3 py-0.5 rounded-full tracking-wider shadow-sm">
-                    Recommended
-                  </div>
-                )}
+                <ServiceIcon name={s.iconName} className="w-3.5 h-3.5" />
+                {s.title}
+              </button>
+            ))}
+          </div>
 
-                <div>
-                  <div className="space-y-1 mb-4">
-                    <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider block">
-                      Agency Plan
-                    </span>
-                    <h4 className="font-heading font-extrabold text-2xl text-slate-900">{plan.name}</h4>
-                  </div>
-
-                  <div className="mb-6 pb-6 border-b border-slate-100 space-y-1">
-                    <div className="font-heading font-extrabold text-3xl md:text-4xl text-slate-900">
-                      {plan.price}
-                    </div>
-                    <span className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
-                      <Calendar className="w-3.5 h-3.5 text-purple-500" />
-                      Estimates: {plan.period}
-                    </span>
-                  </div>
-
-                  <p className="text-xs text-slate-600 mb-6 leading-relaxed font-normal min-h-[36px]">
-                    {plan.description}
-                  </p>
-
-                  <ul className="space-y-3 mb-8 text-xs text-slate-700 font-medium">
-                    {plan.features.map((item, i) => (
-                      <li key={i} className="flex gap-2 items-start">
-                        <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <Link
-                  href={`/contact?plan=${plan.id}`}
-                  className={`w-full py-3 rounded-full text-center text-xs font-bold transition-all cursor-pointer shadow-xs ${
+          {/* Pricing tiers grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {currentService.tiers.map((tier, idx) => {
+              const isPopular = idx === 1;
+              return (
+                <div
+                  key={tier.name}
+                  className={`p-7 sm:p-8 rounded-[28px] border flex flex-col justify-between relative overflow-hidden transition-all duration-300 ${
                     isPopular
-                      ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-500/25"
-                      : "bg-slate-100 hover:bg-slate-200/80 border border-slate-200/80 text-slate-700"
+                      ? "bg-gradient-to-b from-purple-50/70 via-white to-white border-purple-300 shadow-[0_15px_40px_rgba(147,51,234,0.12)] ring-2 ring-purple-600/20"
+                      : "bg-white/95 backdrop-blur-xl border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:border-purple-300/60"
                   }`}
                 >
-                  {plan.ctaText}
-                </Link>
-              </motion.div>
-            );
-          })}
+                  {isPopular && (
+                    <div className="absolute top-4 right-4 bg-purple-600 text-white text-[10px] font-display font-extrabold uppercase px-3 py-0.5 rounded-full tracking-wider shadow-sm">
+                      Recommended
+                    </div>
+                  )}
+
+                  <div>
+                    <div className="space-y-1 mb-4">
+                      <span className="text-[10px] font-bold text-purple-600 uppercase tracking-wider block">
+                        Package Tier
+                      </span>
+                      <h4 className="font-heading font-extrabold text-xl text-slate-900">{tier.name}</h4>
+                    </div>
+
+                    <div className="mb-6 pb-6 border-b border-slate-100 space-y-1">
+                      <div className="font-heading font-extrabold text-3xl text-slate-900">
+                        {tier.price}
+                      </div>
+                      <span className="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                        <Calendar className="w-3.5 h-3.5 text-purple-500" />
+                        Timeframe: {tier.timeframe}
+                      </span>
+                    </div>
+
+                    <ul className="space-y-3 mb-8 text-xs text-slate-700 font-medium">
+                      {tier.deliverables.map((item, i) => (
+                        <li key={i} className="flex gap-2 items-start">
+                          <Check className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <Link
+                    href={`/contact?service=${currentService.id}&tier=${tier.name.toLowerCase().replace(/ /g, "-")}`}
+                    className={`w-full py-3 rounded-full text-center text-xs font-bold transition-all cursor-pointer shadow-xs ${
+                      isPopular
+                        ? "bg-purple-600 hover:bg-purple-700 text-white shadow-md shadow-purple-500/25"
+                        : "bg-slate-100 hover:bg-slate-200/80 border border-slate-200/80 text-slate-700"
+                    }`}
+                  >
+                    Select Package
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {/* COMPARISON MATRIX SECTION */}

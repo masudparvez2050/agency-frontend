@@ -2,10 +2,10 @@
 
 import React, { useState, useMemo } from "react";
 import { BLOG_POSTS } from "@/lib/blog-data";
-import { BlogPost } from "@/types/blog";
-import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import { 
-  Search, Clock, X, BookOpen, Check, Sparkles, Send, ArrowRight
+  Search, Clock, X, BookOpen, Check, Sparkles, Send
 } from "lucide-react";
 
 import { useCMSData } from "@/hooks/useCMS";
@@ -14,7 +14,6 @@ export default function BlogPage() {
   const [allPosts] = useCMSData<any>("blog", BLOG_POSTS);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [activeArticle, setActiveArticle] = useState<BlogPost | null>(null);
 
   const [emailInput, setEmailInput] = useState("");
   const [subSuccess, setSubSuccess] = useState(false);
@@ -114,53 +113,56 @@ export default function BlogPage() {
 
         {/* Blog Grid */}
         {filteredPosts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {filteredPosts.map((post: any, idx: number) => (
               <motion.div
                 key={post.id}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="bg-white/95 backdrop-blur-xl rounded-[28px] border border-slate-200/80 hover:border-purple-400/50 p-7 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(147,51,234,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer group"
-                onClick={() => setActiveArticle(post)}
               >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-xs font-semibold">
-                    <span className="px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-[10px] font-bold uppercase tracking-wider">
-                      {post.category}
-                    </span>
-                    <span className="flex items-center gap-1.5 text-slate-400 text-xs font-medium">
-                      <Clock className="w-3.5 h-3.5 text-purple-500" />
-                      {post.readTime}
-                    </span>
-                  </div>
-
-                  <h3 className="font-heading font-bold text-xl sm:text-2xl text-slate-900 group-hover:text-purple-600 transition-colors leading-snug">
-                    {post.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3 font-normal">
-                    {post.excerpt}
-                  </p>
-                </div>
-
-                <div>
-                  <div className="w-full h-[1px] bg-slate-100 my-5" />
-
-                  <div className="flex justify-between items-center text-xs">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-2xl bg-purple-600 text-white font-bold flex items-center justify-center text-xs font-heading shadow-xs">
-                        {post.author.substring(0, 1)}
-                      </div>
-                      <div>
-                        <strong className="text-slate-900 block font-bold text-xs">{post.author}</strong>
-                        <span className="text-[10px] text-slate-400 block font-semibold">{post.authorRole}</span>
-                      </div>
+                <Link
+                  href={`/blog/${post.id}`}
+                  className="bg-white/95 backdrop-blur-xl rounded-[28px] border border-slate-200/80 hover:border-purple-400/50 p-5 sm:p-6 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(147,51,234,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer group h-full block"
+                >
+                  <div className="space-y-3.5">
+                    <div className="flex items-center justify-between text-xs font-semibold">
+                      <span className="px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-[10px] font-bold uppercase tracking-wider">
+                        {post.category}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-slate-400 text-xs font-medium">
+                        <Clock className="w-3.5 h-3.5 text-purple-500" />
+                        {post.readTime}
+                      </span>
                     </div>
 
-                    <span className="text-slate-400 text-[11px] font-mono font-bold">{post.date}</span>
+                    <h3 className="font-heading font-bold text-base sm:text-lg text-slate-900 group-hover:text-purple-600 transition-colors leading-snug">
+                      {post.title}
+                    </h3>
+
+                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 font-normal">
+                      {post.excerpt}
+                    </p>
                   </div>
-                </div>
+
+                  <div>
+                    <div className="w-full h-[1px] bg-slate-100 my-4" />
+
+                    <div className="flex justify-between items-center text-xs">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-xl bg-purple-600 text-white font-bold flex items-center justify-center text-xs font-heading shadow-xs shrink-0">
+                          {post.author.substring(0, 1)}
+                        </div>
+                        <div className="min-w-0">
+                          <strong className="text-slate-900 block font-bold text-xs truncate">{post.author}</strong>
+                          <span className="text-[9px] text-slate-400 block font-semibold truncate">{post.authorRole}</span>
+                        </div>
+                      </div>
+
+                      <span className="text-slate-400 text-[10px] font-mono font-bold shrink-0 ml-1">{post.date}</span>
+                    </div>
+                  </div>
+                </Link>
               </motion.div>
             ))}
           </div>
@@ -216,70 +218,6 @@ export default function BlogPage() {
           </form>
         </div>
       </div>
-
-      {/* Article Detail Overlay Modal */}
-      <AnimatePresence>
-        {activeArticle && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setActiveArticle(null)}
-              className="fixed inset-0 bg-slate-950/70 backdrop-blur-md"
-            />
-
-            {/* Modal Body */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ type: "spring", stiffness: 350, damping: 28 }}
-              className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto rounded-[32px] bg-white/95 backdrop-blur-2xl border border-slate-200/90 p-7 md:p-9 space-y-6 z-10 shadow-2xl no-scrollbar font-sans"
-            >
-              <button
-                onClick={() => setActiveArticle(null)}
-                className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 hover:bg-rose-600 hover:text-white border border-slate-200 text-slate-600 transition-all cursor-pointer shadow-xs"
-                aria-label="Close Article"
-              >
-                <X className="w-4 h-4" />
-              </button>
-
-              <div className="space-y-2 border-b border-slate-100 pb-5">
-                <div className="flex items-center gap-2 text-xs text-slate-500 font-semibold">
-                  <span className="uppercase text-purple-600 font-extrabold text-[10px] px-3 py-1 rounded-full bg-purple-50 border border-purple-100">
-                    {activeArticle.category}
-                  </span>
-                  <span>•</span>
-                  <span>{activeArticle.readTime}</span>
-                </div>
-                <h2 className="font-heading font-extrabold text-2xl md:text-3xl text-slate-900 leading-snug">{activeArticle.title}</h2>
-              </div>
-
-              <div className="text-xs sm:text-sm text-slate-700 space-y-4 leading-relaxed font-normal">
-                {activeArticle.content.split("\n\n").map((para: string, i: number) => (
-                  <p key={i}>{para}</p>
-                ))}
-              </div>
-
-              <div className="flex justify-between items-center text-xs pt-4 border-t border-slate-100">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-2xl bg-purple-600 text-white font-bold flex items-center justify-center text-xs font-heading shadow-xs">
-                    {activeArticle.author.substring(0, 1)}
-                  </div>
-                  <div>
-                    <strong className="text-slate-900 block font-bold text-xs">{activeArticle.author}</strong>
-                    <span className="text-[10px] text-slate-400 block font-semibold">{activeArticle.authorRole}</span>
-                  </div>
-                </div>
-
-                <span className="text-slate-400 text-[11px] font-mono font-bold">Published: {activeArticle.date}</span>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
