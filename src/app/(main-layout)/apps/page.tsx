@@ -216,9 +216,9 @@ export default function AppsPage() {
               </div>
             </div>
 
-            {/* Apps Grid - Spacious 2 columns per row */}
+            {/* Apps Grid - 3 columns per row on desktop */}
             {filteredAndSortedApps.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-7 sm:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {filteredAndSortedApps.map((app: any, idx: number) => {
                   const { gradient, glow, icon: AppIcon } = getAppGradient(app.id);
 
@@ -228,81 +228,42 @@ export default function AppsPage() {
                       initial={{ opacity: 0, y: 24 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, delay: idx * 0.05 }}
-                      className="bg-white/95 backdrop-blur-xl rounded-[28px] p-6 sm:p-7 border border-slate-200/80 hover:border-purple-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(147,51,234,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
+                      className="bg-white/95 backdrop-blur-xl rounded-[24px] p-5 sm:p-6 border border-slate-200/80 hover:border-purple-400/50 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(147,51,234,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
                     >
                       <div>
                         {/* Top Bar with Icon & version */}
-                        <div className="flex items-center justify-between mb-5">
+                        <div className="flex items-center justify-between mb-4">
                           <div
-                            className="w-13 h-13 rounded-2xl flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-108"
+                            className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-md transition-transform duration-300 group-hover:scale-108"
                             style={{ background: gradient, boxShadow: `0 10px 25px -5px ${glow}` }}
                           >
-                            <AppIcon style={{ width: 24, height: 24, color: "#fff" }} strokeWidth={2} />
+                            <AppIcon style={{ width: 22, height: 22, color: "#fff" }} strokeWidth={2} />
                           </div>
-                          <span className="text-[11px] font-mono font-bold px-3 py-1 bg-slate-100/80 text-slate-600 rounded-full border border-slate-200/70">
+                          <span className="text-[11px] font-mono font-bold px-2.5 py-0.5 bg-slate-100/80 text-slate-600 rounded-full border border-slate-200/70">
                             {app.version}
                           </span>
                         </div>
 
                         {/* Title & Info */}
-                        <h3 className="font-heading font-bold text-xl sm:text-2xl text-slate-900 group-hover:text-purple-600 transition-colors leading-snug">
+                        <h3 className="font-heading font-bold text-base sm:text-lg text-slate-900 group-hover:text-purple-600 transition-colors leading-snug line-clamp-1">
                           {app.title}
                         </h3>
-                        <p className="text-xs font-semibold text-slate-400 mt-1 mb-3">
+                        <p className="text-[11px] font-semibold text-slate-400 mt-1 mb-2 line-clamp-1">
                           {app.category} <span className="mx-1">•</span> {app.developer}
                         </p>
-                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5 font-normal">
+                        <p className="text-xs text-slate-600 leading-relaxed mb-4 line-clamp-3 font-normal">
                           {app.description}
                         </p>
-
-                        {/* Platforms Supported */}
-                        <div className="flex flex-wrap gap-1.5 mb-6">
-                          {app.platforms.map((plat: string) => (
-                            <span
-                              key={plat}
-                              className="px-3 py-1 bg-slate-50 text-[11px] font-semibold text-slate-600 rounded-full border border-slate-200/80 flex items-center gap-1.5"
-                            >
-                              <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-                              {plat}
-                            </span>
-                          ))}
-                        </div>
                       </div>
 
-                      <div>
-                        {/* Stats Row */}
-                        <div className="flex items-center justify-between text-xs font-semibold text-slate-500 py-3.5 border-t border-slate-100 mb-5">
-                          <span className="flex items-center text-amber-500 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/60">
-                            <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500 mr-1" /> {app.rating}
-                          </span>
-                          <span className="flex items-center text-slate-600">
-                            <Download className="w-3.5 h-3.5 mr-1.5 text-purple-500" /> {app.downloads}
-                          </span>
-                          <span className="text-slate-400 font-mono text-[11px]">{app.size}</span>
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="grid grid-cols-2 gap-2.5">
-                          <Link
-                            href={`/apps/${app.id}`}
-                            className="py-2.5 px-3 rounded-xl border border-slate-200/90 bg-slate-50/80 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-all text-center"
-                          >
-                            View Details
-                          </Link>
-                          <button
-                            onClick={() => handleDownload(app)}
-                            disabled={downloadingApp?.id === app.id}
-                            className="py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-purple-600 text-white text-xs font-bold transition-all shadow-md shadow-blue-500/20 text-center flex items-center justify-center gap-1.5 cursor-pointer"
-                          >
-                            {downloadingApp?.id === app.id ? (
-                              <span className="animate-pulse">Downloading...</span>
-                            ) : (
-                              <>
-                                <Download className="w-3.5 h-3.5" /> Download
-                              </>
-                            )}
-                          </button>
-                        </div>
+                      {/* Card Footer: Single View Details button */}
+                      <div className="pt-2">
+                        <Link
+                          href={`/apps/${app.id}`}
+                          className="w-full py-2.5 px-4 rounded-xl border border-slate-200/90 bg-slate-50 hover:bg-blue-600 hover:text-white hover:border-blue-600 text-slate-700 text-xs font-bold transition-all text-center block"
+                        >
+                          View Details
+                        </Link>
                       </div>
                     </motion.div>
                   );

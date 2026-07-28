@@ -12,16 +12,10 @@ import {
 import { usePageCMS } from "@/hooks/usePageCMS";
 
 export default function PortfolioPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [pageConfig] = usePageCMS();
 
-  const categories = ["All", "Web Dev", "Mobile Apps", "UI/UX", "Enterprise"];
-
-  const filteredProjects = useMemo(() => {
-    if (selectedCategory === "All") return PORTFOLIO_PROJECTS;
-    return PORTFOLIO_PROJECTS.filter((p) => p.category === selectedCategory);
-  }, [selectedCategory]);
+  const filteredProjects = PORTFOLIO_PROJECTS;
 
   return (
     <div className="min-h-screen pt-28 pb-24 overflow-hidden relative bg-gradient-to-b from-white via-slate-50/50 to-white font-sans">
@@ -46,26 +40,8 @@ export default function PortfolioPage() {
           </p>
         </div>
 
-        {/* Category filters */}
-        <div className="flex flex-wrap items-center gap-2 justify-center max-w-2xl mx-auto p-2 rounded-full bg-slate-100/80 border border-slate-200/70">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                selectedCategory === cat
-                  ? "bg-purple-600 text-white shadow-md shadow-purple-500/20"
-                  : "bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-200/60"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Portfolio grid showcase */}
-        {filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+        {/* Portfolio grid showcase - Display all case studies */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {filteredProjects.map((project, idx) => (
               <motion.div
                 key={project.id}
@@ -125,15 +101,6 @@ export default function PortfolioPage() {
               </motion.div>
             ))}
           </div>
-        ) : (
-          <div className="text-center py-20 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 max-w-md mx-auto shadow-[0_10px_35px_rgba(0,0,0,0.03)]">
-            <Layers className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-            <h3 className="font-heading font-bold text-lg text-slate-900 mb-1">No projects found</h3>
-            <p className="text-xs text-slate-500 px-6 font-normal">
-              We couldn&apos;t find any case studies matching this category filter.
-            </p>
-          </div>
-        )}
 
         {/* Bespoke Estimates CTA */}
         <div className="p-8 sm:p-10 rounded-[32px] bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 text-white border border-purple-800/40 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-2xl max-w-5xl mx-auto relative overflow-hidden group">

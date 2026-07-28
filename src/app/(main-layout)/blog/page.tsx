@@ -1,52 +1,15 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React from "react";
 import { BLOG_POSTS } from "@/lib/blog-data";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { 
-  Search, Clock, X, BookOpen, Check, Sparkles, Send
-} from "lucide-react";
+import { Clock, BookOpen } from "lucide-react";
 
 import { useCMSData } from "@/hooks/useCMS";
 
 export default function BlogPage() {
   const [allPosts] = useCMSData<any>("blog", BLOG_POSTS);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-
-  const [emailInput, setEmailInput] = useState("");
-  const [subSuccess, setSubSuccess] = useState(false);
-
-  const categories = ["All", "Next.js", "DevOps", "Fintech", "Case Study"];
-
-  const filteredPosts = useMemo(() => {
-    let result = allPosts.filter((p: any) => p.published !== false);
-
-    if (searchQuery.trim() !== "") {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(
-        (post: any) =>
-          post.title.toLowerCase().includes(q) ||
-          post.excerpt.toLowerCase().includes(q) ||
-          (post.author && post.author.toLowerCase().includes(q))
-      );
-    }
-
-    if (selectedCategory !== "All") {
-      result = result.filter((post: any) => post.category === selectedCategory);
-    }
-
-    return result;
-  }, [allPosts, searchQuery, selectedCategory]);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!emailInput) return;
-    setSubSuccess(true);
-    setEmailInput("");
-    setTimeout(() => setSubSuccess(false), 5000);
-  };
 
   return (
     <div className="min-h-screen pt-28 pb-24 overflow-hidden relative bg-gradient-to-b from-white via-slate-50/50 to-white font-sans">
@@ -71,151 +34,59 @@ export default function BlogPage() {
           </p>
         </div>
 
-        {/* Filters Toolbar */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between p-4 sm:p-5 rounded-[24px] bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-[0_10px_35px_rgba(0,0,0,0.03)] max-w-4xl mx-auto">
-          {/* Search bar */}
-          <div className="relative w-full md:w-72 shrink-0">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Search tutorials by title..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-10 py-2.5 rounded-full bg-slate-100/80 border border-slate-200/70 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-purple-600 focus:bg-white transition-all font-medium"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-
-          {/* Category selection */}
-          <div className="flex items-center gap-1.5 flex-wrap justify-start md:justify-end w-full overflow-x-auto no-scrollbar py-1">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                  selectedCategory === cat
-                    ? "bg-purple-600 text-white shadow-md shadow-purple-500/20"
-                    : "bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/80"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Blog Grid */}
-        {filteredPosts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {filteredPosts.map((post: any, idx: number) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          {allPosts.filter((p: any) => p.published !== false).map((post: any, idx: number) => (
+            <motion.div
+              key={post.id}
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: idx * 0.05 }}
+            >
+              <Link
+                href={`/blog/${post.id}`}
+                className="bg-white/95 backdrop-blur-xl rounded-[28px] border border-slate-200/80 hover:border-purple-400/50 p-5 sm:p-6 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(147,51,234,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer group h-full block"
               >
-                <Link
-                  href={`/blog/${post.id}`}
-                  className="bg-white/95 backdrop-blur-xl rounded-[28px] border border-slate-200/80 hover:border-purple-400/50 p-5 sm:p-6 shadow-[0_10px_35px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_50px_rgba(147,51,234,0.12)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer group h-full block"
-                >
-                  <div className="space-y-3.5">
-                    <div className="flex items-center justify-between text-xs font-semibold">
-                      <span className="px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-[10px] font-bold uppercase tracking-wider">
-                        {post.category}
-                      </span>
-                      <span className="flex items-center gap-1.5 text-slate-400 text-xs font-medium">
-                        <Clock className="w-3.5 h-3.5 text-purple-500" />
-                        {post.readTime}
-                      </span>
-                    </div>
-
-                    <h3 className="font-heading font-bold text-base sm:text-lg text-slate-900 group-hover:text-purple-600 transition-colors leading-snug">
-                      {post.title}
-                    </h3>
-
-                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 font-normal">
-                      {post.excerpt}
-                    </p>
+                <div className="space-y-3.5">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="px-3 py-1 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-[10px] font-bold uppercase tracking-wider">
+                      {post.category}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-slate-400 text-xs font-medium">
+                      <Clock className="w-3.5 h-3.5 text-purple-500" />
+                      {post.readTime}
+                    </span>
                   </div>
 
-                  <div>
-                    <div className="w-full h-[1px] bg-slate-100 my-4" />
+                  <h3 className="font-heading font-bold text-base sm:text-lg text-slate-900 group-hover:text-purple-600 transition-colors leading-snug">
+                    {post.title}
+                  </h3>
 
-                    <div className="flex justify-between items-center text-xs">
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-xl bg-purple-600 text-white font-bold flex items-center justify-center text-xs font-heading shadow-xs shrink-0">
-                          {post.author.substring(0, 1)}
-                        </div>
-                        <div className="min-w-0">
-                          <strong className="text-slate-900 block font-bold text-xs truncate">{post.author}</strong>
-                          <span className="text-[9px] text-slate-400 block font-semibold truncate">{post.authorRole}</span>
-                        </div>
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 font-normal">
+                    {post.excerpt}
+                  </p>
+                </div>
+
+                <div>
+                  <div className="w-full h-[1px] bg-slate-100 my-4" />
+
+                  <div className="flex justify-between items-center text-xs">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-xl bg-purple-600 text-white font-bold flex items-center justify-center text-xs font-heading shadow-xs shrink-0">
+                        {post.author.substring(0, 1)}
                       </div>
-
-                      <span className="text-slate-400 text-[10px] font-mono font-bold shrink-0 ml-1">{post.date}</span>
+                      <div className="min-w-0">
+                        <strong className="text-slate-900 block font-bold text-xs truncate">{post.author}</strong>
+                        <span className="text-[9px] text-slate-400 block font-semibold truncate">{post.authorRole}</span>
+                      </div>
                     </div>
+
+                    <span className="text-slate-400 text-[10px] font-mono font-bold shrink-0 ml-1">{post.date}</span>
                   </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20 rounded-[28px] bg-white/95 backdrop-blur-xl border border-slate-200/80 max-w-md mx-auto shadow-[0_10px_35px_rgba(0,0,0,0.03)]">
-            <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-3" />
-            <h3 className="font-heading font-bold text-lg text-slate-900 mb-1">No articles found</h3>
-            <p className="text-xs text-slate-500 px-6 font-normal">
-              We couldn&apos;t find any tech articles matching your query or category filter.
-            </p>
-          </div>
-        )}
-
-        {/* Newsletter subscription box */}
-        <div className="p-8 sm:p-10 rounded-[32px] bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 text-white border border-purple-800/40 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl max-w-4xl mx-auto relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="space-y-1.5 max-w-md relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider mb-1">
-              <Sparkles className="w-3.5 h-3.5" /> Weekly Tech Digest
-            </div>
-            <h3 className="font-heading font-extrabold text-2xl text-white">Subscribe to Plaxora Insights</h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-              Receive notifications when we release new open-source scripts, Next.js templates, and detailed tech tutorials. Zero spam.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubscribe} className="flex gap-2 w-full md:max-w-sm relative z-10">
-            {subSuccess ? (
-              <div className="p-3.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2 w-full justify-center font-bold">
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span>Subscription Active!</span>
-              </div>
-            ) : (
-              <>
-                <input
-                  type="email"
-                  placeholder="name@business.com"
-                  value={emailInput}
-                  onChange={(e) => setEmailInput(e.target.value)}
-                  className="flex-grow px-4 py-3 rounded-full bg-white/10 border border-white/20 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-purple-400 focus:bg-slate-950 transition-all font-medium"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="px-6 py-3 rounded-full bg-white hover:bg-purple-50 text-slate-900 font-bold text-xs transition-all shadow-lg shrink-0 cursor-pointer flex items-center gap-1.5 hover:scale-105"
-                >
-                  <span>Subscribe</span>
-                  <Send className="w-3.5 h-3.5 text-purple-600" />
-                </button>
-              </>
-            )}
-          </form>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>

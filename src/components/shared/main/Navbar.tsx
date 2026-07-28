@@ -8,7 +8,7 @@ import { Menu, X, ArrowRight, Smartphone, Database, Briefcase, FileCode2 } from 
 
 const NAV_ITEMS = [
   { label: "Home", href: "/" },
-  { label: "Products", href: "/products", icon: FileCode2 },
+  { label: "Templates", href: "/products", icon: FileCode2 },
   { label: "Apps", href: "/apps", icon: Smartphone },
   { label: "Portfolio", href: "/portfolio", icon: Briefcase },
   { label: "Services", href: "/services" },
@@ -90,10 +90,10 @@ export default function Navbar() {
         {/* Right CTA Button */}
         <div className="hidden lg:flex items-center">
           <Link
-            href="/products"
+            href="/contact"
             className="inline-flex items-center justify-center px-5 py-2.5 rounded-full text-xs xl:text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200 shadow-md shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/35 group font-sans"
           >
-            Explore Ecosystem
+            Start Project
             <ArrowRight className="w-3.5 h-3.5 ml-1.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
@@ -145,11 +145,11 @@ export default function Navbar() {
                 );
               })}
               <Link
-                href="/products"
+                href="/contact"
                 onClick={() => setIsOpen(false)}
                 className="mt-2 text-center flex items-center justify-center gap-1.5 w-full px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-500/25"
               >
-                Explore Ecosystem
+                Start Project
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

@@ -60,29 +60,44 @@ export default function Footer() {
             </form>
           </div>
 
-          {/* Column 1: Products */}
+          {/* Column 1: Templates Category */}
           <div>
-            <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">Products</h4>
+            <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">Template Category</h4>
             <ul className="space-y-2.5 text-sm font-medium">
               <li><Link href="/products" className="text-slate-600 hover:text-blue-600 transition-colors">Web Templates</Link></li>
               <li><Link href="/products" className="text-slate-600 hover:text-blue-600 transition-colors">Boilerplates</Link></li>
+              <li><Link href="/products" className="text-slate-600 hover:text-blue-600 transition-colors">SaaS Dashboards</Link></li>
               <li><Link href="/products" className="text-slate-600 hover:text-blue-600 transition-colors">Figma UI Kits</Link></li>
               <li><Link href="/products" className="text-slate-600 hover:text-blue-600 transition-colors">Custom Scripts</Link></li>
             </ul>
           </div>
 
-          {/* Column 2: Apps */}
+          {/* Column 2: Apps Category */}
           <div>
-            <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">App Store</h4>
+            <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">Apps Category</h4>
             <ul className="space-y-2.5 text-sm font-medium">
               <li><Link href="/apps" className="text-slate-600 hover:text-blue-600 transition-colors">Android Apps</Link></li>
               <li><Link href="/apps" className="text-slate-600 hover:text-blue-600 transition-colors">iOS Apps</Link></li>
               <li><Link href="/apps" className="text-slate-600 hover:text-blue-600 transition-colors">Desktop Apps</Link></li>
-              <li><Link href="/apps" className="text-slate-600 hover:text-blue-600 transition-colors">Developer Portal</Link></li>
+              <li><Link href="/apps" className="text-slate-600 hover:text-blue-600 transition-colors">FinTech Apps</Link></li>
+              <li><Link href="/apps" className="text-slate-600 hover:text-blue-600 transition-colors">Developer Tools</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: Office Info */}
+          {/* Column 3: Ecosystem */}
+          <div>
+            <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">Ecosystem</h4>
+            <ul className="space-y-2.5 text-sm font-medium">
+              <li><Link href="/about" className="text-slate-600 hover:text-blue-600 transition-colors">About Us</Link></li>
+              <li><Link href="/services" className="text-slate-600 hover:text-blue-600 transition-colors">Services</Link></li>
+              <li><Link href="/portfolio" className="text-slate-600 hover:text-blue-600 transition-colors">Portfolio</Link></li>
+              <li><Link href="/blog" className="text-slate-600 hover:text-blue-600 transition-colors">Blogs & News</Link></li>
+              <li><Link href="/careers" className="text-slate-600 hover:text-blue-600 transition-colors">Careers</Link></li>
+              <li><Link href="/docs" className="text-slate-600 hover:text-blue-600 transition-colors">Docs Portal</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Office Info */}
           <div>
             <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">Office Info</h4>
             <div className="space-y-3 text-xs text-slate-600 font-normal">
@@ -101,19 +116,6 @@ export default function Footer() {
                 <p className="text-slate-600">Sun - Thu (9 AM - 6 PM BDT)</p>
               </div>
             </div>
-          </div>
-
-          {/* Column 4: Ecosystem */}
-          <div>
-            <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">Ecosystem</h4>
-            <ul className="space-y-2.5 text-sm font-medium">
-              <li><Link href="/about" className="text-slate-600 hover:text-blue-600 transition-colors">About Us</Link></li>
-              <li><Link href="/services" className="text-slate-600 hover:text-blue-600 transition-colors">Services</Link></li>
-              <li><Link href="/portfolio" className="text-slate-600 hover:text-blue-600 transition-colors">Portfolio</Link></li>
-              <li><Link href="/blog" className="text-slate-600 hover:text-blue-600 transition-colors">Blogs & News</Link></li>
-              <li><Link href="/careers" className="text-slate-600 hover:text-blue-600 transition-colors">Careers</Link></li>
-              <li><Link href="/docs" className="text-slate-600 hover:text-blue-600 transition-colors">Docs Portal</Link></li>
-            </ul>
           </div>
         </div>
 
