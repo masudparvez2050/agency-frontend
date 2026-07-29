@@ -26,9 +26,9 @@ export default function Hero() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-semibold uppercase tracking-wider mb-5 shadow-xs"
+          className="inline-flex items-center gap-2 px-4 py-2 sm:py-1.5 rounded-3xl sm:rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-5 shadow-xs text-center"
         >
-          <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse" />
+          <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse shrink-0" />
           <span>{pageConfig.home.hero.badge || "Bangladesh's Premier Digital Product Ecosystem"}</span>
         </motion.div>
 
@@ -73,10 +73,10 @@ export default function Hero() {
             <Search className="w-5 h-5 text-slate-400 ml-2 shrink-0" />
             <input
               type="text"
-              placeholder="Search templates, mobile apps, SaaS tools..."
+              placeholder="Search products, apps, tools..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full py-2.5 px-4 bg-transparent text-sm text-slate-900 placeholder-slate-400 focus:outline-none font-sans font-medium"
+              className="w-full py-2.5 px-3 sm:px-4 bg-transparent text-sm text-slate-900 placeholder-slate-400 focus:outline-none font-sans font-medium text-ellipsis overflow-hidden"
             />
             <button
               type="submit"
@@ -115,7 +115,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="grid grid-cols-2 md:grid-cols-4 rounded-3xl bg-white border border-slate-100 shadow-[0_12px_45px_rgba(0,0,0,0.06)] max-w-5xl mx-auto overflow-hidden p-4 sm:p-5"
+          className="grid grid-cols-2 md:grid-cols-4 rounded-3xl bg-white border border-slate-100 shadow-[0_12px_45px_rgba(0,0,0,0.06)] max-w-5xl mx-auto overflow-hidden p-2 sm:p-5"
         >
           {[
             {
@@ -149,21 +149,21 @@ export default function Hero() {
           ].map((stat, i) => (
             <div
               key={i}
-              className="flex items-center gap-3 px-4 sm:px-5 py-3.5 sm:py-4 border-r border-b md:border-b-0 border-slate-100 last:border-r-0 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r md:[&:nth-child(4)]:border-r-0 font-sans"
+              className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 px-2 sm:px-5 py-4 border-r border-b md:border-b-0 border-slate-100 last:border-r-0 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r md:[&:nth-child(4)]:border-r-0 font-sans text-center sm:text-left"
             >
               {/* Soft Circular Badge Icon */}
               <span
-                className="flex items-center justify-center w-12 h-12 rounded-full flex-shrink-0"
+                className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full flex-shrink-0 mx-auto sm:mx-0"
                 style={{ background: stat.bg }}
               >
-                <stat.Icon style={{ width: 22, height: 22, color: stat.accent }} strokeWidth={2} />
+                <stat.Icon style={{ color: stat.accent }} className="w-5 h-5 sm:w-[22px] sm:h-[22px]" strokeWidth={2} />
               </span>
               {/* Value + Label */}
-              <div className="text-left min-w-0">
+              <div className="min-w-0 flex-1">
                 <div className="font-heading font-extrabold text-xl sm:text-2xl leading-none" style={{ color: stat.accent }}>
                   {stat.value}
                 </div>
-                <div className="text-xs font-bold text-slate-500 tracking-tight leading-tight mt-1 whitespace-nowrap">
+                <div className="text-[10px] sm:text-xs font-bold text-slate-500 tracking-tight leading-tight mt-1 sm:mt-1.5 break-words">
                   {stat.label}
                 </div>
               </div>

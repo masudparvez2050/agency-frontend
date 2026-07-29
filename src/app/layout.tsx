@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" style={{ colorScheme: 'light' }}>
+    <html lang="en" style={{ colorScheme: 'light' }}>
       <body
         className={`${inter.variable} ${manrope.variable} ${plusJakartaSans.variable} font-sans antialiased bg-[#F8FAFC] text-[#0F172A] selection:bg-blue-600 selection:text-white`}
       >

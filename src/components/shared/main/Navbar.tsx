@@ -36,7 +36,7 @@ export default function Navbar() {
       <div
         className={`max-w-7xl mx-auto pointer-events-auto transition-all duration-500 ease-out flex items-center justify-between ${
           scrolled
-            ? "py-3 sm:py-3.5 px-6 sm:px-8 rounded-2xl sm:rounded-full"
+            ? "py-3 sm:py-3.5 px-6 sm:px-8 rounded-2xl"
             : "py-4 px-2 sm:px-4 rounded-2xl"
         }`}
         style={{
