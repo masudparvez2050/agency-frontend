@@ -3,12 +3,13 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Save, Check, Globe, Bell, ShieldCheck, AlertTriangle } from "lucide-react";
+import { CONTACT_INFO } from "@/lib/contact-info";
 
 export default function AdminSettingsPage() {
   const [siteName, setSiteName] = useState("Plaxora Ecosystem");
   const [siteDesc, setSiteDesc] = useState("Premium digital products, apps, and SaaS tools for modern businesses.");
-  const [contactEmail, setContactEmail] = useState("masudparvez00019@gmail.com");
-  const [supportEmail, setSupportEmail] = useState("support@plaxora.com");
+  const [contactEmail, setContactEmail] = useState(CONTACT_INFO.email);
+  const [supportEmail, setSupportEmail] = useState(CONTACT_INFO.email);
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [orderAlerts, setOrderAlerts] = useState(true);
   const [ticketAlerts, setTicketAlerts] = useState(true);

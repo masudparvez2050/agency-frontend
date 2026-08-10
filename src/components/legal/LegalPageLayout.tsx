@@ -19,6 +19,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { CONTACT_INFO } from "@/lib/contact-info";
 
 export interface LegalSection {
   id: string;
@@ -247,11 +248,11 @@ export default function LegalPageLayout({
                 Our legal and compliance team is available to answer any questions regarding terms or privacy.
               </p>
               <a
-                href="mailto:info@plaxora.com"
+                href={CONTACT_INFO.emailHref}
                 className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold transition-all shadow-md hover:shadow-blue-500/20"
               >
                 <Mail className="w-3.5 h-3.5" />
-                info@plaxora.com
+                {CONTACT_INFO.email}
               </a>
             </div>
           </aside>
@@ -310,7 +311,7 @@ export default function LegalPageLayout({
                 </p>
               </div>
               <a
-                href="mailto:info@plaxora.com"
+                href={CONTACT_INFO.emailHref}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-500/20 transition-all hover:-translate-y-0.5 shrink-0"
               >
                 Contact Legal Team
