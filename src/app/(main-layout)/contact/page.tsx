@@ -4,8 +4,11 @@ import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Send, CheckCircle, AlertCircle, PhoneCall
+  Send, CheckCircle, AlertCircle, PhoneCall, Mail, MapPin, Globe, Phone
 } from "lucide-react";
+import { FaGithub, FaXTwitter, FaFacebook, FaYoutube, FaLinkedin, FaTiktok, FaGlobe } from "react-icons/fa6";
+import { CONTACT_INFO } from "@/lib/contact-info";
+import { usePageCMS } from "@/hooks/usePageCMS";
 
 function ContactFormInner() {
   const searchParams = useSearchParams();
@@ -177,7 +180,7 @@ function ContactFormInner() {
             <div className="space-y-1">
               <h3 className="font-heading font-extrabold text-xl text-slate-900">Inquiry Dispatched!</h3>
               <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto font-normal">
-                Thank you for consulting Plaxora. We have logged your project parameters. Our software engineers will audit details and reach back within 12 hours.
+                Thank you for consulting Plaxora Group. We have logged your project parameters. Our software engineers will audit details and reach back within 12 hours.
               </p>
             </div>
             <button
@@ -192,8 +195,6 @@ function ContactFormInner() {
     </div>
   );
 }
-
-import { usePageCMS } from "@/hooks/usePageCMS";
 
 export default function ContactPage() {
   const [pageConfig] = usePageCMS();
@@ -219,6 +220,103 @@ export default function ContactPage() {
           <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
             {pageConfig.contact.hero.subtitle || "Tell us about your digital product requirements, template support needs, or custom development contract goals."}
           </p>
+        </div>
+
+        {/* Contact Info Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+          {/* Phone Card */}
+          <a
+            href={CONTACT_INFO.phoneHref}
+            className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs hover:border-emerald-300 hover:shadow-md transition-all group"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <Phone className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-base mb-1">Call Us Direct</h3>
+            <p className="text-emerald-600 font-bold text-sm mb-1">{CONTACT_INFO.phone}</p>
+            <span className="text-slate-400 text-xs font-normal">Available 24/7 for urgent consultations</span>
+          </a>
+
+          {/* Email Card */}
+          <a
+            href={CONTACT_INFO.emailHref}
+            className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs hover:border-blue-300 hover:shadow-md transition-all group"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <Mail className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-base mb-1">Email Support</h3>
+            <p className="text-blue-600 font-bold text-sm mb-1 break-all">{CONTACT_INFO.email}</p>
+            <span className="text-slate-400 text-xs font-normal">Quick replies within 12 hours</span>
+          </a>
+
+          {/* Address Card */}
+          <div className="p-6 rounded-3xl bg-white border border-slate-200/80 shadow-xs hover:border-purple-300 hover:shadow-md transition-all group">
+            <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <MapPin className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-base mb-1">Office Location</h3>
+            <p className="text-slate-800 font-medium text-xs mb-1">{CONTACT_INFO.address}</p>
+            <span className="text-slate-400 text-xs font-normal">Gaibandha, Bangladesh</span>
+          </div>
+        </div>
+
+        {/* Social Media Links Section */}
+        <div className="max-w-5xl mx-auto mb-12 p-6 rounded-3xl bg-slate-900 text-white shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+            <div>
+              <h3 className="font-heading font-extrabold text-lg text-white mb-1">Follow Plaxora Group Everywhere</h3>
+              <p className="text-slate-400 text-xs font-normal">Stay connected with our official social media channels & website updates.</p>
+            </div>
+            <div className="flex items-center gap-3 flex-wrap justify-center">
+              <a
+                href={CONTACT_INFO.socials.x}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition-colors"
+              >
+                <FaXTwitter className="w-4 h-4 text-blue-400" />
+                <span>X</span>
+              </a>
+              <a
+                href={CONTACT_INFO.socials.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition-colors"
+              >
+                <FaFacebook className="w-4 h-4 text-blue-500" />
+                <span>Facebook</span>
+              </a>
+              <a
+                href={CONTACT_INFO.socials.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition-colors"
+              >
+                <FaYoutube className="w-4 h-4 text-rose-500" />
+                <span>YouTube</span>
+              </a>
+              <a
+                href={CONTACT_INFO.socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition-colors"
+              >
+                <FaLinkedin className="w-4 h-4 text-sky-400" />
+                <span>LinkedIn</span>
+              </a>
+              <a
+                href={CONTACT_INFO.socials.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 transition-colors"
+              >
+                <FaTiktok className="w-4 h-4 text-slate-100" />
+                <span>TikTok</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Centered Full-Width Form Card */}
