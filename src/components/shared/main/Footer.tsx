@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Mail } from "lucide-react";
-import { FaGithub, FaXTwitter, FaFacebook, FaDiscord } from "react-icons/fa6";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { FaGithub, FaXTwitter, FaFacebook, FaYoutube, FaLinkedin, FaTiktok, FaGlobe } from "react-icons/fa6";
+import { CONTACT_INFO } from "@/lib/contact-info";
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -102,18 +103,26 @@ export default function Footer() {
             <h4 className="font-heading font-extrabold text-xs text-slate-900 uppercase tracking-wider mb-4">Office Info</h4>
             <div className="space-y-3 text-xs text-slate-600 font-normal">
               <div>
-                <strong className="text-slate-900 block font-bold text-xs mb-0.5">Direct Contact</strong>
-                <a href="mailto:info@plaxora.com" className="hover:text-blue-600 transition-colors break-all">
-                  info@plaxora.com
+                <strong className="text-slate-900 flex items-center gap-1 font-bold text-xs mb-0.5">
+                  <Mail className="w-3.5 h-3.5 text-blue-600" /> Email Support
+                </strong>
+                <a href={CONTACT_INFO.emailHref} className="hover:text-blue-600 transition-colors break-all">
+                  {CONTACT_INFO.email}
                 </a>
               </div>
               <div>
-                <strong className="text-slate-900 block font-bold text-xs mb-0.5">Plaxora Office</strong>
-                <p className="text-slate-600">Dhaka, Bangladesh</p>
+                <strong className="text-slate-900 flex items-center gap-1 font-bold text-xs mb-0.5">
+                  <Phone className="w-3.5 h-3.5 text-emerald-600" /> Phone
+                </strong>
+                <a href={CONTACT_INFO.phoneHref} className="hover:text-emerald-600 transition-colors">
+                  {CONTACT_INFO.phone}
+                </a>
               </div>
               <div>
-                <strong className="text-slate-900 block font-bold text-xs mb-0.5">Support Timings</strong>
-                <p className="text-slate-600">Sun - Thu (9 AM - 6 PM BDT)</p>
+                <strong className="text-slate-900 flex items-center gap-1 font-bold text-xs mb-0.5">
+                  <MapPin className="w-3.5 h-3.5 text-rose-600" /> Office Address
+                </strong>
+                <p className="text-slate-600 leading-tight">{CONTACT_INFO.address}</p>
               </div>
             </div>
           </div>
@@ -128,18 +137,24 @@ export default function Footer() {
             <Link href="/refund" className="hover:text-slate-900 transition-colors">Refund Policy</Link>
           </div>
           {/* Social icons */}
-          <div className="flex items-center gap-3">
-            <a href="https://github.com/masudparvez00019" target="_blank" rel="noopener noreferrer" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-xl transition-colors border border-slate-200">
-              <FaGithub className="w-4 h-4" />
-            </a>
-            <a href="#" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-xl transition-colors border border-slate-200">
+          <div className="flex items-center gap-2 flex-wrap">
+            <a href={CONTACT_INFO.socials.x} target="_blank" rel="noopener noreferrer" title="X (Twitter)" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-xl transition-colors border border-slate-200">
               <FaXTwitter className="w-4 h-4" />
             </a>
-            <a href="#" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-xl transition-colors border border-slate-200">
-              <FaDiscord className="w-4 h-4" />
-            </a>
-            <a href="#" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-xl transition-colors border border-slate-200">
+            <a href={CONTACT_INFO.socials.facebook} target="_blank" rel="noopener noreferrer" title="Facebook" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-blue-600 rounded-xl transition-colors border border-slate-200">
               <FaFacebook className="w-4 h-4" />
+            </a>
+            <a href={CONTACT_INFO.socials.youtube} target="_blank" rel="noopener noreferrer" title="YouTube" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-rose-600 rounded-xl transition-colors border border-slate-200">
+              <FaYoutube className="w-4 h-4" />
+            </a>
+            <a href={CONTACT_INFO.socials.linkedin} target="_blank" rel="noopener noreferrer" title="LinkedIn" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-blue-700 rounded-xl transition-colors border border-slate-200">
+              <FaLinkedin className="w-4 h-4" />
+            </a>
+            <a href={CONTACT_INFO.socials.tiktok} target="_blank" rel="noopener noreferrer" title="TikTok" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-black rounded-xl transition-colors border border-slate-200">
+              <FaTiktok className="w-4 h-4" />
+            </a>
+            <a href={CONTACT_INFO.socials.github} target="_blank" rel="noopener noreferrer" title="GitHub" className="p-2 bg-[#F8FAFC] hover:bg-slate-100 text-slate-600 hover:text-purple-600 rounded-xl transition-colors border border-slate-200">
+              <FaGithub className="w-4 h-4" />
             </a>
           </div>
         </div>
