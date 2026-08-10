@@ -3,9 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  ArrowUp, X, Mail, ExternalLink
+  ArrowUp, X, Mail, ExternalLink, Phone
 } from "lucide-react";
-import { FaWhatsapp, FaFacebook, FaDiscord, FaGithub } from "react-icons/fa6";
+import { FaWhatsapp, FaFacebook, FaXTwitter, FaYoutube, FaLinkedin, FaTiktok, FaGlobe } from "react-icons/fa6";
+import { CONTACT_INFO } from "@/lib/contact-info";
 
 export default function FloatingWidgets() {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -57,7 +58,7 @@ export default function FloatingWidgets() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", stiffness: 350, damping: 28 }}
-              className="absolute bottom-16 right-0 w-80 rounded-2xl bg-white border border-slate-200 p-5 shadow-2xl space-y-4 overflow-hidden"
+              className="absolute bottom-16 right-0 w-80 rounded-2xl bg-white border border-slate-200 p-5 shadow-2xl space-y-4 overflow-hidden max-h-[80vh] overflow-y-auto"
             >
               {/* Header */}
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -69,7 +70,7 @@ export default function FloatingWidgets() {
                     <strong className="font-heading font-bold text-xs text-slate-900 block">Plaxora Group Support</strong>
                     <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      Active 24/7
+                      Active Now
                     </span>
                   </div>
                 </div>
@@ -82,7 +83,7 @@ export default function FloatingWidgets() {
               </div>
 
               <p className="text-xs text-slate-500 font-normal leading-relaxed">
-                Need help or have project inquiries? Select your preferred channel to connect with Plaxora Group team:
+                Connect with Plaxora Group via phone, WhatsApp, email, or our official social channels:
               </p>
 
               {/* Social Channels List */}
@@ -90,38 +91,59 @@ export default function FloatingWidgets() {
                 {[
                   {
                     name: "WhatsApp Direct",
-                    detail: "+880 1700-000000",
-                    link: "https://wa.me/8801700000000",
+                    detail: CONTACT_INFO.phone,
+                    link: CONTACT_INFO.whatsappHref,
                     icon: FaWhatsapp,
                     color: "bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100",
                   },
                   {
+                    name: "Direct Phone Call",
+                    detail: CONTACT_INFO.phone,
+                    link: CONTACT_INFO.phoneHref,
+                    icon: Phone,
+                    color: "bg-teal-50 text-teal-600 border-teal-200 hover:bg-teal-100",
+                  },
+                  {
                     name: "Email Support",
-                    detail: "masudparvez00019@gmail.com",
-                    link: "mailto:masudparvez00019@gmail.com",
+                    detail: CONTACT_INFO.email,
+                    link: CONTACT_INFO.emailHref,
                     icon: Mail,
                     color: "bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100",
                   },
                   {
-                    name: "GitHub Developer",
-                    detail: "masudparvez00019",
-                    link: "https://github.com/masudparvez00019",
-                    icon: FaGithub,
-                    color: "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100",
-                  },
-                  {
-                    name: "Facebook Network",
-                    detail: "Plaxora Group",
-                    link: "https://facebook.com",
+                    name: "Facebook Page",
+                    detail: "facebook.com/plaxoragroup",
+                    link: CONTACT_INFO.socials.facebook,
                     icon: FaFacebook,
                     color: "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100",
                   },
                   {
-                    name: "Discord Community",
-                    detail: "Join Plaxora Server",
-                    link: "https://discord.com",
-                    icon: FaDiscord,
-                    color: "bg-purple-50 text-purple-600 border-purple-200 hover:bg-purple-100",
+                    name: "X (Twitter)",
+                    detail: "x.com/plaxoragroup",
+                    link: CONTACT_INFO.socials.x,
+                    icon: FaXTwitter,
+                    color: "bg-slate-50 text-slate-800 border-slate-200 hover:bg-slate-100",
+                  },
+                  {
+                    name: "YouTube Channel",
+                    detail: "youtube.com/@plaxoragroup",
+                    link: CONTACT_INFO.socials.youtube,
+                    icon: FaYoutube,
+                    color: "bg-rose-50 text-rose-600 border-rose-200 hover:bg-rose-100",
+                  },
+                  {
+                    name: "LinkedIn",
+                    detail: "linkedin.com/company/plaxoragroup",
+                    link: CONTACT_INFO.socials.linkedin,
+                    icon: FaLinkedin,
+                    color: "bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100",
+                  },
+                  {
+                    name: "TikTok",
+                    detail: "tiktok.com/@plaxoragroup",
+                    link: CONTACT_INFO.socials.tiktok,
+                    icon: FaTiktok,
+                    color: "bg-gray-100 text-black border-gray-300 hover:bg-gray-200",
                   },
                 ].map((item) => (
                   <a

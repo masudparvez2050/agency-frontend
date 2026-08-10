@@ -1,6 +1,7 @@
 import React from "react";
 import LegalPageLayout, { LegalSection } from "@/components/legal/LegalPageLayout";
 import { ShieldCheck, Lock, Eye, Database, Cookie, Server, UserCheck, FileCheck } from "lucide-react";
+import { CONTACT_INFO } from "@/lib/contact-info";
 
 export const metadata = {
   title: "Privacy Policy | Plaxora Group",
@@ -164,7 +165,7 @@ export default function PrivacyPolicyPage() {
             <li><strong>Data Portability:</strong> Receive your data in a structured, machine-readable JSON format.</li>
           </ul>
           <p className="text-xs text-slate-500 pt-2">
-            To submit a formal data inquiry or deletion request, please contact our Data Protection Officer at <a href="mailto:info@plaxora.com" className="text-blue-600 font-bold hover:underline">info@plaxora.com</a>.
+            To submit a formal data inquiry or deletion request, please contact our Data Protection Officer at <a href={CONTACT_INFO.emailHref} className="text-blue-600 font-bold hover:underline">{CONTACT_INFO.email}</a>.
           </p>
         </div>
       ),

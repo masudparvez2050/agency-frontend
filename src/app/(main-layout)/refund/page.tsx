@@ -1,6 +1,7 @@
 import React from "react";
 import LegalPageLayout, { LegalSection } from "@/components/legal/LegalPageLayout";
 import { RotateCcw, CheckCircle, AlertTriangle, CreditCard, Clock, ShieldCheck } from "lucide-react";
+import { CONTACT_INFO } from "@/lib/contact-info";
 
 export const metadata = {
   title: "Refund & Return Policy | Plaxora Group",
@@ -126,7 +127,7 @@ export default function RefundPolicyPage() {
           <ol className="space-y-3 text-xs text-slate-600 font-medium">
             <li className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
               <span className="w-6 h-6 rounded-full bg-pink-600 text-white font-bold flex items-center justify-center shrink-0">1</span>
-              <span>Send an email to <a href="mailto:info@plaxora.com" className="text-pink-600 font-bold hover:underline">info@plaxora.com</a> with the subject line <strong>"Refund Request - Order #[Order ID]"</strong>.</span>
+              <span>Send an email to <a href={CONTACT_INFO.emailHref} className="text-pink-600 font-bold hover:underline">{CONTACT_INFO.email}</a> with the subject line <strong>"Refund Request - Order #[Order ID]"</strong>.</span>
             </li>
             <li className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
               <span className="w-6 h-6 rounded-full bg-pink-600 text-white font-bold flex items-center justify-center shrink-0">2</span>
